@@ -5,36 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CineMetrics.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Form.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/LoadingIndicator.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Movie.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AboutUs.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Movies.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/NotFound.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Register.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/AboutUs.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Form.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/LoadingIndicator.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Movie.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Movies.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
