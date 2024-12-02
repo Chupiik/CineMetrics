@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar.jsx";
 function Movies() {
     const [movies, setMovies] = useState([]);
     const [description, setDescription] = useState("")
-    const [name, setName] = useState("")
+    const [title, setTitle] = useState("")
 
     useEffect(() => {
         getMovies();
@@ -35,7 +35,7 @@ function Movies() {
     const createMovie = (e) => {
         e.preventDefault()
         api
-            .post("/api/movies/", {name, description})
+            .post("/api/movies/", {title, description})
             .then((res) => {
                 if (res.status === 201) alert("Movie created!")
                 else alert("Failed to make movie.")
@@ -58,10 +58,10 @@ function Movies() {
             <input
                 type="text"
                 id="name"
-                name="name"
+                name="title"
                 required
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
             />
             <label htmlFor="description">Description:</label>
             <br/>
