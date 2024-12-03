@@ -17,5 +17,5 @@ class UserSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ["id", "title", "description", "uploaded_at", "uploaded_by"]
+        fields = ["id", "title", "plot", "released", "director", "poster", "genres", "uploaded_at", "uploaded_by"]
         extra_kwargs = {"uploaded_by": {"read_only": True}}

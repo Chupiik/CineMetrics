@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Index from "./pages/Index.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
+import 'font-awesome/css/font-awesome.min.css';
+
 
 function Logout() {
   localStorage.clear()
