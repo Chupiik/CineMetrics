@@ -4,6 +4,8 @@ import Movie from "../components/Movie"
 import '../styles/Movies.css';
 import Navbar from "../components/Navbar.jsx";
 import {Link} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 
 function Movies() {
@@ -35,9 +37,11 @@ function Movies() {
         <Navbar/>
     <div className="container">
         <div>
-            <h2>Movies</h2>
             <Link to="/add-movie">
-                <button className="add-movie-button">Add Movie</button>
+                <button className="add-movie-button">
+                    <FontAwesomeIcon icon={faCirclePlus} />
+                    Add Movie
+                </button>
             </Link>
             {movies.map((movie) => (<Movie movie={movie} onDelete={deleteMovie} key={movie.id}/>))}
         </div>

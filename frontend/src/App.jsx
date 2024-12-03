@@ -8,7 +8,9 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import Index from "./pages/Index.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import 'font-awesome/css/font-awesome.min.css';
-import AddMoviePage from "./pages/AddMoviePage.jsx";
+import AddMoviePage from "./components/AddEditMovieForm.jsx";
+import AddMovie from "./pages/AddMovie.jsx";
+import EditMovie from "./pages/EditMovie.jsx";
 
 
 function Logout() {
@@ -38,7 +40,8 @@ function App() {
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/add-movie" element={<AddMoviePage />} />
+        <Route path="/add-movie" element={<AddMovie />} />
+        <Route path="/edit-movie/:id" element={<EditMovie />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

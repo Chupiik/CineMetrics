@@ -55,22 +55,6 @@ body {
     color: slategray;
 }
 
-/* Delete Button */
-.delete-button {
-    background-color: orange;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.delete-button:hover {
-    background-color: #333;
-}
-
 .add-movie-button {
   background-color: #007bff; /* Primary blue color */
   color: #ffffff; /* White text color */

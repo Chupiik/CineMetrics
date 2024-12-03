@@ -28,10 +28,31 @@ class MovieDelete(generics.DestroyAPIView):
         user = self.request.user
         return Movie.objects.filter(uploaded_by=user)
 
+class MovieUpdate(generics.UpdateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Movie.objects.filter(uploaded_by=user)
+
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            serializer.save(uploaded_by=self.request.user)
+        else:
+            print(serializer.errors)
+
+class MovieDetail(generics.RetrieveAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Movie.objects.filter(uploaded_by=user)
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-
-
