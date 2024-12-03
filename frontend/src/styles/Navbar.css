@@ -1,36 +1,112 @@
 header {
     background-color: darkslategray;
     color: white;
-    text-align: center;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 15px 30px;
 }
 
 header h1 {
     margin: 0;
     font-size: 2em;
+    margin-right: 20px;
 }
 
-nav ul {
+/* Navigation Menu */
+.navbar-links {
+    display: flex;
+    justify-content: flex-start; /* Align links to the left */
+    gap: 20px;
+    flex-grow: 1; /* Allows the navbar-links to take up the remaining space */
+}
+
+.navbar-links ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     display: flex;
 }
 
-nav ul li {
+.navbar-links ul li {
     margin-left: 20px;
 }
 
-nav ul li a {
+.navbar-links ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
-nav ul li a:hover {
+.navbar-links ul li a:hover {
     color: orange;
+}
+
+/* Buttons Section */
+.navbar-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* Align buttons to the right */
+}
+
+/* Button Styles */
+.navbar-buttons button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Individual Button Colors */
+.login-button {
+    background-color: #3498db; /* Light Blue */
+    color: white;
+}
+
+.login-button:hover {
+    background-color: #2980b9; /* Darker Blue */
+}
+
+.register-button {
+    background-color: #2ecc71; /* Green */
+    color: white;
+}
+
+.register-button:hover {
+    background-color: #27ae60; /* Darker Green */
+}
+
+.logout-button {
+    background-color: #e74c3c; /* Red */
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c0392b; /* Darker Red */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links {
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navbar-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
 }

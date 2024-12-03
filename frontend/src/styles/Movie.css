@@ -40,8 +40,8 @@
 }
 
 .movie-poster {
-    width: 230px; /* Increase the width of the poster */
-    height: auto;
+    width: 230px;
+    height: 345px;
     margin: 5px auto;
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
