@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Added username next to logout button when logged in">
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Added backend validation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Form.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +101,9 @@
       <workItem from="1733137953576" duration="9938000" />
       <workItem from="1733166080299" duration="8221000" />
       <workItem from="1733220819220" duration="26089000" />
-      <workItem from="1733329931773" duration="10421000" />
+      <workItem from="1733329931773" duration="11120000" />
+      <workItem from="1733342312815" duration="15000" />
+      <workItem from="1733343006514" duration="328000" />
     </task>
     <task id="LOCAL-00001" summary="workspace.xml change">
       <option name="closed" value="true" />
@@ -202,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733338274775</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added backend validation">
+      <option name="closed" value="true" />
+      <created>1733341991944</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733341991944</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,7 +239,8 @@
     <MESSAGE value="Updated login/register form to validate inputs" />
     <MESSAGE value="Changed navbar to only show login/register buttons when logged out" />
     <MESSAGE value="Added username next to logout button when logged in" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added username next to logout button when logged in" />
+    <MESSAGE value="Added backend validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added backend validation" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CineMetrics$manage.coverage" NAME="manage Coverage Results" MODIFIED="1732579361003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

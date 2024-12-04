@@ -13,7 +13,6 @@ html{
 
 .mainText {
     padding: 100px 20px;
-    /*color: var(--secondary-color);
     text-align: center;
     display: flex;
     align-items: center;
@@ -35,9 +34,9 @@ html{
 }
 
 .btn {
-    background-color: var(--primary-color); /* Bright orange button */
+    background-color: var(--primary-color);
     padding: 10px 20px;
-    color: var(--secondary-color); /* White text */
+    color: var(--secondary-color);
     text-decoration: none;
     font-size: 1.2em;
     border-radius: 5px;
@@ -45,7 +44,7 @@ html{
 }
 
 .btn:hover {
-    background-color: var(--info-color); /* Teal on hover */
+    background-color: var(--info-color);
 }
 
 .features {
@@ -56,19 +55,19 @@ html{
 }
 
 .feature-box {
-    background-color: var(--info-color); /* White background for cards */
+    background-color: var(--info-color);
     padding: 30px;
     width: 29%;
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: var(--secondary-color); /* Dark text on light background */
+    color: var(--secondary-color);
 }
 
 .feature-box h3 {
     font-size: 1.8em;
     margin-bottom: 15px;
-    color: var(--primary-color); /* Bright orange for headings */
+    color: var(--primary-color);
 }
 
 .feature-box p {
