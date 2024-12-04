@@ -1,6 +1,6 @@
 @import url('./colors.css');
 
-/* Global Styles */
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -10,7 +10,6 @@ body {
     line-height: 1.6;
 }
 
-/* Container for the Movies Page */
 .container {
     max-width: 800px;
     margin: 20px auto;
@@ -20,7 +19,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Movies Section */
 .movies-list {
     margin-bottom: 40px;
 }
@@ -37,7 +35,7 @@ body {
 .movies-list .movie-container:hover {
     transform: translateY(-5px);
 }
-/* Add Movie Button */
+
 .add-movie-button {
     background-color: var(--success-color);
     color: var(--secondary-color);
@@ -53,20 +51,20 @@ body {
 }
 
 .add-movie-button:hover {
-    background-color: var(--primary-color); /* Success green on hover */
-    transform: translateY(-2px); /* Slight upward movement */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-movie-button:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 4px rgba(255, 125, 0, 0.5); /* Accessible focus ring */
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 125, 0, 0.5);
 }
 
 .add-movie-button:active {
-    background-color: var(--danger-color); /* Danger red when pressed */
-    transform: translateY(1px); /* Slight downward movement */
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2); /* Subtle pressed effect */
+    background-color: var(--danger-color);
+    transform: translateY(1px);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Design */

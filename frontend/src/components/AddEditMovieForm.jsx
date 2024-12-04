@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api.js";
 import Navbar from "./Navbar.jsx";
-import { useNavigate, useParams } from "react-router-dom";  // Added for routing and dynamic id fetching
+import { useNavigate, useParams } from "react-router-dom";
 import "../styles/AddEditMovieForm.css";
 
 function AddEditMovie({ method }) {
@@ -12,6 +12,8 @@ function AddEditMovie({ method }) {
   const [plot, setPlot] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
 
+  const [errorMessages, setErrorMessages] = useState({});
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -19,7 +21,8 @@ function AddEditMovie({ method }) {
 
   useEffect(() => {
     if (method === "edit" && id) {
-      api.get(`/api/movies/${id}/`)
+      api
+        .get(`/api/movies/${id}/`)
         .then((res) => {
           const movie = res.data;
           setTitle(movie.title);
@@ -33,9 +36,9 @@ function AddEditMovie({ method }) {
     }
   }, [method, id]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorMessages({});
 
     const movieData = {
       title,
@@ -46,9 +49,10 @@ function AddEditMovie({ method }) {
       poster: posterUrl,
     };
 
-    const apiCall = method === "add"
-      ? api.post("/api/movies/", movieData)
-      : api.put(`/api/movies/edit/${id}/`, movieData);
+    const apiCall =
+      method === "add"
+        ? api.post("/api/movies/", movieData)
+        : api.put(`/api/movies/edit/${id}/`, movieData);
 
     apiCall
       .then((res) => {
@@ -62,7 +66,13 @@ function AddEditMovie({ method }) {
           alert("Failed to process movie.");
         }
       })
-      .catch((err) => alert("Error: " + err.message));
+      .catch((err) => {
+        if (err.response && err.response.data) {
+          setErrorMessages(err.response.data);
+        } else {
+          alert("Error: " + err.message);
+        }
+      });
   };
 
   const resetForm = () => {
@@ -81,71 +91,89 @@ function AddEditMovie({ method }) {
         <h2>{name}</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title:</label>
-          <br/>
+          <br />
           <input
-              type="text"
-              id="title"
-              name="title"
-              required
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+            type="text"
+            id="title"
+            name="title"
+            required
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
-          <br/>
-          <label htmlFor="genres">Genres:</label>
-          <br/>
-          <input
-              type="text"
-              id="genres"
-              name="genres"
-              onChange={(e) => setGenres(e.target.value)}
-              value={genres}
-          />
-          <br/>
-          <label htmlFor="released">Released:</label>
-          <br/>
-          <input
-              type="date"
-              required
-              id="released"
-              name="released"
-              onChange={(e) => setReleased(e.target.value)}
-              value={released}
-          />
-          <br/>
-          <label htmlFor="director">Director:</label>
-          <br/>
-          <input
-              type="text"
-              id="director"
-              name="director"
-              onChange={(e) => setDirector(e.target.value)}
-              value={director}
-          />
-          <br/>
-          <label htmlFor="plot">Plot:</label>
-          <br/>
-          <textarea
-              id="plot"
-              name="plot"
-              onChange={(e) => setPlot(e.target.value)}
-              value={plot}
-          />
-          <br/>
-          <label htmlFor="poster">Poster URL:</label>
-          <br/>
-          <input
-              type="url"
-              id="poster"
-              name="poster"
-              placeholder="Enter poster URL"
-              onChange={(e) => setPosterUrl(e.target.value)}
-              value={posterUrl}
-          />
-          <br/>
-          {posterUrl && (
-              <img className="movie-poster-create" src={posterUrl} alt="Poster preview"/>
+          {errorMessages.title && (
+            <p className="error-message">{errorMessages.title[0]}</p>
           )}
-          <br/>
+          <br />
+          <label htmlFor="genres">Genres:</label>
+          <br />
+          <input
+            type="text"
+            id="genres"
+            name="genres"
+            onChange={(e) => setGenres(e.target.value)}
+            value={genres}
+          />
+          {errorMessages.genres && (
+            <p className="error-message">{errorMessages.genres[0]}</p>
+          )}
+          <br />
+          <label htmlFor="released">Released:</label>
+          <br />
+          <input
+            type="date"
+            required
+            id="released"
+            name="released"
+            onChange={(e) => setReleased(e.target.value)}
+            value={released}
+          />
+          {errorMessages.released && (
+            <p className="error-message">{errorMessages.released[0]}</p>
+          )}
+          <br />
+          <label htmlFor="director">Director:</label>
+          <br />
+          <input
+            type="text"
+            id="director"
+            name="director"
+            onChange={(e) => setDirector(e.target.value)}
+            value={director}
+          />
+          {errorMessages.director && (
+            <p className="error-message">{errorMessages.director[0]}</p>
+          )}
+          <br />
+          <label htmlFor="plot">Plot:</label>
+          <br />
+          <textarea
+            id="plot"
+            name="plot"
+            onChange={(e) => setPlot(e.target.value)}
+            value={plot}
+          />
+          {errorMessages.plot && (
+            <p className="error-message">{errorMessages.plot[0]}</p>
+          )}
+          <br />
+          <label htmlFor="poster">Poster URL:</label>
+          <br />
+          <input
+            type="url"
+            id="poster"
+            name="poster"
+            placeholder="Enter poster URL"
+            onChange={(e) => setPosterUrl(e.target.value)}
+            value={posterUrl}
+          />
+          {errorMessages.poster && (
+            <p className="error-message">{errorMessages.poster[0]}</p>
+          )}
+          <br />
+          {posterUrl && (
+            <img className="movie-poster-create" src={posterUrl} alt="Poster preview" />
+          )}
+          <br />
           <button type="submit">{method === "add" ? "Add Movie" : "Update Movie"}</button>
         </form>
       </div>

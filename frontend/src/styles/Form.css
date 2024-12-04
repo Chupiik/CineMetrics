@@ -1,21 +1,21 @@
 /* Form.css */
 
-/* Overall container styling */
+
 .login-form-container {
     max-width: 400px;
     margin: 0 auto;
     padding: 2rem;
-    background-color: var(--info-color); /* Dark background */
+    background-color: var(--info-color);
     border-radius: 8px;
     text-align: center;
     font-family: 'Arial', sans-serif;
-    color: var(--secondary-color); /* White text */
+    color: var(--secondary-color);
 }
 
-/* Form header styling */
+
 .login-form-container h1 {
     font-size: 1.8rem;
-    color: var(--primary-color); /* Accent orange color */
+    color: var(--primary-color);
     margin-bottom: 1.5rem;
 }
 
@@ -29,8 +29,8 @@
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: var(--infoText-color); /* Slightly lighter than background */
-    color: var(--background-color); /* Light text */
+    background-color: var(--infoText-color);
+    color: var(--background-color);
 }
 
 .form-input::placeholder {
@@ -40,17 +40,16 @@
 }
 
 .form-input:focus {
-    border-color: var(--primary-color); /* Accent blue */
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.6); /* Focus glow */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
 }
 
-/* Button styling */
 .form-button {
     width: 100%;
     padding: 0.8rem;
     font-size: 1rem;
-    color: var(--secondary-color); /* White text */
-    background-color: var(--success-color); /* Orange background */
+    color: var(--secondary-color);
+    background-color: var(--success-color);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -58,32 +57,32 @@
 }
 
 .form-button:hover {
-    background-color: var(--primary-color); /* Darker orange */
+    background-color: var(--primary-color);
 }
 
-/* Loading state styling (optional spinner effect) */
+
 .form-button:disabled {
-    background-color: var(--info-color); /* Soft gray-blue */
+    background-color: var(--info-color);
     cursor: not-allowed;
 }
 
 .loading-indicator {
-    display: flex; /* Useful if you need to align children inside */
-    justify-content: center; /* Horizontally align children */
-    align-items: center; /* Vertically align children */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 10px;
 }
 
 .error-message {
     color: var(--danger-color);
     font-size: 0.9rem;
-    margin-top: -10px; /* Adjust spacing if necessary */
+    margin-top: -10px;
     margin-bottom: 10px;
-    text-align: left; /* Align with inputs */
+    text-align: left;
 }
 
 .login-register-button-container {
-    margin-top: 1rem; /* Adds spacing above the Register button */
+    margin-top: 1rem;
     text-align: center;
 }
 
@@ -97,25 +96,25 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    text-decoration: none; /* Removes underline */
+    text-decoration: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .login-register-button:hover {
-    background-color: var(--primary-color); /* Lighter orange on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adds shadow */
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .login-register-button:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.4); /* Focus ring in orange */
+    box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.4);
 }
 
 .login-register-button:active {
-    background-color: var(--info-color); /* Muted orange on click */
-    transform: translateY(2px); /* Press down effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for pressed state */
+    background-color: var(--info-color);
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 

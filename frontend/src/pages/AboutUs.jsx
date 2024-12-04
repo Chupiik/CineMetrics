@@ -8,7 +8,6 @@ function AboutUs() {
             <Navbar/>
 
             <div className="aboutUs-container">
-                {/* Intro Section */}
                 <section className="intro-section">
                     <h2>Welcome to CineMetrics</h2>
                     <p>
@@ -19,7 +18,6 @@ function AboutUs() {
                     </p>
                 </section>
 
-                {/* Team Section */}
                 <section className="team-section">
                     <h2>Meet Our Team</h2>
                     <div className="team-container">
@@ -34,7 +32,6 @@ function AboutUs() {
                     </div>
                 </section>
 
-                {/* Mission Section */}
                 <section className="mission-section">
                     <h2>Our Mission</h2>
                     <p>
@@ -45,7 +42,6 @@ function AboutUs() {
                     </p>
                 </section>
 
-                {/* Contact Section */}
                 <section className="contact-section">
                     <h2>Get in Touch</h2>
                     <p>

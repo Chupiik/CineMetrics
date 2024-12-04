@@ -120,7 +120,6 @@
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .movieForm-container {
         padding: 16px;

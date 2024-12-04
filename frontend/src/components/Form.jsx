@@ -1,22 +1,24 @@
-import React, {useState} from "react"
-import api from "../api"
-import {Link, useNavigate} from "react-router-dom"
-import {ACCESS_TOKEN, REFRESH_TOKEN, USERNAME} from "../constants"
-import "../styles/Form.css"
+import React, { useState } from "react";
+import api from "../api";
+import { Link, useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USERNAME } from "../constants";
+import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 
-function Form({route, method}) {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [loading, setLoading] = useState(false)
+function Form({ route, method }) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate()
+    const [formErrors, setFormErrors] = useState({});
+    const navigate = useNavigate();
 
-    const name = method === "login" ? "Login" : "Register"
+    const name = method === "login" ? "Login" : "Register";
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
-
+        setFormErrors({});
 
         if (!username || !password) {
             setErrorMessage("Please fill out the username and password.");
@@ -25,58 +27,83 @@ function Form({route, method}) {
 
         setLoading(true);
         try {
-            const res = await api.post(route, {username, password})
+            const res = await api.post(route, { username, password });
+
             if (method === "login") {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 localStorage.setItem(USERNAME, username);
-                navigate("/")
+                navigate("/");
             } else {
-                navigate("/login")
+                navigate("/login");
             }
         } catch (error) {
-            if (error.response.status === 401) {
-                setErrorMessage("Invalid credentials. Please check your username and password.");
-            } else if (error.response.status === 400) {
-                setErrorMessage("An account with this username already exists. Please choose another username.");
+            if (error.response) {
+                const errors = error.response.data;
+                setFormErrors(errors);
+
+                if (error.response.status === 401) {
+                    setErrorMessage("Invalid credentials. Please check your username and password.");
+                } else if (error.response.status === 400) {
+                    setErrorMessage("An account with this username already exists. Please choose another username.");
+                } else {
+                    setErrorMessage("An unexpected error occurred. Please try again later.");
+                }
             } else {
-                setErrorMessage("An unexpected error occurred. Please try again later.");
+                setErrorMessage("Network error. Please try again later.");
             }
         } finally {
             setLoading(false);
         }
-
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit} className="login-form-container">
                 <h1>{name}</h1>
-                <input
-                    className="form-input"
-                    type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Username"
-                />
-                <input
-                    className="form-input"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
-                {loading &&
+
+                <div>
+                    <input
+                        className="form-input"
+                        type="text"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                    />
+                    {formErrors.username && (
+                        <p className="error-message">{formErrors.username[0]}</p>
+                    )}
+                </div>
+
+                <div>
+                    <input
+                        className="form-input"
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+
+                    {formErrors.password && formErrors.password.map((error, index) => (
+                        <p key={index} className="error-message">{error}</p>
+                    ))}
+                </div>
+
+
+                {!formErrors && errorMessage && <p className="error-message">{errorMessage}</p>}
+
+                {loading && (
                     <div className="loading-indicator">
-                        <LoadingIndicator/>
+                        <LoadingIndicator />
                     </div>
-                }
+                )}
+
                 <button className="form-button" type="submit">
                     {name}
                 </button>
+
                 {method === "login" && (
                     <div className="login-register-button-container">
                         <Link to="/register" className="login-register-button">
@@ -84,6 +111,8 @@ function Form({route, method}) {
                         </Link>
                     </div>
                 )}
+
+
                 {method !== "login" && (
                     <div className="login-register-button-container">
                         <Link to="/login" className="login-register-button">
@@ -91,10 +120,9 @@ function Form({route, method}) {
                         </Link>
                     </div>
                 )}
-
             </form>
         </div>
-    )
+    );
 }
 
-export default Form
+export default Form;
