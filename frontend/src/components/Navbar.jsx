@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "../styles/Navbar.css"; // Ensure you update the CSS file
 
 function Navbar() {
+    const isAuthenticated = !!localStorage.getItem("access");
+
     return (
         <header className="navbar">
             <div className="navbar-logo">
@@ -16,15 +18,21 @@ function Navbar() {
                 </ul>
             </nav>
             <div className="navbar-buttons">
-                <Link to="/login">
-                    <button className="login-button">Login</button>
-                </Link>
-                <Link to="/register">
-                    <button className="register-button">Register</button>
-                </Link>
-                <Link to="/logout">
-                    <button className="logout-button">Logout</button>
-                </Link>
+                {!isAuthenticated && (
+                    <>
+                        <Link to="/login">
+                            <button className="login-button">Login</button>
+                        </Link>
+                        <Link to="/register">
+                            <button className="register-button">Register</button>
+                        </Link>
+                    </>
+                )}
+                {isAuthenticated && (
+                    <Link to="/logout">
+                        <button className="logout-button">Logout</button>
+                    </Link>
+                )}
             </div>
         </header>
     );

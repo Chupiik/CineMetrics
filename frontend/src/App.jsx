@@ -30,18 +30,16 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
               <Index />
-            </ProtectedRoute>
           }
         />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/add-movie" element={<AddMovie />} />
-        <Route path="/edit-movie/:id" element={<EditMovie />} />
+        <Route path="/movies" element={<ProtectedRoute><Movies /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><AboutUs /></ProtectedRoute>} />
+        <Route path="/add-movie" element={<ProtectedRoute><AddMovie /></ProtectedRoute>} />
+        <Route path="/edit-movie/:id" element={<ProtectedRoute><EditMovie /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
