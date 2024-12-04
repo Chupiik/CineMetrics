@@ -1,6 +1,6 @@
 @import url('./colors.css');
 
-header {
+.navbar {
     background-color: var(--info-color);
     color: var(--secondary-color);
     display: flex;
@@ -9,7 +9,7 @@ header {
     padding: 15px 30px;
 }
 
-header h1 {
+.navbar h1 {
     margin: 0;
     font-size: 2em;
     margin-right: 20px;
@@ -88,6 +88,25 @@ header h1 {
 .logout-button:hover {
     background-color: var(--primary-color);
 }
+
+/* Style for displaying the username text */
+.username-text {
+    font-style: italic;
+    color: var(--secondary-color);
+    margin: 10px 0;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    word-wrap: break-word;
+    transition: color 0.3s, transform 0.3s;
+}
+
+/* Optional hover effect */
+.username-text:hover {
+
+    color: var(--primary-color);
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

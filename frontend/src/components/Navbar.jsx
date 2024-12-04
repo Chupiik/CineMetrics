@@ -1,12 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "../styles/Navbar.css"; // Ensure you update the CSS file
 
 function Navbar() {
     const isAuthenticated = !!localStorage.getItem("access");
+    const username = localStorage.getItem("username")
 
     return (
-        <header className="navbar">
+        <div className="navbar">
             <div className="navbar-logo">
                 <h1>CineMetrics</h1>
             </div>
@@ -29,12 +30,15 @@ function Navbar() {
                     </>
                 )}
                 {isAuthenticated && (
-                    <Link to="/logout">
-                        <button className="logout-button">Logout</button>
-                    </Link>
+                    <>
+                        <p className="username-text">{username}</p>
+                        <Link to="/logout">
+                            <button className="logout-button">Logout</button>
+                        </Link>
+                    </>
                 )}
             </div>
-        </header>
+        </div>
     );
 }
 
