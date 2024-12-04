@@ -77,70 +77,75 @@ function AddEditMovie({ method }) {
   return (
     <div>
       <Navbar />
-      <div className="container">
+      <div className="movieForm-container">
         <h2>{name}</h2>
-        <br />
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title:</label>
+          <br/>
           <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+              type="text"
+              id="title"
+              name="title"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
           />
-          <br />
+          <br/>
           <label htmlFor="genres">Genres:</label>
+          <br/>
           <input
-            type="text"
-            id="genres"
-            name="genres"
-            onChange={(e) => setGenres(e.target.value)}
-            value={genres}
+              type="text"
+              id="genres"
+              name="genres"
+              onChange={(e) => setGenres(e.target.value)}
+              value={genres}
           />
-          <br />
+          <br/>
           <label htmlFor="released">Released:</label>
+          <br/>
           <input
-            type="date"
-            required
-            id="released"
-            name="released"
-            onChange={(e) => setReleased(e.target.value)}
-            value={released}
+              type="date"
+              required
+              id="released"
+              name="released"
+              onChange={(e) => setReleased(e.target.value)}
+              value={released}
           />
-          <br />
+          <br/>
           <label htmlFor="director">Director:</label>
+          <br/>
           <input
-            type="text"
-            id="director"
-            name="director"
-            onChange={(e) => setDirector(e.target.value)}
-            value={director}
+              type="text"
+              id="director"
+              name="director"
+              onChange={(e) => setDirector(e.target.value)}
+              value={director}
           />
-          <br />
+          <br/>
           <label htmlFor="plot">Plot:</label>
+          <br/>
           <textarea
-            id="plot"
-            name="plot"
-            onChange={(e) => setPlot(e.target.value)}
-            value={plot}
+              id="plot"
+              name="plot"
+              onChange={(e) => setPlot(e.target.value)}
+              value={plot}
           />
-          <br />
+          <br/>
           <label htmlFor="poster">Poster URL:</label>
+          <br/>
           <input
-            type="url"
-            id="poster"
-            name="poster"
-            placeholder="Enter poster URL"
-            onChange={(e) => setPosterUrl(e.target.value)}
-            value={posterUrl}
+              type="url"
+              id="poster"
+              name="poster"
+              placeholder="Enter poster URL"
+              onChange={(e) => setPosterUrl(e.target.value)}
+              value={posterUrl}
           />
-          <br />
+          <br/>
           {posterUrl && (
-            <img className="movie-poster-create" src={posterUrl} alt="Poster preview" />
+              <img className="movie-poster-create" src={posterUrl} alt="Poster preview"/>
           )}
-          <br />
+          <br/>
           <button type="submit">{method === "add" ? "Add Movie" : "Update Movie"}</button>
         </form>
       </div>

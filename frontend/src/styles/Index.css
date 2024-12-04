@@ -1,25 +1,31 @@
-body {
+@import url('./colors.css');
+html{
+    background-color: var(--background-color);
+}
+
+.body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: whitesmoke;
-    color: darkslategray;
+    background-color: var(--background-color);
+    color: var(--secondary-color); /* White text on dark background */
 }
-
 
 .mainText {
     padding: 100px 20px;
-    color: black;
+    /*color: var(--secondary-color); /* White text */
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 60vh;
+    background-color: inherit;
 }
 
 .mainText h2 {
     font-size: 3em;
     margin-bottom: 20px;
+    color: var(--primary-color); /* Bright orange for headings */
 }
 
 .mainText p {
@@ -29,9 +35,9 @@ body {
 }
 
 .btn {
-    background-color: orange;
+    background-color: var(--primary-color); /* Bright orange button */
     padding: 10px 20px;
-    color: white;
+    color: var(--secondary-color); /* White text */
     text-decoration: none;
     font-size: 1.2em;
     border-radius: 5px;
@@ -39,7 +45,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #333;
+    background-color: var(--info-color); /* Teal on hover */
 }
 
 .features {
@@ -50,27 +56,31 @@ body {
 }
 
 .feature-box {
-    background-color: white;
+    background-color: var(--info-color); /* White background for cards */
     padding: 30px;
     width: 29%;
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--secondary-color); /* Dark text on light background */
 }
 
 .feature-box h3 {
     font-size: 1.8em;
     margin-bottom: 15px;
+    color: var(--primary-color); /* Bright orange for headings */
 }
 
 .feature-box p {
     font-size: 1em;
-    color: gray;
+    color: var(--secondary-color); /* Dark text */
 }
 
 .feature-box:hover {
     transform: translateY(-10px);
     transition: transform 0.3s ease;
+    background-color: var(--info-color); /* Teal background on hover */
+    color: var(--secondary-color); /* White text on hover */
 }
 
 @media (max-width: 768px) {

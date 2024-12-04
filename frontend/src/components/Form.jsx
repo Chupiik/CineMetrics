@@ -33,7 +33,7 @@ function Form({route, method}) {
 
     };
 
-    return <form onSubmit={handleSubmit} className="form-container">
+    return <form onSubmit={handleSubmit} className="login-form-container">
         <h1>{name}</h1>
         <input
             className="form-input"

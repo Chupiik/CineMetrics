@@ -5,57 +5,56 @@ import "../styles/AboutUs.css"
 function AboutUs() {
     return (
         <div>
-            <Navbar />
+            <Navbar/>
 
-            <main>
-                <div className="container">
-                    {/* Intro Section */}
-                    <section className="intro-section">
-                        <h2>Welcome to CineMetrics</h2>
-                        <p>
-                            At CineMetrics, we are passionate about films and dedicated to providing a platform
-                            where users can manage and explore their movie collections. Our mission is to help film
-                            enthusiasts keep track of their favorite movies, directors, and genres, making movie
-                            discovery and organization easy and enjoyable.
-                        </p>
-                    </section>
+            <div className="aboutUs-container">
+                {/* Intro Section */}
+                <section className="intro-section">
+                    <h2>Welcome to CineMetrics</h2>
+                    <p>
+                        At CineMetrics, we are passionate about films and dedicated to providing a platform
+                        where users can manage and explore their movie collections. Our mission is to help film
+                        enthusiasts keep track of their favorite movies, directors, and genres, making movie
+                        discovery and organization easy and enjoyable.
+                    </p>
+                </section>
 
-                    {/* Team Section */}
-                    <section className="team-section">
-                        <h2>Meet Our Team</h2>
-                        <div className="team-container">
-                            <div className="team-member">
-                                <h3>Patrik Chupáč</h3>
-                                <p>Founder & Developer</p>
-                                <p>
-                                    Patrik is a software engineer with a passion for cinema. He likes building tools
-                                    that enhance the movie-watching experience.
-                                </p>
-                            </div>
+                {/* Team Section */}
+                <section className="team-section">
+                    <h2>Meet Our Team</h2>
+                    <div className="team-container">
+                        <div className="team-member">
+                            <h3>Patrik Chupáč</h3>
+                            <p>Founder & Developer</p>
+                            <p className="member-info">
+                                Patrik is a software engineer with a passion for cinema. He likes building tools
+                                that enhance the movie-watching experience.
+                            </p>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
-                    {/* Mission Section */}
-                    <section className="mission-section">
-                        <h2>Our Mission</h2>
-                        <p>
-                            We strive to create a user-friendly experience that empowers movie lovers to keep track of
-                            their collections, share recommendations, and discover new films based on their interests.
-                            Our goal is to foster a community of film enthusiasts who can connect and share their love
-                            for cinema.
-                        </p>
-                    </section>
+                {/* Mission Section */}
+                <section className="mission-section">
+                    <h2>Our Mission</h2>
+                    <p>
+                        We strive to create a user-friendly experience that empowers movie lovers to keep track of
+                        their collections, share recommendations, and discover new films based on their interests.
+                        Our goal is to foster a community of film enthusiasts who can connect and share their love
+                        for cinema.
+                    </p>
+                </section>
 
-                    {/* Contact Section */}
-                    <section className="contact-section">
-                        <h2>Get in Touch</h2>
-                        <p>
-                            If you have any questions, suggestions, or feedback, feel free to{" "}
-                            <a href="#">contact us</a>!
-                        </p>
-                    </section>
-                </div>
-            </main>
+                {/* Contact Section */}
+                <section className="contact-section">
+                    <h2>Get in Touch</h2>
+                    <p>
+                        If you have any questions, suggestions, or feedback, feel free to{" "}
+                        <a href="#">contact us</a>!
+                    </p>
+                </section>
+            </div>
+
 
             <footer>
                 <p>&copy; CineMetrics. All rights reserved.</p>

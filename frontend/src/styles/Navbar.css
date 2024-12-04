@@ -1,6 +1,8 @@
+@import url('./colors.css');
+
 header {
-    background-color: darkslategray;
-    color: white;
+    background-color: var(--info-color);
+    color: var(--secondary-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,6 +13,7 @@ header h1 {
     margin: 0;
     font-size: 2em;
     margin-right: 20px;
+    color: var(--primary-color);
 }
 
 /* Navigation Menu */
@@ -33,14 +36,14 @@ header h1 {
 }
 
 .navbar-links ul li a {
-    color: white;
+    color: var(--secondary-color);
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 .navbar-links ul li a:hover {
-    color: orange;
+    color: var(--primary-color);
 }
 
 /* Buttons Section */
@@ -58,34 +61,32 @@ header h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    color: var(--secondary-color);
 }
 
 /* Individual Button Colors */
 .login-button {
-    background-color: #3498db; /* Light Blue */
-    color: white;
+    background-color: var(--success-color);
 }
 
 .login-button:hover {
-    background-color: #2980b9; /* Darker Blue */
+    background-color: var(--primary-color);
 }
 
 .register-button {
-    background-color: #2ecc71; /* Green */
-    color: white;
+    background-color: var(--success-color);
 }
 
 .register-button:hover {
-    background-color: #27ae60; /* Darker Green */
+    background-color: var(--primary-color);
 }
 
 .logout-button {
-    background-color: #e74c3c; /* Red */
-    color: white;
+    background-color: var(--danger-color);
 }
 
 .logout-button:hover {
-    background-color: #c0392b; /* Darker Red */
+    background-color: var(--primary-color);
 }
 
 /* Responsive Adjustments */

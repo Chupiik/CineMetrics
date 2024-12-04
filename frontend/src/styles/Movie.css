@@ -1,5 +1,7 @@
+@import url('./colors.css');
+
 .movie-container {
-    background-color: whitesmoke;
+    background-color: var(--info-color);
     border: none;
     border-radius: 10px;
     padding: 16px;
@@ -18,9 +20,16 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.movie-title, .movie-genres, .movie-release-date, .movie-director, .movie-plot {
+.movie-title {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.movie-genres, .movie-release-date, .movie-director, .movie-plot {
     font-size: 1em;
-    color: gray;
+    color: var(--infoText-color);
     line-height: 1.5;
     margin: 0;
 }
@@ -30,7 +39,7 @@
     flex-direction: column;
     gap: 8px;
     max-width: 60%;
-    flex-grow: 1; /* Allows details to take up remaining space */
+    flex-grow: 1;
 }
 
 .movie-details-poster {
@@ -47,22 +56,20 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 .movie-actions {
     display: flex;
-    gap: 10px; /* Space between the buttons */
+    gap: 10px;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 16px; /* Space from other content */
+    margin-top: 16px;
 }
 
-/* General button styles (Edit and Delete) */
 button {
-    color: white;
+    color: var(--secondary-color);
     border: none;
     border-radius: 5px;
-    padding: 12px 20px; /* Ensure same padding for both buttons */
-    font-size: 1rem; /* Same font size for both buttons */
+    padding: 12px 20px;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -73,34 +80,27 @@ button {
     height: 48px; /* Ensuring same height */
 }
 
-/* Delete Button (Red) */
 .delete-button {
-    background-color: #e53935; /* Red color for Delete */
-}
-
-.delete-button svg,
-.edit-button svg {
-    width: 16px;
-    height: 16px; /* Ensures the icon fits nicely */
+    background-color: var(--danger-color);
 }
 
 .delete-button:hover {
-    background-color: #c62828; /* Darker red on hover */
+    background-color: var(--primary-color);
 }
 
 .delete-button:active {
-    background-color: #b71c1c; /* Even darker red when clicked */
+    background-color: #5a2026;
 }
 
-/* Edit Button (Green) */
+/* Edit Button (Success) */
 .edit-button {
-    background-color: #4CAF50; /* Green color for Edit */
+    background-color: var(--success-color);
 }
 
 .edit-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: var(--primary-color);
 }
 
 .edit-button:active {
-    background-color: #388e3c; /* Even darker green when clicked */
+    background-color: #1e7e34;
 }

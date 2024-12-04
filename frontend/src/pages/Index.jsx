@@ -4,9 +4,8 @@ import Navbar from "../components/Navbar.jsx";
 import "../styles/Index.css"
 function HomePage() {
     return (
-        <div>
+        <div className="body">
             <Navbar/>
-
             <section className="mainText">
                 <div>
                     <h2>Welcome to CineMetrics</h2>
