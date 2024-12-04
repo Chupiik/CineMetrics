@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Additional addMovie page commit">
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Colors.css" afterDir="false" />
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Changed css coloring and styling of the whole site">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Form.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AboutUs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AboutUs.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/AboutUs.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/AboutUs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/AddEditMovieForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/AddEditMovieForm.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/styles/Form.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Form.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Movie.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Movie.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Movies.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Movies.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +102,7 @@
       <workItem from="1733137953576" duration="9938000" />
       <workItem from="1733166080299" duration="8221000" />
       <workItem from="1733220819220" duration="26089000" />
-      <workItem from="1733329931773" duration="1743000" />
+      <workItem from="1733329931773" duration="4696000" />
     </task>
     <task id="LOCAL-00001" summary="workspace.xml change">
       <option name="closed" value="true" />
@@ -178,7 +168,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733255246890</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Changed css coloring and styling of the whole site">
+      <option name="closed" value="true" />
+      <created>1733332691173</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733332691173</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,7 +202,8 @@
     <MESSAGE value="Changed the add movie form to a page and added button to link to the page" />
     <MESSAGE value="Changed the add movie page to add/edit movie form and created pages to edit and add movies" />
     <MESSAGE value="Additional addMovie page commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Additional addMovie page commit" />
+    <MESSAGE value="Changed css coloring and styling of the whole site" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed css coloring and styling of the whole site" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CineMetrics$manage.coverage" NAME="manage Coverage Results" MODIFIED="1732579361003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

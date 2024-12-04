@@ -67,6 +67,58 @@
     cursor: not-allowed;
 }
 
+.loading-indicator {
+    display: flex; /* Useful if you need to align children inside */
+    justify-content: center; /* Horizontally align children */
+    align-items: center; /* Vertically align children */
+    margin: 10px;
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    margin-top: -10px; /* Adjust spacing if necessary */
+    margin-bottom: 10px;
+    text-align: left; /* Align with inputs */
+}
+
+.login-register-button-container {
+    margin-top: 1rem; /* Adds spacing above the Register button */
+    text-align: center;
+}
+
+.login-register-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    background-color: var(--infoText-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* Removes underline */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-register-button:hover {
+    background-color: var(--primary-color); /* Lighter orange on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adds shadow */
+}
+
+.login-register-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.4); /* Focus ring in orange */
+}
+
+.login-register-button:active {
+    background-color: var(--info-color); /* Muted orange on click */
+    transform: translateY(2px); /* Press down effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for pressed state */
+}
+
+
 /* Optional responsive design */
 @media (max-width: 600px) {
     .login-form-container {
