@@ -6,7 +6,7 @@ import "../styles/AddEditMovieForm.css";
 
 function AddEditMovie({ method }) {
   const [title, setTitle] = useState("");
-  const [genres, setGenres] = useState([]); // Uloženie žánrov ako pole objektov
+  const [genres, setGenres] = useState("");
   const [released, setReleased] = useState("");
   const [director, setDirector] = useState("");
   const [plot, setPlot] = useState("");
@@ -26,7 +26,7 @@ function AddEditMovie({ method }) {
         .then((res) => {
           const movie = res.data;
           setTitle(movie.title);
-          setGenres(movie.genres);
+          setGenres(movie.genres.map((genre) => genre.name).join(", "));
           setReleased(movie.released);
           setDirector(movie.director);
           setPlot(movie.plot);
@@ -40,7 +40,11 @@ function AddEditMovie({ method }) {
     e.preventDefault();
     setErrorMessages({});
 
-    const genreObjects = genres.map((genre) => ({ name: genre }));
+  const genreObjects = genres
+    .split(",")
+    .map((genre) => genre.trim())
+    .filter((genre) => genre)
+    .map((name) => ({ name }));
 
     const movieData = {
       title,
@@ -55,7 +59,6 @@ function AddEditMovie({ method }) {
       method === "add"
         ? api.post("/api/movies/", movieData)
         : api.put(`/api/movies/edit/${id}/`, movieData);
-
     apiCall
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
@@ -77,15 +80,10 @@ function AddEditMovie({ method }) {
       });
   };
 
-  const handleGenresChange = (e) => {
-    const input = e.target.value;
-    const genreArray = input.split(",").map((g) => g.trim()); // Split podľa čiarky a odstránenie medzier
-    setGenres(genreArray);
-  };
 
   const resetForm = () => {
     setTitle("");
-    setGenres([]);
+    setGenres("");
     setReleased("");
     setDirector("");
     setPlot("");
@@ -117,10 +115,10 @@ function AddEditMovie({ method }) {
           <input
               type="text"
               id="genres"
-              onChange={handleGenresChange}
-              value={genres.join(", ")} // Transform pole na reťazec oddelený čiarkou
+              onChange={(e) => setGenres(e.target.value)}
+              value={genres}
           />
-          {errorMessages.genres && (
+          {errorMessages.genres &&  (
               <p className="error-message">{errorMessages.genres[0]}</p>
           )}
           <br/>

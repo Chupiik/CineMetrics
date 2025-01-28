@@ -35,8 +35,21 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         fields = ["id", "name"]
 
+    def to_internal_value(self, data):
+        if isinstance(data, dict):
+            name = data.get("name", "").strip()
+        elif isinstance(data, str):
+            name = data.strip()
+        else:
+            raise serializers.ValidationError("Invalid genre format.")
+
+        try:
+            return Genre.objects.get(name=name)
+        except Genre.DoesNotExist:
+            return Genre(name=name)
+
 class MovieSerializer(serializers.ModelSerializer):
-    genres = GenreSerializer(many=True)  # Nested serializer for genres
+    genres = GenreSerializer(many=True)
 
     class Meta:
         model = Movie
@@ -49,18 +62,22 @@ class MovieSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        genres_data = validated_data.pop('genres', [])
+        genres_data = validated_data.pop("genres", [])
         movie = Movie.objects.create(**validated_data)
-        for genre_data in genres_data:
-            genre, created = Genre.objects.get_or_create(name=genre_data['name'])
+
+        for genre in genres_data:
+            genre, _ = Genre.objects.get_or_create(name=genre.name)
             movie.genres.add(genre)
+
         return movie
 
     def update(self, instance, validated_data):
-        genres_data = validated_data.pop('genres', None)
+        genres_data = validated_data.pop("genres", None)
         if genres_data is not None:
-            instance.genres.clear()  # Remove existing genres
-            for genre_data in genres_data:
-                genre, created = Genre.objects.get_or_create(name=genre_data['name'])
+            instance.genres.clear()
+
+            for genre in genres_data:
+                genre, _ = Genre.objects.get_or_create(name=genre.name)
                 instance.genres.add(genre)
+
         return super().update(instance, validated_data)
