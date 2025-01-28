@@ -10,8 +10,9 @@ class MovieListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Movie.objects.filter(uploaded_by=user)
+        #user = self.request.user
+        #return Movie.objects.filter(uploaded_by=user)
+        return Movie.objects.filter()
 
     def perform_create(self, serializer):
         if serializer.is_valid():

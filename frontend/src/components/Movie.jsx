@@ -6,13 +6,14 @@ import { faPencil, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Movie({ movie, onDelete }) {
     const formattedDate = new Date(movie.released).toLocaleDateString("sk-SK");
+    const genreList = movie.genres.map((genre) => genre.name).join(", ");
 
     return (
         <div className="movie-container">
             <div className="movie-details-poster">
                 <div className="movie-details">
                     <p className="movie-title">{movie.title}</p>
-                    <p className="movie-genres">Genres: {movie.genres}</p>
+                    <p className="movie-genres">Genres: {genreList}</p>
                     <p className="movie-release-date">Released: {formattedDate}</p>
                     <p className="movie-director">Director: {movie.director}</p>
                     <p className="movie-plot">Plot: {movie.plot}</p>

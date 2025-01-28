@@ -6,7 +6,7 @@ import "../styles/AddEditMovieForm.css";
 
 function AddEditMovie({ method }) {
   const [title, setTitle] = useState("");
-  const [genres, setGenres] = useState("");
+  const [genres, setGenres] = useState([]); // Uloženie žánrov ako pole objektov
   const [released, setReleased] = useState("");
   const [director, setDirector] = useState("");
   const [plot, setPlot] = useState("");
@@ -40,9 +40,11 @@ function AddEditMovie({ method }) {
     e.preventDefault();
     setErrorMessages({});
 
+    const genreObjects = genres.map((genre) => ({ name: genre }));
+
     const movieData = {
       title,
-      genres,
+      genres: genreObjects,
       released,
       director,
       plot,
@@ -75,9 +77,15 @@ function AddEditMovie({ method }) {
       });
   };
 
+  const handleGenresChange = (e) => {
+    const input = e.target.value;
+    const genreArray = input.split(",").map((g) => g.trim()); // Split podľa čiarky a odstránenie medzier
+    setGenres(genreArray);
+  };
+
   const resetForm = () => {
     setTitle("");
-    setGenres("");
+    setGenres([]);
     setReleased("");
     setDirector("");
     setPlot("");
@@ -91,89 +99,88 @@ function AddEditMovie({ method }) {
         <h2>{name}</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title:</label>
-          <br />
+          <br/>
           <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+              type="text"
+              id="title"
+              name="title"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
           />
           {errorMessages.title && (
-            <p className="error-message">{errorMessages.title[0]}</p>
+              <p className="error-message">{errorMessages.title[0]}</p>
           )}
-          <br />
-          <label htmlFor="genres">Genres:</label>
-          <br />
+          <br/>
+          <label htmlFor="genres">Genres (comma separated):</label>
+          <br/>
           <input
-            type="text"
-            id="genres"
-            name="genres"
-            onChange={(e) => setGenres(e.target.value)}
-            value={genres}
+              type="text"
+              id="genres"
+              onChange={handleGenresChange}
+              value={genres.join(", ")} // Transform pole na reťazec oddelený čiarkou
           />
           {errorMessages.genres && (
-            <p className="error-message">{errorMessages.genres[0]}</p>
+              <p className="error-message">{errorMessages.genres[0]}</p>
           )}
-          <br />
+          <br/>
           <label htmlFor="released">Released:</label>
-          <br />
+          <br/>
           <input
-            type="date"
-            required
-            id="released"
-            name="released"
-            onChange={(e) => setReleased(e.target.value)}
-            value={released}
+              type="date"
+              required
+              id="released"
+              name="released"
+              onChange={(e) => setReleased(e.target.value)}
+              value={released}
           />
           {errorMessages.released && (
-            <p className="error-message">{errorMessages.released[0]}</p>
+              <p className="error-message">{errorMessages.released[0]}</p>
           )}
-          <br />
+          <br/>
           <label htmlFor="director">Director:</label>
-          <br />
+          <br/>
           <input
-            type="text"
-            id="director"
-            name="director"
-            onChange={(e) => setDirector(e.target.value)}
-            value={director}
+              type="text"
+              id="director"
+              name="director"
+              onChange={(e) => setDirector(e.target.value)}
+              value={director}
           />
           {errorMessages.director && (
-            <p className="error-message">{errorMessages.director[0]}</p>
+              <p className="error-message">{errorMessages.director[0]}</p>
           )}
-          <br />
+          <br/>
           <label htmlFor="plot">Plot:</label>
-          <br />
+          <br/>
           <textarea
-            id="plot"
-            name="plot"
-            onChange={(e) => setPlot(e.target.value)}
-            value={plot}
+              id="plot"
+              name="plot"
+              onChange={(e) => setPlot(e.target.value)}
+              value={plot}
           />
           {errorMessages.plot && (
-            <p className="error-message">{errorMessages.plot[0]}</p>
+              <p className="error-message">{errorMessages.plot[0]}</p>
           )}
-          <br />
+          <br/>
           <label htmlFor="poster">Poster URL:</label>
-          <br />
+          <br/>
           <input
-            type="url"
-            id="poster"
-            name="poster"
-            placeholder="Enter poster URL"
-            onChange={(e) => setPosterUrl(e.target.value)}
-            value={posterUrl}
+              type="url"
+              id="poster"
+              name="poster"
+              placeholder="Enter poster URL"
+              onChange={(e) => setPosterUrl(e.target.value)}
+              value={posterUrl}
           />
           {errorMessages.poster && (
-            <p className="error-message">{errorMessages.poster[0]}</p>
+              <p className="error-message">{errorMessages.poster[0]}</p>
           )}
-          <br />
+          <br/>
           {posterUrl && (
-            <img className="movie-poster-create" src={posterUrl} alt="Poster preview" />
+              <img className="movie-poster-create" src={posterUrl} alt="Poster preview"/>
           )}
-          <br />
+          <br/>
           <button type="submit">{method === "add" ? "Add Movie" : "Update Movie"}</button>
         </form>
       </div>
