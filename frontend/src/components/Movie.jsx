@@ -1,10 +1,14 @@
 import '../styles/Movie.css';
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function Movie({ movie, onDelete }) {
+    const { user } = useContext(AuthContext);
+    const isAdmin = user && user.groups && user.groups.includes("Admin");
+
     const formattedDate = new Date(movie.released).toLocaleDateString("sk-SK");
     const genreList = movie.genres.map((genre) => genre.name).join(", ");
 
@@ -28,17 +32,19 @@ function Movie({ movie, onDelete }) {
             </div>
 
             {/* Button Container */}
-            <div className="movie-actions">
-                <Link to={`/edit-movie/${movie.id}`}>
-                    <button className="edit-button">
-                        <FontAwesomeIcon icon={faPencil} />  Edit
-                    </button>
-                </Link>
+            {isAdmin && (
+                <div className="movie-actions">
+                    <Link to={`/edit-movie/${movie.id}`}>
+                        <button className="edit-button">
+                            <FontAwesomeIcon icon={faPencil} />  Edit
+                        </button>
+                    </Link>
 
-                <button className="delete-button" onClick={() => onDelete(movie.id)}>
-                    <FontAwesomeIcon icon={faTrashAlt} />Delete
-                </button>
-            </div>
+                    <button className="delete-button" onClick={() => onDelete(movie.id)}>
+                        <FontAwesomeIcon icon={faTrashAlt} />Delete
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

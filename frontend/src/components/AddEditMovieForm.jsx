@@ -57,14 +57,14 @@ function AddEditMovie({ method }) {
 
     const apiCall =
       method === "add"
-        ? api.post("/api/movies/", movieData)
+        ? api.post("/api/movies/add/", movieData)
         : api.put(`/api/movies/edit/${id}/`, movieData);
     apiCall
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           alert(method === "add" ? "Movie added!" : "Movie updated!");
           if (method !== "add") {
-            navigate("/movies");
+            navigate("/movies/");
           }
           resetForm();
         } else {

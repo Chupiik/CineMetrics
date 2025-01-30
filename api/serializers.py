@@ -1,10 +1,18 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from .models import Movie, Genre
 import re
 
-class UserSerializer(serializers.ModelSerializer):
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["name"]
+
+class UserSerializer(serializers.ModelSerializer):
+    groups = serializers.SlugRelatedField(
+        many=True, queryset=Group.objects.all(), slug_field="name"
+    )
     class Meta:
         model = User
         fields = ["id", "username", "password"]
@@ -27,7 +35,13 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        groups_data = validated_data.pop("groups", [])
         user = User.objects.create_user(**validated_data)
+
+        for group_name in groups_data:
+            group, _ = Group.objects.get_or_create(name=group_name)
+            user.groups.add(group)
+
         return user
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -53,8 +67,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ["id", "title", "plot", "released", "director", "poster", "genres", "uploaded_at", "uploaded_by"]
-        extra_kwargs = {"uploaded_by": {"read_only": True}}
+        fields = ["id", "title", "plot", "released", "director", "poster", "genres"]
 
     def validate_title(self, value):
         if not value:

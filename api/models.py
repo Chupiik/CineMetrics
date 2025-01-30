@@ -30,9 +30,6 @@ class Movie(models.Model):
     # dvd = models.CharField(max_length=20, null=True, blank=True)  # DVD release (e.g., "N/A")
     # box_office = models.CharField(max_length=50, null=True, blank=True)  # Box office earnings (e.g., "$381,878,219")
 
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movies')
-
     def __str__(self):
         return self.title
 

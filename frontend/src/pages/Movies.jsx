@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import api from "../api"
 import Movie from "../components/Movie"
 import '../styles/Movies.css';
@@ -6,10 +6,13 @@ import Navbar from "../components/Navbar.jsx";
 import {Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {AuthContext} from "../context/AuthContext.jsx";
 
 
 function Movies() {
     const [movies, setMovies] = useState([]);
+    const { user } = useContext(AuthContext);
+    const isAdmin = user && user.groups && user.groups.includes("Admin");
 
     useEffect(() => {
         getMovies();
@@ -37,12 +40,14 @@ function Movies() {
         <Navbar/>
     <div className="container">
         <div>
-            <Link to="/add-movie">
-                <button className="add-movie-button">
-                    <FontAwesomeIcon icon={faCirclePlus} />
-                    Add Movie
-                </button>
-            </Link>
+            {isAdmin && (
+                <Link to="/add-movie">
+                    <button className="add-movie-button">
+                        <FontAwesomeIcon icon={faCirclePlus} />
+                        Add Movie
+                    </button>
+                </Link>
+            )}
             {movies.map((movie) => (<Movie movie={movie} onDelete={deleteMovie} key={movie.id}/>))}
         </div>
     </div>
