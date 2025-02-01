@@ -1,0 +1,119 @@
+
+.movie-container {
+  box-sizing: border-box;
+  background-color: var(--info-color);
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+  width: 300px;
+  height: 460px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+}
+
+
+.movie-poster-container {
+  width: 230px;
+  height: 345px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.movie-poster {
+  width: 230px;
+  height: 345px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie-title {
+  font-size: 1.5em;
+  color: var(--primary-color);
+  text-align: center;
+  margin-top: 10px;
+
+}
+
+
+.movie-details {
+  box-sizing: border-box;
+  position: absolute;
+  top: 95%;
+  width: 100%;
+  left: 0;
+  background-color: var(--info-color);
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border-radius: 10px;
+}
+
+.movie-container:hover .movie-details {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.movie-genres,
+.movie-release-date {
+  font-size: 1em;
+  color: var(--infoText-color);
+  margin: 0;
+}
+
+.movie-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  padding: 0 10px;
+}
+
+.movie-button {
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 12px 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 30px;
+}
+
+.delete-button {
+  background-color: var(--danger-color);
+}
+
+.delete-button:hover {
+  background-color: var(--primary-color);
+}
+
+.delete-button:active {
+  background-color: #5a2026;
+}
+
+.edit-button {
+  background-color: var(--success-color);
+}
+
+.edit-button:hover {
+  background-color: var(--primary-color);
+}
+
+.edit-button:active {
+  background-color: #1e7e34;
+}

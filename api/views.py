@@ -47,7 +47,7 @@ class MovieDelete(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         try:
             movie = self.get_object()
-            if not request.user.groups.filter(name="Admin").exists():
+            if request.user.groups.filter(name="Admin").exists():
                 movie.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response({"detail": "You do not have permission to delete this movie."},
