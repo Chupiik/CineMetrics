@@ -59,11 +59,11 @@ function MovieComponent({ movie, onDelete }) {
             {isAdmin && (
         <div className="movie-actions">
           <Link to={`/edit-movie/${movie.id}`}>
-            <button className="edit-button movie-button">
+            <button className="movie-edit-button movie-button">
               <FontAwesomeIcon icon={faPencil} />
             </button>
           </Link>
-          <button className="delete-button movie-button" onClick={() => onDelete(movie.id)}>
+          <button className="movie-delete-button movie-button" onClick={() => onDelete(movie.id)}>
             <FontAwesomeIcon icon={faTrashAlt} />
           </button>
         </div>

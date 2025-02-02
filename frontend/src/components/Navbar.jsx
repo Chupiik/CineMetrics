@@ -9,7 +9,9 @@ function Navbar() {
     return (
         <div className="navbar">
             <div className="navbar-logo">
+                <Link to="/">
                 <h1>CineMetrics</h1>
+                </Link>
             </div>
             <nav className="navbar-links">
                 <ul className="navbar-menu">

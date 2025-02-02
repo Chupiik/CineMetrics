@@ -1,0 +1,83 @@
+@import url('./colors.css');
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+}
+
+.unauthorized-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.unauthorized-container h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.unauthorized-container p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.unauthorized-button {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.unauthorized-button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.unauthorized-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 125, 0, 0.5);
+}
+
+.unauthorized-button:active {
+  background-color: var(--danger-color);
+  transform: translateY(1px);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .unauthorized-container {
+    padding: 16px;
+  }
+
+  .unauthorized-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .unauthorized-container p {
+    font-size: 1rem;
+  }
+
+  .unauthorized-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

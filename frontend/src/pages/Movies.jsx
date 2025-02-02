@@ -52,11 +52,13 @@ function Movies() {
                 )}
                 <div className="movies-list">
                     {movies.map((movie) => (
+                        <Link to={`/movies/${movie.id}`} key={movie.id}>
                         <MovieComponent
                             movie={movie}
                             onDelete={deleteMovie}
                             key={movie.id}
                         />
+                        </Link>
                     ))}
                 </div>
             </div>

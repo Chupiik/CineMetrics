@@ -2,11 +2,12 @@ import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
+import { AuthContext } from "../context/AuthContext";
 
-
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, adminOnly=false }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         auth().catch(() => setIsAuthorized(false))
@@ -36,22 +37,34 @@ function ProtectedRoute({ children }) {
             setIsAuthorized(false);
             return;
         }
-        const decoded = jwtDecode(token);
-        const tokenExpiration = decoded.exp;
-        const now = Date.now() / 1000;
 
-        if (tokenExpiration < now) {
-            await refreshToken();
-        } else {
-            setIsAuthorized(true);
+        try {
+            const decoded = jwtDecode(token);
+            const tokenExpiration = decoded.exp;
+            const now = Date.now() / 1000;
+
+            if (tokenExpiration < now) {
+                await refreshToken();
+            } else {
+                setIsAuthorized(true);
+            }
+        } catch (error) {
+            console.error("Invalid token:", error);
+            setIsAuthorized(false);
         }
     };
+
+    if (adminOnly) {
+        if (!user || !user.groups || !user.groups.includes("Admin")) {
+          return <Navigate to="/unauthorized" />;
+        }
+    }
 
     if (isAuthorized === null) {
         return <div>Loading...</div>;
     }
 
-    return isAuthorized ? children : <Navigate to="/login" />;
+    return children;
 }
 
 export default ProtectedRoute;

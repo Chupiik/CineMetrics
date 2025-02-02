@@ -24,6 +24,10 @@ body {
   align-items: start;
 }
 
+.movies-list a {
+    text-decoration: none;
+}
+
 
 .add-movie-button {
     background-color: var(--success-color);

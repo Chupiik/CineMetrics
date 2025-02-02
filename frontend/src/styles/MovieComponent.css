@@ -38,7 +38,7 @@
   font-size: 1.5em;
   color: var(--primary-color);
   text-align: center;
-  margin-top: 10px;
+  margin-top: 20px;
 
 }
 
@@ -46,7 +46,7 @@
 .movie-details {
   box-sizing: border-box;
   position: absolute;
-  top: 95%;
+  top: 98%;
   width: 100%;
   left: 0;
   background-color: var(--info-color);
@@ -90,30 +90,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   height: 30px;
 }
 
-.delete-button {
+.movie-delete-button {
   background-color: var(--danger-color);
 }
 
-.delete-button:hover {
+.movie-delete-button:hover {
   background-color: var(--primary-color);
 }
 
-.delete-button:active {
+.movie-delete-button:active {
   background-color: #5a2026;
 }
 
-.edit-button {
+.movie-edit-button {
   background-color: var(--success-color);
 }
 
-.edit-button:hover {
+.movie-edit-button:hover {
   background-color: var(--primary-color);
 }
 
-.edit-button:active {
+.movie-edit-button:active {
   background-color: #1e7e34;
 }

@@ -12,6 +12,9 @@ import AddMoviePage from "./components/AddEditMovieForm.jsx";
 import AddMovie from "./pages/AddMovie.jsx";
 import EditMovie from "./pages/EditMovie.jsx";
 import { AuthProvider } from './context/AuthContext.jsx';
+import MovieDetails from "./pages/MovieDetails.jsx";
+import Unauthorized from "./pages/Unauthorized.jsx";
+import UnauthorizedPage from "./pages/Unauthorized.jsx";
 
 
 function Logout() {
@@ -37,10 +40,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<RegisterAndLogout />} />
-          <Route path="/movies" element={<ProtectedRoute><AuthProvider><Movies /></AuthProvider></ProtectedRoute>} />
+          <Route path="/movies" element={<AuthProvider><ProtectedRoute><Movies /></ProtectedRoute></AuthProvider>} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/add-movie" element={<ProtectedRoute><AddMovie /></ProtectedRoute>} />
-          <Route path="/edit-movie/:id" element={<ProtectedRoute><EditMovie /></ProtectedRoute>} />
+          <Route path="/add-movie" element={<AuthProvider><ProtectedRoute adminOnly={true}><AddMovie /></ProtectedRoute></AuthProvider>} />
+          <Route path="/edit-movie/:id" element={<AuthProvider><ProtectedRoute adminOnly={true}><EditMovie /></ProtectedRoute></AuthProvider>} />
+          <Route path="/movies/:id" element={<AuthProvider><ProtectedRoute><MovieDetails /></ProtectedRoute></AuthProvider>} />
+          <Route path="/unauthorized/" element={<Unauthorized />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
     </BrowserRouter>
