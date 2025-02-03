@@ -139,7 +139,7 @@ class AddMovieToList(APIView):
         except MovieList.DoesNotExist:
             return Response({"detail": "Movie list not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if not movie_list.users.filter(id=request.user.id).exists():
+        if not movie_list.created_by == request.user:
             return Response({"detail": "You do not have permission to modify this list."},
                             status=status.HTTP_403_FORBIDDEN)
 
@@ -171,9 +171,39 @@ class MovieListDetail(generics.RetrieveAPIView):
         serializer = self.get_serializer(movie_list)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 class UserCreatedMovieList(generics.ListAPIView):
     serializer_class = MovieListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return MovieList.objects.filter(created_by=self.request.user)
+
+
+class RemoveMovieFromList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, list_id):
+        movie_id = request.data.get("movie")
+        if not movie_id:
+            return Response({"detail": "Movie id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            movie_list = MovieList.objects.get(id=list_id)
+        except MovieList.DoesNotExist:
+            return Response({"detail": "Movie list not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if not movie_list.created_by == request.user:
+            return Response({"detail": "You do not have permission to modify this list."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            movie = Movie.objects.get(id=movie_id)
+        except Movie.DoesNotExist:
+            return Response({"detail": "Movie not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if movie in movie_list.movies.all():
+            movie_list.movies.remove(movie)
+            return Response({"detail": "Movie removed from list."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "Movie not in this list."}, status=status.HTTP_400_BAD_REQUEST)

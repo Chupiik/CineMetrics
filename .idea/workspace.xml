@@ -4,19 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Added movie lists functionality">
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Fixed bug in add to list functionality, Fixed some styling issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AddList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AddList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Lists.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Lists.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Lists.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Lists.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieListPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieListPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Movies.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Movies.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +119,7 @@
       <workItem from="1738232602593" duration="23061000" />
       <workItem from="1738419561533" duration="17346000" />
       <workItem from="1738496503546" duration="22621000" />
-      <workItem from="1738578955320" duration="9246000" />
+      <workItem from="1738578955320" duration="15197000" />
     </task>
     <task id="LOCAL-00001" summary="workspace.xml change">
       <option name="closed" value="true" />
@@ -301,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738589229978</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Fixed bug in add to list functionality, Fixed some styling issues">
+      <option name="closed" value="true" />
+      <created>1738590357503</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738590357503</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,7 +343,8 @@
     <MESSAGE value="Styles changed - Movies page structure" />
     <MESSAGE value="Added MovieDetails page, Fixed some styling issues, Added link to home page to logo on navbar, Blocked some pages to non Admin users and added Unauthorized page" />
     <MESSAGE value="Added movie lists functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added movie lists functionality" />
+    <MESSAGE value="Fixed bug in add to list functionality, Fixed some styling issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug in add to list functionality, Fixed some styling issues" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CineMetrics$manage.coverage" NAME="manage Coverage Results" MODIFIED="1732579361003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

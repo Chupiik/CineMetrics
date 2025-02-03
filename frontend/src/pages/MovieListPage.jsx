@@ -11,7 +11,11 @@ function MovieListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
+    fetchList();
+  }, [id]);
+
+  const fetchList = () => {
     api.get(`/api/movie-lists/${id}/`)
       .then((response) => {
         setList(response.data);
@@ -21,7 +25,14 @@ function MovieListPage() {
         setError("Error fetching movie list.");
         setLoading(false);
       });
-  }, [id]);
+  };
+
+  const handleRemoveMovie = (movieId) => {
+    setList((prevList) => ({
+      ...prevList,
+      movies: prevList.movies.filter((movie) => movie.id !== movieId),
+    }));
+  };
 
   return (
     <div>
@@ -40,7 +51,7 @@ function MovieListPage() {
                 <p>No movies in this list.</p>
               ) : (
                 list.movies.map((movie) => (
-                  <MovieComponent key={movie.id} movie={movie} />
+                  <MovieComponent key={movie.id} movie={movie} onRemoveFromList={handleRemoveMovie}/>
                 ))
               )}
             </div>

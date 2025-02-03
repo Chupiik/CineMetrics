@@ -135,25 +135,42 @@
   cursor: pointer;
 }
 
+.movie-remove-button {
+  background-color: var(--info-color);
+  color: var(--danger-color);
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
 .movie-add-button:hover {
   color: var(--primary-color, #555);
 }
 
+.movie-remove-button:hover {
+  color: var(--primary-color, #555);
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .movie-lists-dropdown {
   position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
   background-color: var(--background-color);
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-  z-index: 1000;
+  z-index: 2000;
   width: 200px;
   padding: 10px;
 }
 
 .movie-list-option {
+  background-color: var(--info-color);
   padding: 5px 10px;
   cursor: pointer;
 }
@@ -161,4 +178,10 @@
 .movie-list-option:hover {
   background-color: var(--primary-color);
   color: var(--secondary-color);
+}
+
+.movie-list-actions {
+  position: relative;
+  justify-content: center;
+  display: flex;
 }
