@@ -12,7 +12,7 @@ function ListsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get("/api/movie-lists/")
+    api.get("/api/movie-lists-created/")
       .then((response) => {
         setLists(response.data);
         setLoading(false);
@@ -38,7 +38,7 @@ function ListsPage() {
           </Link>
         </div>
 
-        {loading}
+        {loading && <p>Loading lists...</p>}
         {error && <p className="error-message">{error}</p>}
         {!loading && !error && (
           <>
@@ -47,12 +47,18 @@ function ListsPage() {
             ) : (
               <ul className="lists-list">
                 {lists.map((list) => (
-                    <Link to={`/lists/${list.id}`} key={list.id}>
-                  <li className="list-item">
-                      <h3>{list.name}</h3>
-                      {list.description && <p>{list.description}</p>}
-                  </li>
-                      </Link>
+                  <Link to={`/lists/${list.id}`} key={list.id} className="list-link">
+                    <li className="list-item">
+                      <div className="list-info">
+                        <h3>{list.name}</h3>
+                        {list.description && <p>{list.description}</p>}
+                      </div>
+                      <div className="list-meta">
+                        <p className="list-creator">Created by: <strong>{list.created_by}</strong></p>
+                        <p className="list-movie-count">{list.movies.length} Movies</p>
+                      </div>
+                    </li>
+                  </Link>
                 ))}
               </ul>
             )}
