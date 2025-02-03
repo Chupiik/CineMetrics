@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Movie, Genre
+from .models import Movie, Genre, MovieList
 import re
 
 
@@ -9,10 +9,12 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = ["name"]
 
+
 class UserSerializer(serializers.ModelSerializer):
     groups = serializers.SlugRelatedField(
         many=True, queryset=Group.objects.all(), slug_field="name"
     )
+
     class Meta:
         model = User
         fields = ["id", "username", "password"]
@@ -44,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
+
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
@@ -61,6 +64,7 @@ class GenreSerializer(serializers.ModelSerializer):
             return Genre.objects.get(name=name)
         except Genre.DoesNotExist:
             return Genre(name=name)
+
 
 class MovieSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True)
@@ -94,3 +98,12 @@ class MovieSerializer(serializers.ModelSerializer):
                 instance.genres.add(genre)
 
         return super().update(instance, validated_data)
+
+
+class MovieListSerializer(serializers.ModelSerializer):
+    movies = MovieSerializer(many=True, read_only=True)
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+
+    class Meta:
+        model = MovieList
+        fields = ['id', 'name', 'description', 'is_public', 'created_at', 'created_by', 'movies']

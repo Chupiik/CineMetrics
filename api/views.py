@@ -3,12 +3,13 @@ from rest_framework import generics, status, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, MovieSerializer
-from .models import Movie
+from .serializers import UserSerializer, MovieSerializer, MovieListSerializer
+from .models import Movie, MovieList
 from .permissions import IsAdminUser
+from django.shortcuts import get_object_or_404
 
 
-class MovieList(generics.ListAPIView):
+class MoviesGet(generics.ListAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
 
@@ -86,7 +87,7 @@ class MovieUpdate(generics.UpdateAPIView):
 class MovieDetail(generics.RetrieveAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     def get_queryset(self):
         return Movie.objects.filter()
@@ -116,3 +117,56 @@ class UserProfileView(APIView):
             "email": user.email,
             "groups": list(user.groups.values_list("name", flat=True)),
         })
+
+
+class UserMovieList(generics.ListAPIView):
+    serializer_class = MovieListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return MovieList.objects.filter(users=self.request.user)
+
+
+class AddMovieToList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, list_id):
+        movie_id = request.data.get("movie")
+        if not movie_id:
+            return Response({"detail": "Movie id is required."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            movie_list = MovieList.objects.get(id=list_id)
+        except MovieList.DoesNotExist:
+            return Response({"detail": "Movie list not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if not movie_list.users.filter(id=request.user.id).exists():
+            return Response({"detail": "You do not have permission to modify this list."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            movie = Movie.objects.get(id=movie_id)
+        except Movie.DoesNotExist:
+            return Response({"detail": "Movie not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        movie_list.movies.add(movie)
+        return Response({"detail": "Movie added to list."}, status=status.HTTP_200_OK)
+
+
+class MovieListCreate(generics.CreateAPIView):
+    serializer_class = MovieListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        movie_list = serializer.save(created_by=self.request.user)
+        movie_list.users.add(self.request.user)
+
+
+class MovieListDetail(generics.RetrieveAPIView):
+    serializer_class = MovieListSerializer
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        list_id = kwargs.get("list_id")
+        movie_list = get_object_or_404(MovieList, id=list_id)
+        serializer = self.get_serializer(movie_list)
+        return Response(serializer.data, status=status.HTTP_200_OK)

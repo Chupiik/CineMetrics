@@ -1,16 +1,16 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 
 function Navbar() {
     const isAuthenticated = !!localStorage.getItem("access");
-    const username = localStorage.getItem("username")
+    const username = localStorage.getItem("username");
 
     return (
         <div className="navbar">
             <div className="navbar-logo">
                 <Link to="/">
-                <h1>CineMetrics</h1>
+                    <h1>CineMetrics</h1>
                 </Link>
             </div>
             <nav className="navbar-links">
@@ -33,6 +33,10 @@ function Navbar() {
                 )}
                 {isAuthenticated && (
                     <>
+                        {/* New Lists button */}
+                        <Link to="/lists">
+                            <button className="lists-button">Lists</button>
+                        </Link>
                         <p className="username-text">{username}</p>
                         <Link to="/logout">
                             <button className="logout-button">Logout</button>

@@ -1,0 +1,111 @@
+@import url('./colors.css');
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.lists-container {
+  max-width: 1600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+.lists-container h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.add-list-wrapper {
+  margin-bottom: 20px;
+}
+
+.add-list-button {
+    background-color: var(--success-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 5px;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-list-button:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-list-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 125, 0, 0.5);
+}
+
+.add-list-button:active {
+    background-color: var(--danger-color);
+    transform: translateY(1px);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.lists-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lists-list a{
+    text-decoration: none;
+}
+
+.lists-list:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+}
+
+.list-item {
+  background-color: var(--info-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.list-item h3 {
+    color: var(--primary-color);
+}
+
+.list-item p {
+    color: var(--infoText-color);
+}
+
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    .lists-container {
+        padding: 16px;
+    }
+}

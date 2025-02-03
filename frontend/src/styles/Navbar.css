@@ -68,6 +68,14 @@
     color: var(--secondary-color);
 }
 
+.lists-button {
+    background-color: var(--infoText-color);
+}
+
+.lists-button:hover {
+    background-color: var(--primary-color);
+}
+
 .login-button {
     background-color: var(--success-color);
 }

@@ -76,14 +76,14 @@ function MovieDetails() {
 
         {/* Buttons row below the top content */}
         <div className="buttons">
-          <Link to="/movies" className="movie-details-button">
+          <button onClick={() => navigate(-1)} className="movie-details-button">
             Back
-          </Link>
+          </button>
           {isAdmin && (
-            <>
-              <Link
-                to={`/edit-movie/${id}/`}
-                className="edit-button movie-details-button"
+              <>
+                <Link
+                    to={`/edit-movie/${id}/`}
+                    className="edit-button movie-details-button"
               >
                 <FontAwesomeIcon
                   icon={faPencil}

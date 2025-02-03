@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
@@ -21,6 +23,7 @@ class Movie(models.Model):
     # writer = models.TextField()
     # actors = models.TextField()
     genres = models.ManyToManyField(Genre, related_name='movies')  # M:N vzťah s modelom Genre
+
     # ratings = models.JSONField(default=list)
     # metascore = models.IntegerField(null=True, blank=True)  # Metascore (e.g., 94)
     # imdb_rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)  # IMDB rating (e.g., 9.0)
@@ -33,6 +36,7 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
@@ -42,13 +46,15 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.user.username} on {self.movie.title}'
 
+
 class MovieList(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movie_lists')
-    movies = models.ManyToManyField(Movie, related_name='movie_lists')  # M:N vzťah s modelom Movie
+    users = models.ManyToManyField(User, related_name='movie_lists')
+    movies = models.ManyToManyField(Movie, related_name='movie_lists')
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_movie_lists')
 
     def __str__(self):
         return self.name

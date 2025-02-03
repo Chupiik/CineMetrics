@@ -1,0 +1,101 @@
+@import url('./colors.css');
+
+/* Container for the Add/Edit Movie List form */
+.movieListForm-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--info-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: left;
+}
+
+.movieListForm-container h2 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.movieListForm-container form {
+    background-color: var(--info-color);
+}
+
+/* Labels styling */
+.movieListForm-container form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+/* Input and textarea styling */
+.movieListForm-container form input[type="text"],
+.movieListForm-container form textarea {
+    background-color: var(--infoText-color);
+    width: 95%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--info-color);
+    border-radius: 4px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
+.movieListForm-container form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Focus styling */
+.movieListForm-container form input[type="text"]:focus,
+.movieListForm-container form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: inset 0 2px 4px rgba(255, 125, 0, 0.3);
+}
+
+/* Submit button styling */
+.movieListForm-container form button[type="submit"] {
+    background-color: var(--success-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.movieListForm-container form button[type="submit"]:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.movieListForm-container form button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.4);
+}
+
+.movieListForm-container form button[type="submit"]:active {
+    background-color: var(--primary-color);
+    transform: translateY(2px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Error message styling */
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .movieListForm-container {
+        padding: 16px;
+    }
+}

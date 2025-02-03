@@ -1,0 +1,44 @@
+@import url('./colors.css');
+
+.movie-list-container {
+  max-width: 1600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.movie-list-container h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.list-description {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+.movies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 20px;
+  align-items: start;
+  justify-content: center;
+  padding: 0;
+}
+
+.movie-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  max-width: 600px;
+}
+
+.error-message {
+  color: var(--danger-color);
+  font-weight: bold;
+}
