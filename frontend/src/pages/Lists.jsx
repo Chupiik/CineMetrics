@@ -29,7 +29,6 @@ function ListsPage() {
       <div className="lists-container">
         <h2>Your Movie Lists</h2>
 
-        {/* Add List Button */}
         <div className="add-list-wrapper">
           <Link to="/add-list">
             <button className="add-list-button">
@@ -39,7 +38,7 @@ function ListsPage() {
           </Link>
         </div>
 
-        {loading && <p>Loading lists...</p>}
+        {loading}
         {error && <p className="error-message">{error}</p>}
         {!loading && !error && (
           <>

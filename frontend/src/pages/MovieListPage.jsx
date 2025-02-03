@@ -27,7 +27,7 @@ function MovieListPage() {
     <div>
       <Navbar />
       <div className="movie-list-container">
-        {loading && <p>Loading list...</p>}
+        {loading }
         {error && <p className="error-message">{error}</p>}
 
         {list && (

@@ -10,6 +10,7 @@ urlpatterns = [
     path('movies/<int:pk>/', views.MovieDetail.as_view(), name='movie-detail'),
     path('user-profile/', UserProfileView.as_view(), name="user-profile"),
     path('movie-lists/', views.UserMovieList.as_view(), name='user-movie-lists'),
+    path('movie-lists-created/', views.UserCreatedMovieList.as_view(), name='user-created-movie-lists'),
     path('movie-lists/<int:list_id>/add/', views.AddMovieToList.as_view(), name='add-movie-to-list'),
     path('movie-lists/add/', views.MovieListCreate.as_view(), name='add-movie-list'),
     path('movie-lists/<int:list_id>/', MovieListDetail.as_view(), name='get-movie-list'),

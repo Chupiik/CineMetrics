@@ -170,3 +170,10 @@ class MovieListDetail(generics.RetrieveAPIView):
         movie_list = get_object_or_404(MovieList, id=list_id)
         serializer = self.get_serializer(movie_list)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserCreatedMovieList(generics.ListAPIView):
+    serializer_class = MovieListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return MovieList.objects.filter(created_by=self.request.user)

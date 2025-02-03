@@ -5,10 +5,8 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--background-color);
-  color: var(--secondary-color);
 }
 
-/* Container for the entire movie details section */
 .movie-details-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -18,21 +16,18 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Flex container for poster and info */
 .movie-details-content {
   display: flex;
   align-items: flex-start;
-  gap: 20px; /* Space between poster and details */
+  gap: 20px;
 }
 
-/* Poster container (left side) */
 .poster-container {
   max-width: 400px;
   flex: 0 0 auto;
   text-align: center;
 }
 
-/* Movie poster styling */
 .movie-poster {
   width: 100%;
   height: auto;
@@ -40,7 +35,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Info container (right side) */
 .info-container {
   flex: 1;
   display: flex;
@@ -58,17 +52,16 @@ body {
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 10px 0;
+  color: var(--infoText-color);
 }
 
-/* Buttons container below the top content */
 .buttons {
   display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  gap: 10px;            /* Space between buttons */
+  justify-content: center;
+  gap: 10px;
   margin-top: 20px;
 }
 
-/* Base button style */
 .movie-details-button {
   background-color: var(--success-color);
   color: var(--secondary-color);
@@ -109,10 +102,10 @@ body {
   background-color: red;
 }
 .delete-button:hover {
-  background-color: #cc0000; /* Darker red on hover */
+  background-color: #cc0000;
 }
 
-/* Responsive: Stack poster and info vertically on small screens */
+
 @media (max-width: 768px) {
   .movie-details-content {
     flex-direction: column;
@@ -124,7 +117,7 @@ body {
   }
 
   .movie-poster {
-    max-width: 300px; /* Limit size on small screens */
+    max-width: 300px;
     margin-bottom: 10px;
   }
 
@@ -135,10 +128,12 @@ body {
 
   .info-container h2 {
     font-size: 1.5rem;
+    color: var(--primary-color);
   }
 
   .info-container p {
     font-size: 1rem;
+    color: var(--infoText-color);
   }
 
   .movie-details-button,

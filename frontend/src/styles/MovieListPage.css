@@ -18,7 +18,7 @@
 
 .list-description {
   font-size: 1.2rem;
-  color: var(--secondary-color);
+  color: var(--infoText-color);
   margin-bottom: 20px;
 }
 

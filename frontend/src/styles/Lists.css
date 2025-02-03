@@ -18,7 +18,6 @@ body {
   text-align: center;
 }
 
-
 .lists-container h2 {
   font-size: 2rem;
   color: var(--primary-color);
@@ -67,19 +66,13 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.lists-list a{
+.lists-list a {
     text-decoration: none;
 }
 
-.lists-list:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1001;
-}
-
+/* Ensures only the hovered list item moves up */
 .list-item {
   background-color: var(--info-color);
   border-radius: 10px;
@@ -87,6 +80,12 @@ body {
   padding: 15px;
   text-align: left;
   margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .list-item h3 {
@@ -97,12 +96,10 @@ body {
     color: var(--infoText-color);
 }
 
-
 .error-message {
   color: red;
   font-weight: bold;
 }
-
 
 @media (max-width: 768px) {
     .lists-container {

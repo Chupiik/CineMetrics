@@ -22,7 +22,6 @@ function AddMovieList() {
       is_public: isPublic,
     };
 
-    // Adjust the endpoint as necessary.
     api
       .post("/api/movie-lists/add/", listData)
       .then((res) => {

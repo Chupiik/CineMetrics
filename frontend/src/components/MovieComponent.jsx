@@ -35,7 +35,7 @@ function MovieComponent({ movie, onDelete }) {
     if (!showMovieLists) {
       setLoadingLists(true);
       try {
-        const res = await api.get(`/api/movie-lists/`);
+        const res = await api.get(`/api/movie-lists-created/`);
         setMovieLists(res.data);
       } catch (error) {
         console.error("Error fetching movie lists:", error);

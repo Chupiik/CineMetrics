@@ -74,7 +74,6 @@ function MovieDetails() {
           </div>
         </div>
 
-        {/* Buttons row below the top content */}
         <div className="buttons">
           <button onClick={() => navigate(-1)} className="movie-details-button">
             Back
