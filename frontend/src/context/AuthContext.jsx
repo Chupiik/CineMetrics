@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data);
         })
         .catch(error => {
-            //console.error("API Error:", error.response ? error.response.data : error.message);
             setUser(null);
         });
     }
