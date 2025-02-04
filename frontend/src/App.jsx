@@ -18,6 +18,7 @@ import UnauthorizedPage from "./pages/Unauthorized.jsx";
 import Lists from "./pages/Lists.jsx";
 import AddList from "./pages/AddList.jsx";
 import MovieListPage from "./pages/MovieListPage.jsx";
+import EditList from "./pages/EditList.jsx";
 
 
 function Logout() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/lists" element={<AuthProvider><ProtectedRoute><Lists /></ProtectedRoute></AuthProvider>} />
           <Route path="/lists/:id" element={<AuthProvider><MovieListPage /></AuthProvider>} />
           <Route path="/add-list" element={<AuthProvider><ProtectedRoute><AddList /></ProtectedRoute></AuthProvider>} />
+          <Route path="/edit-list/:id" element={<AuthProvider><ProtectedRoute><EditList /></ProtectedRoute></AuthProvider>} />
           <Route path="/unauthorized/" element={<Unauthorized />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

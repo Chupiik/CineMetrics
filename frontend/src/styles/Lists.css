@@ -22,6 +22,7 @@ body {
   font-size: 2.5rem;
   color: var(--primary-color);
   margin-bottom: 20px;
+
 }
 
 .add-list-wrapper {
@@ -78,59 +79,75 @@ body {
   align-items: center;
   background-color: var(--info-color);
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 15px;
+  margin-bottom: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.list-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: left;
 }
 
 .list-item h3 {
-    font-size: 1.5rem;
     margin-top: 0;
-    color: var(--primary-color);
 }
 
 .list-item p {
-    margin-top: 0;
-    margin-bottom: 0;
     color: var(--infoText-color);
+    margin-bottom: 0;
 }
 
-.error-message {
-  color: red;
-  font-weight: bold;
+.list-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+.list-link {
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+}
 
 .list-info {
-  text-align: left;
-}
-
-.list-info h3 {
-  color: var(--primary-color);
-  margin-bottom: 5px;
-}
-
-.list-info p {
-  color: var(--infoText-color);
+  flex-grow: 1;
 }
 
 .list-meta {
   text-align: right;
+  min-width: 150px;
 }
 
-.list-creator {
+.list-meta p {
+    margin-top: 0;
+}
+
+.list-creator,
+.list-movie-count {
   font-size: 0.9rem;
-  color: var(--secondary-color);
+  color: var(--infoText-color);
+}
+
+.edit-list-button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  margin-left: 15px;
+}
+
+.edit-list-button.disabled {
+  color: var(--infoText-color);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.edit-list-button:hover {
+  color: var(--success-color);
 }
 
 .list-movie-count {
   font-size: 0.9rem;
-  color: var(--primary-color);
+  color: var(--infoText-color);
   font-weight: bold;
 }
 

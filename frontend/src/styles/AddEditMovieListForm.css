@@ -1,0 +1,160 @@
+@import url('./colors.css');
+
+
+.movieListForm-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--info-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
+}
+
+.movieListForm-container h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+
+.movieListForm-container form {
+    background-color: var(--info-color);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+
+.movieListForm-container form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.movieListForm-container form input[type="text"],
+.movieListForm-container form textarea {
+    background-color: var(--infoText-color);
+    width: 95%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--info-color);
+    border-radius: 4px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+}
+
+.movieListForm-container form textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.movieListForm-container form input:focus,
+.movieListForm-container form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: inset 0 2px 4px rgba(255, 125, 0, 0.3);
+}
+
+.movieListForm-container form .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.movieListForm-container form .checkbox-container label {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
+}
+
+.movieListForm-container form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.movieListForm-container .error-message {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.movieListForm-container button[type="submit"] {
+    background-color: var(--success-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.movieListForm-container button[type="submit"]:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.movieListForm-container button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 125, 0, 0.5);
+}
+
+.movieListForm-container button[type="submit"]:active {
+    background-color: var(--danger-color);
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding-bottom: 10px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+
+    position: relative;
+    top: 4px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+
+
+@media (max-width: 768px) {
+    .movieListForm-container {
+        padding: 16px;
+    }
+
+    .movieListForm-container form input,
+    .movieListForm-container form textarea {
+        width: 100%;
+    }
+
+    .movieListForm-container button[type="submit"] {
+        width: 100%;
+    }
+}

@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import api from "../api.js";
 import "../styles/Lists.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function ListsPage() {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    api.get("/api/movie-lists-created/")
+    api.get("/api/movie-lists/")
       .then((response) => {
         setLists(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setError("Error fetching your movie lists.");
         setLoading(false);
       });
@@ -47,18 +49,27 @@ function ListsPage() {
             ) : (
               <ul className="lists-list">
                 {lists.map((list) => (
-                  <Link to={`/lists/${list.id}`} key={list.id} className="list-link">
-                    <li className="list-item">
+                  <li key={list.id} className="list-item">
+                    <Link to={`/lists/${list.id}`} className="list-link">
                       <div className="list-info">
                         <h3>{list.name}</h3>
                         {list.description && <p>{list.description}</p>}
                       </div>
-                      <div className="list-meta">
-                        <p className="list-creator">Created by: <strong>{list.created_by}</strong></p>
-                        <p className="list-movie-count">{list.movies.length} Movies</p>
-                      </div>
-                    </li>
-                  </Link>
+                    </Link>
+                    <div className="list-meta">
+                      <p className="list-creator">Created by: <strong>{list.created_by}</strong></p>
+                      <p className="list-movie-count">{list.movies.length} Movies</p>
+                    </div>
+                    {user && user.username === list.created_by ? (
+                      <Link to={`/edit-list/${list.id}`} className="edit-list-button">
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                      </Link>
+                    ) : (
+                      <button className="edit-list-button disabled" disabled>
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                      </button>
+                    )}
+                  </li>
                 ))}
               </ul>
             )}

@@ -92,113 +92,114 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
 
   return (
       <div>
-    <div
-      className="movie-container"
-      onMouseEnter={fetchMovieDetails}
-      onMouseLeave={() => setDetails(null)}
-    >
-      {user && (
-        <div className="movie-list-actions">
-          {/* Add to List Button & Dropdown */}
+        <div
+            className="movie-container"
+        >
           <div
-            className="dropdown-wrapper"
-            onMouseEnter={() => {
-              fetchMovieLists();
-              setShowMovieLists(true);
-            }}
-            onMouseLeave={() => setShowMovieLists(false)}
-          >
-            <button className="movie-add-button">
-              <FontAwesomeIcon icon={faSquarePlus} />
-            </button>
-            {showMovieLists && (
-              <div className="movie-lists-dropdown">
-                {loadingLists ? (
-                  <p>Loading...</p>
-                ) : (
-                  movieLists.length > 0 ? (
-                    movieLists.map(list => (
-                      <div
-                        key={list.id}
-                        className="movie-list-option"
-                        onClick={() => addToMovieList(list.id)}
-                      >
-                        {list.name}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No movie lists found.</p>
-                  )
+              onMouseEnter={fetchMovieDetails}
+              onMouseLeave={() => setDetails(null)}>
+            {user && (
+                <div className="movie-list-actions">
+                  <div
+                      className="dropdown-wrapper"
+                      onMouseEnter={() => {
+                        fetchMovieLists();
+                        setShowMovieLists(true);
+                      }}
+                      onMouseLeave={() => setShowMovieLists(false)}
+                  >
+                    <button className="movie-add-button">
+                      <FontAwesomeIcon icon={faSquarePlus}/>
+                    </button>
+                    {showMovieLists && (
+                        <div className="movie-lists-dropdown">
+                          {loadingLists ? (
+                              <p>Loading...</p>
+                          ) : (
+                              movieLists.length > 0 ? (
+                                  movieLists.map(list => (
+                                      <div
+                                          key={list.id}
+                                          className="movie-list-option"
+                                          onClick={() => addToMovieList(list.id)}
+                                      >
+                                        {list.name}
+                                      </div>
+                                  ))
+                              ) : (
+                                  <p>No movie lists found.</p>
+                              )
+                          )}
+                        </div>
+                    )}
+                  </div>
+
+                  <div
+                      className="dropdown-wrapper"
+                      onMouseEnter={() => {
+                        fetchMovieInLists();
+                        setShowRemoveLists(true);
+                      }}
+                      onMouseLeave={() => setShowRemoveLists(false)}
+                  >
+                    <button className="movie-remove-button">
+                      <FontAwesomeIcon icon={faSquareMinus}/>
+                    </button>
+                    {showRemoveLists && (
+                        <div className="movie-lists-dropdown">
+                          {loadingRemoveLists ? (
+                              <p>Loading...</p>
+                          ) : (
+                              movieInLists.length > 0 ? (
+                                  movieInLists.map(list => (
+                                      <div
+                                          key={list.id}
+                                          className="movie-list-option"
+                                          onClick={() => removeFromMovieList(list.id)}
+                                      >
+                                        {list.name}
+                                      </div>
+                                  ))
+                              ) : (
+                                  <p>Not in any list.</p>
+                              )
+                          )}
+                        </div>
+                    )}
+                  </div>
+                </div>
+            )}
+
+            <Link to={`/movies/${movie.id}`} key={movie.id}>
+              <div className="movie-poster-container">
+                {movie.poster && (
+                    <img
+                        className="movie-poster"
+                        src={movie.poster}
+                        alt={`Poster of ${movie.title}`}
+                    />
                 )}
               </div>
-            )}
-          </div>
 
-          {/* Remove from List Button & Dropdown */}
-          <div
-            className="dropdown-wrapper"
-            onMouseEnter={() => {
-              fetchMovieInLists();
-              setShowRemoveLists(true);
-            }}
-            onMouseLeave={() => setShowRemoveLists(false)}
-          >
-            <button className="movie-remove-button">
-              <FontAwesomeIcon icon={faSquareMinus} />
-            </button>
-            {showRemoveLists && (
-              <div className="movie-lists-dropdown">
-                {loadingRemoveLists ? (
-                  <p>Loading...</p>
-                ) : (
-                  movieInLists.length > 0 ? (
-                    movieInLists.map(list => (
-                      <div
-                        key={list.id}
-                        className="movie-list-option"
-                        onClick={() => removeFromMovieList(list.id)}
-                      >
-                        {list.name}
-                      </div>
-                    ))
-                  ) : (
-                    <p>Not in any list.</p>
-                  )
-                )}
+              <p className="movie-title">{movie.title}</p>
+            </Link>
+          </div>
+          {details && (
+              <div className="movie-details">
+                <p className="movie-genres">
+                  {details.genres.map(g => g.name).join(", ")}
+                </p>
+                <p className="movie-release-date">
+                  {new Date(details.released).toLocaleDateString("sk-SK")}
+                </p>
               </div>
-            )}
-          </div>
+          )}
+
         </div>
-      )}
 
-      <Link to={`/movies/${movie.id}`} key={movie.id}>
-      <div className="movie-poster-container">
-        {movie.poster && (
-          <img
-            className="movie-poster"
-            src={movie.poster}
-            alt={`Poster of ${movie.title}`}
-          />
-        )}
-      </div>
-
-      <p className="movie-title">{movie.title}</p>
-        {details && (
-        <div className="movie-details">
-          <p className="movie-genres">
-            {details.genres.map(g => g.name).join(", ")}
-          </p>
-          <p className="movie-release-date">
-            {new Date(details.released).toLocaleDateString("sk-SK")}
-          </p>
-        </div>
-      )}
-      </Link>
-      </div>
-
-      {isAdmin && (
-        <div className="movie-actions">
-          <Link to={`/edit-movie/${movie.id}`}>
+        {isAdmin && (
+            <div className="movie-actions">
+              <Link to={`/edit-movie/${movie.id}`}>
             <button className="movie-edit-button movie-button">
               <FontAwesomeIcon icon={faPencil} />
             </button>

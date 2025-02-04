@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import UserProfileView, MovieListDetail
+from .views import UserProfileView, MovieListDetail, MovieListUpdate
 
 urlpatterns = [
     path('movies/add/', views.MovieCreate.as_view(), name='movie-add'),
@@ -14,5 +14,6 @@ urlpatterns = [
     path('movie-lists/<int:list_id>/add/', views.AddMovieToList.as_view(), name='add-movie-to-list'),
     path('movie-lists/<int:list_id>/remove/', views.RemoveMovieFromList.as_view(), name='remove-movie-from-list'),
     path('movie-lists/add/', views.MovieListCreate.as_view(), name='add-movie-list'),
+    path('movie-lists/edit/<int:list_id>/', MovieListUpdate.as_view(), name='edit-movie-list'),
     path('movie-lists/<int:list_id>/', MovieListDetail.as_view(), name='get-movie-list'),
 ]

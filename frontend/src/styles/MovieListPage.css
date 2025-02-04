@@ -42,3 +42,35 @@
   color: var(--danger-color);
   font-weight: bold;
 }
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-list-button {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-list-button.disabled {
+  color: var(--infoText-color);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.edit-list-button:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.edit-list-button:focus {
+  outline: none;
+}

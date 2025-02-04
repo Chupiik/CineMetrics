@@ -207,3 +207,22 @@ class RemoveMovieFromList(APIView):
             return Response({"detail": "Movie removed from list."}, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Movie not in this list."}, status=status.HTTP_400_BAD_REQUEST)
+
+class MovieListUpdate(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, list_id):
+        movie_list = get_object_or_404(MovieList, id=list_id)
+
+        if movie_list.created_by != request.user:
+            return Response(
+                {"detail": "You do not have permission to edit this list."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = MovieListSerializer(movie_list, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

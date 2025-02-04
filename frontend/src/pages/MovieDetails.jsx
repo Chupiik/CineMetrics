@@ -50,7 +50,6 @@ function MovieDetails() {
     <div>
       <Navbar />
       <div className="movie-details-container">
-        {/* Top content: poster and details side by side */}
         <div className="movie-details-content">
           <div className="poster-container">
             <img className="movie-poster" src={movie.poster} alt={movie.title} />

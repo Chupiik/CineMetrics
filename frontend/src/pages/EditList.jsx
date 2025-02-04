@@ -5,13 +5,13 @@ import api from "../api.js";
 import "../styles/AddList.css";
 import AddEditMovieListForm from "../components/AddEditMovieListForm.jsx";
 
-function AddMovieList() {
+function EditMovieList() {
 
   return (
     <div>
-      <AddEditMovieListForm method="add"/>
+      <AddEditMovieListForm method="edit"/>
     </div>
   );
 }
 
-export default AddMovieList;
+export default EditMovieList;
