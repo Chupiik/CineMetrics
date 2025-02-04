@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import api from "../api.js";
@@ -14,17 +14,21 @@ function AddEditMovieListForm({ method }) {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, authLoading } = useContext(AuthContext); // Updated to use authLoading
 
   const formTitle = method === "add" ? "Create a Movie List" : "Edit Movie List";
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!user) return;
+
     if (method === "edit" && id) {
-      api.get(`/api/movie-lists/${id}/`)
+      api
+        .get(`/api/movie-lists/${id}/`)
         .then((res) => {
           const list = res.data;
 
-          if (user && list.created_by !== user.username) {
+          if (list.created_by !== user.username) {
             navigate("/unauthorized");
             return;
           }
@@ -33,17 +37,12 @@ function AddEditMovieListForm({ method }) {
           setDescription(list.description || "");
           setIsPublic(list.is_public);
         })
-        .catch(() => {
-          alert("Failed to fetch list data");
-          navigate("/unauthorized");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .catch(() => alert("Failed to fetch list data"))
+        .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
-  }, [method, id, user, navigate]);
+  }, [method, id, user, authLoading, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,9 +54,10 @@ function AddEditMovieListForm({ method }) {
       is_public: isPublic,
     };
 
-    const apiCall = method === "add"
-      ? api.post("/api/movie-lists/add/", listData)
-      : api.put(`/api/movie-lists/edit/${id}/`, listData);
+    const apiCall =
+      method === "add"
+        ? api.post("/api/movie-lists/add/", listData)
+        : api.put(`/api/movie-lists/edit/${id}/`, listData);
 
     apiCall
       .then((res) => {
@@ -76,9 +76,7 @@ function AddEditMovieListForm({ method }) {
       });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  if (authLoading || loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -109,11 +107,11 @@ function AddEditMovieListForm({ method }) {
           <label htmlFor="isPublic" className="checkbox-label">
             Public
             <input
-              type="checkbox"
-              id="isPublic"
-              name="isPublic"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
+                type="checkbox"
+                id="isPublic"
+                name="isPublic"
+                checked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
             />
           </label>
 

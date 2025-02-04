@@ -226,3 +226,21 @@ class MovieListUpdate(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SaveMovieList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, list_id):
+        movie_list = get_object_or_404(MovieList, id=list_id)
+        movie_list.users.add(request.user)
+        return Response({"detail": "Movie list saved."}, status=status.HTTP_200_OK)
+
+
+class UnsaveMovieList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, list_id):
+        movie_list = get_object_or_404(MovieList, id=list_id)
+        movie_list.users.remove(request.user)
+        return Response({"detail": "Movie list removed from saved."}, status=status.HTTP_200_OK)

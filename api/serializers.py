@@ -106,4 +106,4 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovieList
-        fields = ['id', 'name', 'description', 'is_public', 'created_at', 'created_by', 'movies']
+        fields = ['id', 'name', 'description', 'is_public', 'created_at', 'created_by', 'movies', 'users']
