@@ -47,6 +47,7 @@ body {
   color: var(--primary-color);
   font-size: 2rem;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .info-container p {

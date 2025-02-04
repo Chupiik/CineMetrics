@@ -51,7 +51,7 @@ function CommentComponent({ comment, onDelete, movie_id }) {
       .then(() => {
         setReplyContent("");
         setShowReplyForm(false);
-        toggleReplies()
+        getReplies();
       })
       .catch(() => alert("Error posting reply"));
   };
@@ -59,6 +59,7 @@ function CommentComponent({ comment, onDelete, movie_id }) {
   const getReplies = () => {
       api.get(`/api/comments/${comment.id}/replies/`)
     .then((response) => {
+      comment.replies = response.data;
       setReplies(response.data);
     })
     .catch(() => alert("Error fetching replies"));
