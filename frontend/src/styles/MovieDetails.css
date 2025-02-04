@@ -40,6 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  width: 60%;
 }
 
 .info-container h2 {
@@ -53,6 +54,8 @@ body {
   line-height: 1.6;
   margin: 10px 0;
   color: var(--infoText-color);
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .buttons {
@@ -97,7 +100,6 @@ body {
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Delete button overrides (red) */
 .delete-button {
   background-color: red;
 }
@@ -105,6 +107,57 @@ body {
   background-color: #cc0000;
 }
 
+
+.comments-section {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: var(--info-color);
+  border-radius: 5px;
+}
+
+.comments-section h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.comment-form {
+  margin-bottom: 15px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--infoText-color);
+  border-radius: 5px;
+  background-color: var(--infoText-color);
+  color: var(--secondary-color);
+  min-width: 98%;
+  max-width: 98%;
+}
+
+
+.comment-input::placeholder {
+  color: var(--info-color)
+}
+
+.submit-comment-button {
+  margin-top: 5px;
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-comment-button:hover {
+  background-color: var(--primary-color);
+}
+
+.comments-list {
+  margin-top: 10px;
+}
 
 @media (max-width: 768px) {
   .movie-details-content {

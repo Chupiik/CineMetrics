@@ -1,0 +1,100 @@
+@import url('./colors.css');
+
+.comment-container {
+  border-left: 3px solid var(--primary-color);
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: var(--info-color);
+  border-radius: 15px;
+}
+
+.comment-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: var(--infoText-color);
+  margin-left: 10px;
+}
+
+.comment-text {
+    font-size: 0.95rem;
+    color: var(--infoText-color);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.edit-comment-button, .save-comment-button, .delete-comment-button, .reply-comment-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.edit-comment-button:hover, .save-comment-button:hover, .delete-comment-button:hover, .reply-comment-button:hover {
+  color: var(--success-color);
+}
+
+.reply-form {
+  margin-top: 10px;
+}
+
+.submit-comment-reply-button {
+  margin-top: 5px;
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-comment-reply-button:hover {
+  background-color: var(--primary-color);
+}
+
+.replies {
+  margin-left: 15px;
+  border-left: 2px solid var(--infoText-color);
+  padding-left: 10px;
+  margin-top: 10px;
+}
+
+
+.toggle-comment-replies-button {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.toggle-comment-replies-button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.comment-edit-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--infoText-color);
+  border-radius: 5px;
+  background-color: var(--infoText-color);
+  color: var(--secondary-color);
+  min-width: 99%;
+  max-width: 99%;
+}
+
+.comment-edit-textarea::placeholder {
+  color: var(--info-color);
+}

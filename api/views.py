@@ -3,8 +3,8 @@ from rest_framework import generics, status, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, MovieSerializer, MovieListSerializer
-from .models import Movie, MovieList
+from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer
+from .models import Movie, MovieList, Comment
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 
@@ -208,6 +208,7 @@ class RemoveMovieFromList(APIView):
         else:
             return Response({"detail": "Movie not in this list."}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class MovieListUpdate(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -244,3 +245,76 @@ class UnsaveMovieList(APIView):
         movie_list = get_object_or_404(MovieList, id=list_id)
         movie_list.users.remove(request.user)
         return Response({"detail": "Movie list removed from saved."}, status=status.HTTP_200_OK)
+
+
+class AddComment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        content = request.data.get("content")
+        movie_id = request.data.get("movie")
+        parent_id = request.data.get("parent")
+
+        if not content or not movie_id:
+            return Response({"detail": "Content and movie ID are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        movie = get_object_or_404(Movie, id=movie_id)
+        parent_comment = None
+
+        if parent_id:
+            parent_comment = Comment.objects.filter(id=parent_id).first()
+            if not parent_comment:
+                return Response({"detail": "Parent comment not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        comment = Comment.objects.create(user=request.user, movie=movie, parent=parent_comment, content=content)
+        return Response(CommentSerializer(comment).data, status=status.HTTP_201_CREATED)
+
+
+class EditComment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        if comment.user != request.user:
+            return Response({"detail": "You do not have permission to edit this comment."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        content = request.data.get("content")
+        if not content:
+            return Response({"detail": "Content cannot be empty."}, status=status.HTTP_400_BAD_REQUEST)
+
+        comment.content = content
+        comment.save()
+        return Response(CommentSerializer(comment).data, status=status.HTTP_200_OK)
+
+
+class DeleteComment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        if comment.user != request.user:
+            return Response({"detail": "You do not have permission to delete this comment."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        comment.delete()
+        return Response({"detail": "Comment deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
+class GetMovieComments(APIView):
+    def get(self, request, movie_id):
+        movie = get_object_or_404(Movie, id=movie_id)
+        comments = Comment.objects.filter(movie=movie, parent=None).order_by("-created_at")
+        return Response(CommentSerializer(comments, many=True).data)
+
+
+class CommentRepliesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        replies = comment.replies.all()
+        serialized_replies = CommentSerializer(replies, many=True).data
+        return Response(serialized_replies, status=status.HTTP_200_OK)

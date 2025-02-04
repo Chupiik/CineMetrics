@@ -39,12 +39,16 @@ class Movie(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Comment by {self.user.username} on {self.movie.title}'
+        if self.parent:
+            return f'Reply by {self.user.username} on comment {self.parent.id}'
+        return f'Comment by {self.user.username} on {self.movie.title if self.movie else "discussion"}'
+
 
 
 class MovieList(models.Model):

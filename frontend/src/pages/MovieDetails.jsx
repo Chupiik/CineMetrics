@@ -6,6 +6,7 @@ import "../styles/MovieDetails.css";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { faPencil, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CommentComponent from "../components/CommentComponent.jsx";
 
 function MovieDetails() {
   const { id } = useParams();
@@ -13,11 +14,18 @@ function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const { user } = useContext(AuthContext);
   const isAdmin = user && user.groups && user.groups.includes("Admin");
 
   useEffect(() => {
+    fetchMovieDetails();
+    fetchComments();
+  }, [id]);
+
+  const fetchMovieDetails = () => {
     api
       .get(`/api/movies/${id}/`)
       .then((res) => {
@@ -28,7 +36,14 @@ function MovieDetails() {
         setError("Failed to fetch movie details");
         setLoading(false);
       });
-  }, [id]);
+  };
+
+  const fetchComments = () => {
+    api
+      .get(`/api/movies/${id}/comments/`)
+      .then((res) => setComments(res.data))
+      .catch(() => console.error("Failed to fetch comments"));
+  };
 
   const deleteMovie = () => {
     api
@@ -41,6 +56,21 @@ function MovieDetails() {
         }
       })
       .catch((err) => alert(err));
+  };
+
+  const postComment = () => {
+    if (!newComment.trim()) return;
+    api
+      .post(`/api/comments/add/`, { movie: id, content: newComment })
+      .then(() => {
+        setNewComment("");
+        fetchComments();
+      })
+      .catch(() => alert("Failed to post comment"));
+  };
+
+  const handleDeleteComment = (commentId) => {
+    setComments((prevComments) => prevComments.filter((c) => c.id !== commentId));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -78,29 +108,50 @@ function MovieDetails() {
             Back
           </button>
           {isAdmin && (
-              <>
-                <Link
-                    to={`/edit-movie/${id}/`}
-                    className="edit-button movie-details-button"
-              >
-                <FontAwesomeIcon
-                  icon={faPencil}
-                  style={{ marginRight: "8px" }}
-                />
+            <>
+              <Link to={`/edit-movie/${id}/`} className="edit-button movie-details-button">
+                <FontAwesomeIcon icon={faPencil} style={{ marginRight: "8px" }} />
                 Edit Movie
               </Link>
-              <button
-                onClick={deleteMovie}
-                className="delete-button movie-details-button"
-              >
-                <FontAwesomeIcon
-                  icon={faTrashAlt}
-                  style={{ marginRight: "8px" }}
-                />
+              <button onClick={deleteMovie} className="delete-button movie-details-button">
+                <FontAwesomeIcon icon={faTrashAlt} style={{ marginRight: "8px" }} />
                 Delete Movie
               </button>
             </>
           )}
+        </div>
+
+        <div className="comments-section">
+          <h3>Comments</h3>
+
+          {user && (
+            <div className="comment-form">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write a comment..."
+                className="comment-input"
+              />
+              <button className="submit-comment-button" onClick={postComment}>
+                Post Comment
+              </button>
+            </div>
+          )}
+
+          <div className="comments-list">
+            {comments.length === 0 ? (
+              <p>No comments yet. Be the first to comment!</p>
+            ) : (
+              comments.map((comment) => (
+                <CommentComponent
+                  key={comment.id}
+                  comment={comment}
+                  onDelete={handleDeleteComment}
+                  movie_id={movie.id}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

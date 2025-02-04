@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import UserProfileView, MovieListDetail, MovieListUpdate, SaveMovieList, UnsaveMovieList
+from .views import UserProfileView, MovieListDetail, MovieListUpdate, SaveMovieList, UnsaveMovieList, \
+    AddComment, EditComment, DeleteComment, GetMovieComments, CommentRepliesView
 
 urlpatterns = [
     path('movies/add/', views.MovieCreate.as_view(), name='movie-add'),
@@ -18,4 +19,9 @@ urlpatterns = [
     path('movie-lists/<int:list_id>/', MovieListDetail.as_view(), name='get-movie-list'),
     path('movie-lists/<int:list_id>/save/', SaveMovieList.as_view(), name='save-movie-list'),
     path('movie-lists/<int:list_id>/unsave/', UnsaveMovieList.as_view(), name='unsave-movie-list'),
+    path("comments/add/", AddComment.as_view(), name="add-comment"),
+    path("comments/<int:comment_id>/edit/", EditComment.as_view(), name="edit-comment"),
+    path("comments/<int:comment_id>/delete/", DeleteComment.as_view(), name="delete-comment"),
+    path("movies/<int:movie_id>/comments/", GetMovieComments.as_view(), name="get-movie-comments"),
+    path('comments/<int:comment_id>/replies/', CommentRepliesView.as_view(), name='comment-replies'),
 ]
