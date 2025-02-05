@@ -98,6 +98,25 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+
+        if user:
+            default_lists = [
+                {"name": "📌 Plan to Watch", "description": "A lineup of potential next favorites!", "is_public": False},
+                {"name": "✅ Watched", "description": "A list of movies I’ve checked off my watchlist!", "is_public": False},
+                {"name": "❤️ Favorite", "description": "My personal hall of fame for movies!", "is_public": False},
+            ]
+
+            for movie_list in default_lists:
+                created_list = MovieList.objects.create(
+                    name=movie_list["name"],
+                    description=movie_list["description"],
+                    is_public=movie_list["is_public"],
+                    created_by=user,
+                )
+                created_list.users.add(user)
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():

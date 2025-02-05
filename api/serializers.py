@@ -13,12 +13,12 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     groups = serializers.SlugRelatedField(
-        many=True, queryset=Group.objects.all(), slug_field="name"
+        many=True, queryset=Group.objects.all(), slug_field="name", required=False, allow_empty=True
     )
 
     class Meta:
         model = User
-        fields = ["id", "username", "password"]
+        fields = ["id", "username", "password", "groups"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate_username(self, value):
@@ -108,6 +108,9 @@ class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = MovieList
         fields = ['id', 'name', 'description', 'is_public', 'created_at', 'created_by', 'movies', 'users']
+        extra_kwargs = {
+            'users': {'required': False}
+        }
 
 
 class CommentSerializer(serializers.ModelSerializer):
