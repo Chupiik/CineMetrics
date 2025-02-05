@@ -1,0 +1,212 @@
+@import url('./colors.css');
+
+.review-container {
+  border-top: 3px solid var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+  border-right: 1px dashed var(--infoText-color);
+  border-left: 1px dashed var(--infoText-color);
+  background-color: var(--info-color);
+  border-radius: 15px;
+  margin: 20px 0;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-user {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.review-rating {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.review-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--infoText-color);
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.review-comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.review-comment-textarea {
+  width: 100%;
+  min-height: 50px;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid var(--infoText-color);
+  border-radius: 4px;
+  background-color: var(--infoText-color);
+  color: var(--secondary-color);
+}
+
+.review-comment-textarea::placeholder {
+  color: var(--info-color);
+}
+
+.review-comment-button {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.review-comment-button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.review-comment-section {
+  margin-top: 15px;
+}
+
+.review-comments-list {
+  margin-top: 15px;
+}
+
+.review-single-comment {
+  background-color: var(--info-color);
+}
+
+.toggle-review-comment-button {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.toggle-review-comment-button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.review-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-review-button,
+.save-review-edit-button,
+.delete-review-button,
+.reply-to-review-button,
+.cancel-review-edit-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.edit-review-button:hover,
+.save-review-edit-button:hover,
+.delete-review-button:hover,
+.reply-to-review-button:hover,
+.cancel-review-edit-button:hover {
+  color: var(--success-color);
+}
+
+.review-edit-textarea {
+  min-width: 95%;
+  padding: 10px;
+  border: 1px solid var(--infoText-color);
+  border-radius: 5px;
+  background-color: var(--infoText-color);
+  color: var(--secondary-color);
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.reply-form {
+  margin-top: 10px;
+}
+
+.comment-edit-textarea,
+.review-comment-textarea {
+  min-width: 95%;
+  padding: 10px;
+  border: 1px solid var(--infoText-color);
+  border-radius: 5px;
+  background-color: var(--infoText-color);
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.comment-edit-textarea::placeholder,
+.review-comment-textarea::placeholder {
+  color: var(--info-color);
+}
+
+.submit-comment-reply-button,
+.submit-review-reply-button {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.submit-comment-reply-button:hover,
+.submit-review-reply-button:hover {
+  background-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .review-container {
+    margin: 15px 0;
+    padding: 10px;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .review-user {
+    font-size: 1rem;
+  }
+
+  .review-rating {
+    font-size: 0.9rem;
+    padding: 3px 6px;
+  }
+}

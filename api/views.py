@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, status, serializers
+from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer
-from .models import Movie, MovieList, Comment
+from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer
+from .models import Movie, MovieList, Comment, Review
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 
@@ -104,7 +105,8 @@ class CreateUserView(generics.CreateAPIView):
         if user:
             default_lists = [
                 {"name": "📌 Plan to Watch", "description": "A lineup of potential next favorites!", "is_public": False},
-                {"name": "✅ Watched", "description": "A list of movies I’ve checked off my watchlist!", "is_public": False},
+                {"name": "✅ Watched", "description": "A list of movies I’ve checked off my watchlist!",
+                 "is_public": False},
                 {"name": "❤️ Favorite", "description": "My personal hall of fame for movies!", "is_public": False},
             ]
 
@@ -272,20 +274,29 @@ class AddComment(APIView):
     def post(self, request):
         content = request.data.get("content")
         movie_id = request.data.get("movie")
+        review_id = request.data.get("review")
         parent_id = request.data.get("parent")
 
-        if not content or not movie_id:
-            return Response({"detail": "Content and movie ID are required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not content or (not movie_id and not review_id):
+            return Response({"detail": "Content and either movie ID or review ID are required."},
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        movie = get_object_or_404(Movie, id=movie_id)
+        movie = None
+        review = None
         parent_comment = None
+
+        if movie_id:
+            movie = get_object_or_404(Movie, id=movie_id)
+        elif review_id:
+            review = get_object_or_404(Review, id=review_id)
 
         if parent_id:
             parent_comment = Comment.objects.filter(id=parent_id).first()
             if not parent_comment:
                 return Response({"detail": "Parent comment not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        comment = Comment.objects.create(user=request.user, movie=movie, parent=parent_comment, content=content)
+        comment = Comment.objects.create(user=request.user, movie=movie, review=review, parent=parent_comment,
+                                         content=content)
         return Response(CommentSerializer(comment).data, status=status.HTTP_201_CREATED)
 
 
@@ -337,3 +348,87 @@ class CommentRepliesView(APIView):
         replies = comment.replies.all()
         serialized_replies = CommentSerializer(replies, many=True).data
         return Response(serialized_replies, status=status.HTTP_200_OK)
+
+
+class MovieReviewList(APIView):
+    permission_classes = []
+
+    def get(self, request, movie_id):
+        movie = get_object_or_404(Movie, id=movie_id)
+        reviews = movie.reviews.all()
+        serializer = ReviewSerializer(reviews, many=True)
+
+        if reviews.exists():
+            avg_rating = sum(r.rating for r in reviews) / reviews.count()
+        else:
+            avg_rating = 0
+
+        return Response({
+            'average_rating': avg_rating,
+            'reviews': serializer.data
+        }, status=status.HTTP_200_OK)
+
+
+class MovieReviewCreate(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def create(self, request, *args, **kwargs):
+        movie_id = self.kwargs.get('movie_id')
+        movie = get_object_or_404(Movie, pk=movie_id)
+        if Review.objects.filter(user=request.user, movie=movie).exists():
+            return Response(
+                {"detail": "You have already reviewed this movie."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return super().create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        movie_id = self.kwargs.get('movie_id')
+        movie = get_object_or_404(Movie, pk=movie_id)
+        serializer.save(user=self.request.user, movie=movie)
+
+
+class ReviewRetrieve(APIView):
+    permission_classes = []
+
+    def get(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ReviewUpdate(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        if review.user != request.user:
+            return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = ReviewSerializer(review, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReviewDelete(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        if review.user != request.user:
+            return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GetReviewComments(APIView):
+    def get(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        comments = Comment.objects.filter(review=review, parent=None).order_by("-created_at")
+        return Response(CommentSerializer(comments, many=True).data)
+

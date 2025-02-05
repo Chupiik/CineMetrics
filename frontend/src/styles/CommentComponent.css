@@ -2,10 +2,19 @@
 
 .comment-container {
   border-left: 3px solid var(--primary-color);
+  border-top: 1px dashed var(--infoText-color);
+  border-right: 1px dashed var(--infoText-color);
+  border-bottom: 1px dashed var(--infoText-color);
   padding: 10px;
   margin-bottom: 15px;
   background-color: var(--info-color);
   border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comment-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .comment-header {
@@ -85,14 +94,13 @@
 }
 
 .comment-edit-textarea {
-  width: 100%;
   padding: 10px;
   border: 1px solid var(--infoText-color);
   border-radius: 5px;
   background-color: var(--infoText-color);
   color: var(--secondary-color);
-  min-width: 99%;
-  max-width: 99%;
+  min-width: 95%;
+  resize: vertical;
 }
 
 .comment-edit-textarea::placeholder {

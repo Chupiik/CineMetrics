@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from .views import UserProfileView, MovieListDetail, MovieListUpdate, SaveMovieList, UnsaveMovieList, \
-    AddComment, EditComment, DeleteComment, GetMovieComments, CommentRepliesView
+    AddComment, EditComment, DeleteComment, GetMovieComments, CommentRepliesView, MovieReviewList, MovieReviewCreate, \
+    ReviewRetrieve, ReviewUpdate, ReviewDelete, GetReviewComments
 
 urlpatterns = [
     path('movies/add/', views.MovieCreate.as_view(), name='movie-add'),
@@ -24,4 +25,10 @@ urlpatterns = [
     path("comments/<int:comment_id>/delete/", DeleteComment.as_view(), name="delete-comment"),
     path("movies/<int:movie_id>/comments/", GetMovieComments.as_view(), name="get-movie-comments"),
     path('comments/<int:comment_id>/replies/', CommentRepliesView.as_view(), name='comment-replies'),
+    path("movies/<int:movie_id>/reviews/", MovieReviewList.as_view(), name="movie-review-list"),
+    path("movies/<int:movie_id>/reviews/create/", MovieReviewCreate.as_view(), name="movie-review-create"),
+    path("reviews/<int:review_id>/", ReviewRetrieve.as_view(), name="review-retrieve"),
+    path("reviews/<int:review_id>/edit/", ReviewUpdate.as_view(), name="review-update"),
+    path("reviews/<int:review_id>/delete/", ReviewDelete.as_view(), name="review-delete"),
+    path("reviews/<int:review_id>/comments/", GetReviewComments.as_view(), name="review-comment-list"),
 ]

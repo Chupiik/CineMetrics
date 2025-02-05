@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Movie, Genre, MovieList, Comment
+from .models import Movie, Genre, MovieList, Comment, Review
 import re
 
 
@@ -119,7 +119,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'movie', 'parent', 'content', 'created_at', 'replies']
+        fields = ['id', 'user', 'movie', 'review', 'parent', 'content', 'created_at', 'replies']
         read_only_fields = ["id", "user", "created_at", "replies"]
 
     def get_replies(self, obj):
@@ -127,3 +127,10 @@ class CommentSerializer(serializers.ModelSerializer):
         return CommentSerializer(replies, many=True).data
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'movie', 'rating', 'text', 'created_at']
+        read_only_fields = ['id', 'user', 'created_at']

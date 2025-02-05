@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Genre(models.Model):
@@ -41,6 +42,8 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
+    review = models.ForeignKey('Review', on_delete=models.CASCADE, related_name='comments',
+                               null=True, blank=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -62,3 +65,16 @@ class MovieList(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    text = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} for {self.movie.title}"
