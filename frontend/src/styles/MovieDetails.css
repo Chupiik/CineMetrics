@@ -32,7 +32,7 @@ body {
   width: 100%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .info-container {
@@ -107,8 +107,6 @@ body {
 .delete-button:hover {
   background-color: #cc0000;
 }
-
-
 
 .comments-section h3 {
   color: var(--primary-color);
@@ -223,6 +221,71 @@ body {
   flex: 1;
   overflow-y: auto;
 }
+
+
+.movie-details-add-button {
+  background-color: var(--background-color);
+  color: var(--success-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.movie-details-remove-button {
+  background-color: var(--background-color);
+  color: var(--danger-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.movie-details-add-button:hover {
+  color: var(--primary-color, #555);
+}
+
+.movie-details-remove-button:hover {
+  color: var(--primary-color, #555);
+}
+
+.dropdown-details-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.movie-details-lists-dropdown {
+  position: absolute;
+  background-color: var(--background-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  z-index: 2000;
+  width: 200px;
+  padding: 10px;
+}
+
+
+.movie-details-list-option {
+  background-color: var(--info-color);
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.movie-details-list-option:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.movie-details-list-actions {
+  position: relative;
+  justify-content: center;
+  display: flex;
+}
+
+
 
 @media (max-width: 768px) {
   .movie-details-content {

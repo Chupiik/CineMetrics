@@ -4,31 +4,36 @@ import api from "../api.js";
 import Navbar from "../components/Navbar.jsx";
 import "../styles/MovieDetails.css";
 import {AuthContext} from "../context/AuthContext.jsx";
-import {faPencil, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPencil, faTrashAlt, faSquarePlus, faSquareMinus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CommentComponent from "../components/CommentComponent.jsx";
 import ReviewComponent from "../components/ReviewComponent.jsx";
 
 function MovieDetails() {
-    const {id} = useParams(); // movie id
+    const {id} = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Comments
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-    // Reviews
+
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [newReviewRating, setNewReviewRating] = useState(1);
     const [newReviewText, setNewReviewText] = useState("");
 
+    const [showMovieLists, setShowMovieLists] = useState(false);
+    const [showRemoveLists, setShowRemoveLists] = useState(false);
+    const [movieLists, setMovieLists] = useState([]);
+    const [movieInLists, setMovieInLists] = useState([]);
+    const [loadingLists, setLoadingLists] = useState(false);
+    const [loadingRemoveLists, setLoadingRemoveLists] = useState(false);
+
     const {user} = useContext(AuthContext);
     const isAdmin = user && user.groups && user.groups.includes("Admin");
-
 
     useEffect(() => {
         fetchMovieDetails();
@@ -60,22 +65,63 @@ function MovieDetails() {
         api
             .get(`/api/movies/${id}/reviews/`)
             .then((res) => {
-                let fetchedReviews = res.data.reviews;
-                if (user) {
-                    const userReview = fetchedReviews.find(
-                        (rev) => rev.user === user.username
-                    );
-                    if (userReview) {
-                        fetchedReviews = fetchedReviews.filter(
-                            (rev) => rev.user !== user.username
-                        );
-                        fetchedReviews = [userReview, ...fetchedReviews];
-                    }
-                }
-                setReviews(fetchedReviews);
+                setReviews(res.data.reviews);
                 setAverageRating(res.data.average_rating);
             })
             .catch((err) => console.error("Failed to fetch reviews", err));
+    };
+
+    const fetchMovieLists = async () => {
+        setLoadingLists(true);
+        try {
+            const res = await api.get(`/api/movie-lists-created/`);
+            const filteredLists = res.data.filter(
+                (list) => !list.movies.some((m) => m.id === movie.id)
+            );
+            setMovieLists(filteredLists);
+        } catch (error) {
+            console.error("Error fetching movie lists:", error);
+        }
+        setLoadingLists(false);
+    };
+
+    const fetchMovieInLists = async () => {
+        setLoadingRemoveLists(true);
+        try {
+            const res = await api.get(`/api/movie-lists-created/`);
+            // Filter lists that do contain this movie.
+            const filteredLists = res.data.filter((list) =>
+                list.movies.some((m) => m.id === movie.id)
+            );
+            setMovieInLists(filteredLists);
+        } catch (error) {
+            console.error("Error fetching lists containing the movie:", error);
+        }
+        setLoadingRemoveLists(false);
+    };
+
+    const addToMovieList = async (listId) => {
+        try {
+            const res = await api.post(`/api/movie-lists/${listId}/add/`, {movie: movie.id});
+            if (!(res.status === 200 || res.status === 201)) {
+                alert("Failed to add movie to list.");
+            }
+        } catch (error) {
+            console.error("Error adding movie to list:", error);
+            alert("Error adding movie to list.");
+        }
+        setShowMovieLists(false);
+    };
+
+    const removeFromMovieList = async (listId) => {
+        try {
+            await api.post(`/api/movie-lists/${listId}/remove/`, {movie: movie.id});
+            setMovieInLists(prevLists => prevLists.filter(list => list.id !== listId));
+        } catch (error) {
+            console.error("Error removing movie from list:", error);
+            alert("Error removing movie from list.");
+        }
+        setShowRemoveLists(false);
     };
 
     const deleteMovie = () => {
@@ -105,7 +151,6 @@ function MovieDetails() {
     const handleDeleteComment = (commentId) => {
         setComments((prev) => prev.filter((c) => c.id !== commentId));
     };
-
 
     const userHasReviewed = user && reviews.some((rev) => rev.user === user.username);
 
@@ -142,7 +187,79 @@ function MovieDetails() {
                             src={movie.poster}
                             alt={movie.title}
                         />
+                        {user && (
+                            <div>
+                                <div
+                                    className="dropdown-details-wrapper"
+                                    onMouseEnter={() => {
+                                        fetchMovieLists();
+                                        setShowMovieLists(true);
+                                    }}
+                                    onMouseLeave={() => setShowMovieLists(false)}
+                                >
+                                    <button className="movie-details-add-button">
+                                        <FontAwesomeIcon icon={faSquarePlus}/>
+                                    </button>
+                                    {showMovieLists && (
+                                        <div className="movie-details-lists-dropdown">
+                                            {loadingLists ? (
+                                                <p>Loading...</p>
+                                            ) : (
+                                                movieLists.length > 0 ? (
+                                                    movieLists.map((list) => (
+                                                        <div
+                                                            key={list.id}
+                                                            className="movie-details-list-option"
+                                                            onClick={() => addToMovieList(list.id)}
+                                                        >
+                                                            {list.name}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p>No movie lists found.</p>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div
+                                    className="dropdown-details-wrapper"
+                                    onMouseEnter={() => {
+                                        fetchMovieInLists();
+                                        setShowRemoveLists(true);
+                                    }}
+                                    onMouseLeave={() => setShowRemoveLists(false)}
+                                >
+                                    <button className="movie-details-remove-button">
+                                        <FontAwesomeIcon icon={faSquareMinus}/>
+                                    </button>
+                                    {showRemoveLists && (
+                                        <div className="movie-details-lists-dropdown">
+                                            {loadingRemoveLists ? (
+                                                <p>Loading...</p>
+                                            ) : (
+                                                movieInLists.length > 0 ? (
+                                                    movieInLists.map((list) => (
+                                                        <div
+                                                            key={list.id}
+                                                            className="movie-details-list-option"
+                                                            onClick={() => removeFromMovieList(list.id)}
+                                                        >
+                                                            {list.name}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p>Not in any list.</p>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
+
                     <div className="info-container">
                         <h2>{movie.title}</h2>
                         <p>
@@ -187,6 +304,7 @@ function MovieDetails() {
                 </div>
 
                 <div className="details-split-container">
+                    {/* Comments Section */}
                     <div className="comments-section">
                         <h3>Comments</h3>
                         {user && (
@@ -218,6 +336,7 @@ function MovieDetails() {
                         </div>
                     </div>
 
+                    {/* Reviews Section */}
                     <div className="reviews-section">
                         <h3>Reviews</h3>
                         <p className="average-rating-text">
