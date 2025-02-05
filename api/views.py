@@ -4,6 +4,8 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
+
+from .pagination import MoviePagination
 from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer
 from .models import Movie, MovieList, Comment, Review
 from .permissions import IsAdminUser
@@ -13,6 +15,8 @@ from django.shortcuts import get_object_or_404
 class MoviesGet(generics.ListAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    queryset = Movie.objects.all()
+    pagination_class = MoviePagination
 
     def get_queryset(self):
         return Movie.objects.filter()

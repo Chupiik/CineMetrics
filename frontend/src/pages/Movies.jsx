@@ -9,60 +9,91 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from "../context/AuthContext.jsx";
 
 function Movies() {
-    const [movies, setMovies] = useState([]);
-    const { user } = useContext(AuthContext);
-    const isAdmin = user && user.groups && user.groups.includes("Admin");
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const { user } = useContext(AuthContext);
+  const isAdmin = user && user.groups && user.groups.includes("Admin");
 
-    useEffect(() => {
-        getMovies();
-    }, []);
+  useEffect(() => {
+    getMovies(page);
+  }, []);
 
-    const getMovies = () => {
-        api
-            .get("/api/movies/")
-            .then((res) => res.data)
-            .then((data) => {
-                setMovies(data);
-                console.log(data);
-            })
-            .catch((err) => alert(err));
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+        hasMore &&
+        !loadingMore
+      ) {
+        getMovies(page + 1);
+      }
     };
 
-    const deleteMovie = (id) => {
-        api
-            .delete(`/api/movies/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Movie deleted!");
-                else alert("Failed to delete movie.");
-                getMovies();
-            })
-            .catch((err) => alert(err));
-    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [page, hasMore, loadingMore]);
 
-    return (
-        <div>
-            <Navbar />
-            <div className="container">
-                {isAdmin && (
-                    <Link to="/add-movie">
-                        <button className="add-movie-button">
-                            <FontAwesomeIcon icon={faCirclePlus} /> Add Movie
-                        </button>
-                    </Link>
-                )}
-                <div className="movies-list">
-                    {movies.map((movie) => (
+  const getMovies = (pageToLoad) => {
+    setLoadingMore(true);
+    api
+      .get(`/api/movies/?page=${pageToLoad}&limit=20`)
+      .then((res) => {
+        const newMovies = res.data.movies || res.data;
+        if (newMovies.length < 20) {
+          setHasMore(false);
+        }
+        setMovies((prevMovies) => [...prevMovies, ...newMovies]);
+        setPage(pageToLoad);
+        setLoadingMore(false);
+      })
+      .catch((err) => {
+        alert("Failed to load more movies");
+        console.error(err);
+        setLoadingMore(false);
+      });
+  };
 
-                        <MovieComponent
-                            movie={movie}
-                            onDelete={deleteMovie}
-                            key={movie.id}
-                        />
-                    ))}
-                </div>
-            </div>
+  const deleteMovie = (id) => {
+    api
+      .delete(`/api/movies/delete/${id}/`)
+      .then((res) => {
+        if (res.status === 204) {
+          alert("Movie deleted!");
+          setMovies((prevMovies) => prevMovies.filter(movie => movie.id !== id));
+        } else {
+          alert("Failed to delete movie.");
+        }
+      })
+      .catch((err) => alert(err));
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <div className="container">
+        {isAdmin && (
+          <Link to="/add-movie">
+            <button className="add-movie-button">
+              <FontAwesomeIcon icon={faCirclePlus} /> Add Movie
+            </button>
+          </Link>
+        )}
+        <div className="movies-list">
+          {movies.map((movie) => (
+            <MovieComponent
+              key={movie.id}
+              movie={movie}
+              onDelete={deleteMovie}
+            />
+          ))}
         </div>
-    );
+        {loadingMore && <p>Loading more movies...</p>}
+        {!hasMore && <p>No more movies to load.</p>}
+      </div>
+    </div>
+  );
 }
 
 export default Movies;
