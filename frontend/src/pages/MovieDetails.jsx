@@ -4,7 +4,22 @@ import api from "../api.js";
 import Navbar from "../components/Navbar.jsx";
 import "../styles/MovieDetails.css";
 import {AuthContext} from "../context/AuthContext.jsx";
-import {faPencil, faTrashAlt, faSquarePlus, faSquareMinus} from "@fortawesome/free-solid-svg-icons";
+import {
+    faPencil,
+    faTrashAlt,
+    faSquarePlus,
+    faSquareMinus,
+    faFilm,
+    faTags,
+    faCalendarAlt,
+    faUserTie,
+    faClock,
+    faGlobe,
+    faPenNib,
+    faUsers,
+    faAlignLeft,
+    faStar, faMinusSquare, faPlusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CommentComponent from "../components/CommentComponent.jsx";
 import ReviewComponent from "../components/ReviewComponent.jsx";
@@ -38,6 +53,7 @@ function MovieDetails() {
         fetchMovieDetails();
         fetchComments();
         fetchReviews();
+        // eslint-disable-next-line
     }, [id]);
 
     const fetchMovieDetails = () => {
@@ -88,7 +104,6 @@ function MovieDetails() {
         setLoadingRemoveLists(true);
         try {
             const res = await api.get(`/api/movie-lists-created/`);
-            // Filter lists that do contain this movie.
             const filteredLists = res.data.filter((list) =>
                 list.movies.some((m) => m.id === movie.id)
             );
@@ -101,7 +116,9 @@ function MovieDetails() {
 
     const addToMovieList = async (listId) => {
         try {
-            const res = await api.post(`/api/movie-lists/${listId}/add/`, {movie: movie.id});
+            const res = await api.post(`/api/movie-lists/${listId}/add/`, {
+                movie: movie.id,
+            });
             if (!(res.status === 200 || res.status === 201)) {
                 alert("Failed to add movie to list.");
             }
@@ -114,8 +131,10 @@ function MovieDetails() {
 
     const removeFromMovieList = async (listId) => {
         try {
-            await api.post(`/api/movie-lists/${listId}/remove/`, {movie: movie.id});
-            setMovieInLists(prevLists => prevLists.filter(list => list.id !== listId));
+            await api.post(`/api/movie-lists/${listId}/remove/`, {
+                movie: movie.id,
+            });
+            setMovieInLists((prevLists) => prevLists.filter((list) => list.id !== listId));
         } catch (error) {
             console.error("Error removing movie from list:", error);
             alert("Error removing movie from list.");
@@ -181,100 +200,147 @@ function MovieDetails() {
             <div className="movie-details-container">
                 <div className="movie-details-content">
                     <div className="poster-container">
-                        <img
-                            className="movie-poster"
-                            src={movie.poster}
-                            alt={movie.title}
-                        />
-                        {user && (
-                            <div className="dropdown-details-wrapper">
-                                <button
-                                    className="movie-details-button"
+                        <img className="movie-poster" src={movie.poster} alt={movie.title}/>
+
+                         {user && (
+                            <div>
+                                <div
+                                    className="dropdown-details-wrapper"
                                     onMouseEnter={() => {
                                         fetchMovieLists();
                                         setShowMovieLists(true);
                                     }}
                                     onMouseLeave={() => setShowMovieLists(false)}
                                 >
-                                    <FontAwesomeIcon icon={faPlusSquare} className="icon"/>
-                                    Add to List
-                                </button>
-                                {showMovieLists && (
-                                    <div className="movie-details-lists-dropdown">
-                                        {loadingLists ? (
-                                            <p>Loading...</p>
-                                        ) : (
-                                            movieLists.length > 0 ? (
-                                                movieLists.map((list) => (
-                                                    <div
-                                                        key={list.id}
-                                                        className="movie-details-list-option"
-                                                        onClick={() => addToMovieList(list.id)}
-                                                    >
-                                                        {list.name}
-                                                    </div>
-                                                ))
+                                    <button className="movie-details-add-button">
+                                        <FontAwesomeIcon icon={faSquarePlus}/>
+                                    </button>
+                                    {showMovieLists && (
+                                        <div className="movie-details-lists-dropdown">
+                                            {loadingLists ? (
+                                                <p>Loading...</p>
                                             ) : (
-                                                <p>No movie lists found.</p>
-                                            )
-                                        )}
-                                    </div>
-                                )}
+                                                movieLists.length > 0 ? (
+                                                    movieLists.map((list) => (
+                                                        <div
+                                                            key={list.id}
+                                                            className="movie-details-list-option"
+                                                            onClick={() => addToMovieList(list.id)}
+                                                        >
+                                                            {list.name}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p>No movie lists found.</p>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
 
-                                <button
-                                    className="movie-details-button"
+                                <div
+                                    className="dropdown-details-wrapper"
                                     onMouseEnter={() => {
                                         fetchMovieInLists();
                                         setShowRemoveLists(true);
                                     }}
                                     onMouseLeave={() => setShowRemoveLists(false)}
                                 >
-                                    <FontAwesomeIcon icon={faMinusSquare} className="icon"/>
-                                    Remove from List
-                                </button>
-                                {showRemoveLists && (
-                                    <div className="movie-details-lists-dropdown">
-                                        {loadingRemoveLists ? (
-                                            <p>Loading...</p>
-                                        ) : (
-                                            movieInLists.length > 0 ? (
-                                                movieInLists.map((list) => (
-                                                    <div
-                                                        key={list.id}
-                                                        className="movie-details-list-option"
-                                                        onClick={() => removeFromMovieList(list.id)}
-                                                    >
-                                                        {list.name}
-                                                    </div>
-                                                ))
+                                    <button className="movie-details-remove-button">
+                                        <FontAwesomeIcon icon={faSquareMinus}/>
+                                    </button>
+                                    {showRemoveLists && (
+                                        <div className="movie-details-lists-dropdown">
+                                            {loadingRemoveLists ? (
+                                                <p>Loading...</p>
                                             ) : (
-                                                <p>Not in any list.</p>
-                                            )
-                                        )}
-                                    </div>
-                                )}
+                                                movieInLists.length > 0 ? (
+                                                    movieInLists.map((list) => (
+                                                        <div
+                                                            key={list.id}
+                                                            className="movie-details-list-option"
+                                                            onClick={() => removeFromMovieList(list.id)}
+                                                        >
+                                                            {list.name}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p>Not in any list.</p>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
                     </div>
 
                     <div className="info-container">
-                        <h2>{movie.title}</h2>
-                        <p><strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}</p>
-                        <p>
-                            <strong>Released:</strong> {movie.released ? new Date(movie.released).toLocaleDateString("sk-SK") : "No information"}
+                        <h2>
+                            <FontAwesomeIcon icon={faFilm} className="movie-title-icon"/>
+                            {movie.title}
+                        </h2>
+
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faTags} className="info-icon"/>
+                            <span>
+                <strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}
+              </span>
                         </p>
-                        <p><strong>Director:</strong> {movie.director || "No information"}</p>
-                        <p>
-                            <strong>Runtime:</strong> {movie.runtime_min ? `${movie.runtime_min} minutes` : "No information"}
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faCalendarAlt} className="info-icon"/>
+                            <span>
+                <strong>Released:</strong>{" "}
+                                {movie.released
+                                    ? new Date(movie.released).toLocaleDateString("sk-SK")
+                                    : "No information"}
+              </span>
                         </p>
-                        <p><strong>Country:</strong> {movie.country || "No information"}</p>
-                        <p><strong>Writer:</strong> {movie.writer || "No information"}</p>
-                        <p><strong>Actors:</strong> {movie.actors || "No information"}</p>
-                        <p><strong>Plot:</strong> {movie.plot || "No information"}</p>
-                        <p><strong>IMDB Rating:</strong> {movie.imdb_rating || "No information"}</p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faUserTie} className="info-icon"/>
+                            <span>
+                <strong>Director:</strong> {movie.director || "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faClock} className="info-icon"/>
+                            <span>
+                <strong>Runtime:</strong>{" "}
+                                {movie.runtime_min ? `${movie.runtime_min} minutes` : "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faGlobe} className="info-icon"/>
+                            <span>
+                <strong>Country:</strong> {movie.country || "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faPenNib} className="info-icon"/>
+                            <span>
+                <strong>Writer:</strong> {movie.writer || "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faUsers} className="info-icon"/>
+                            <span>
+                <strong>Actors:</strong> {movie.actors || "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faAlignLeft} className="info-icon"/>
+                            <span>
+                <strong>Plot:</strong> {movie.plot || "No information"}
+              </span>
+                        </p>
+                        <p className="info-item">
+                            <FontAwesomeIcon icon={faStar} className="info-icon"/>
+                            <span>
+                <strong>IMDB Rating:</strong> {movie.imdb_rating || "No information"}
+              </span>
+                        </p>
                     </div>
                 </div>
-
 
                 <div className="buttons">
                     <button onClick={() => navigate(-1)} className="movie-details-button">
@@ -282,17 +348,11 @@ function MovieDetails() {
                     </button>
                     {isAdmin && (
                         <>
-                            <Link
-                                to={`/edit-movie/${id}/`}
-                                className="edit-button movie-details-button"
-                            >
+                            <Link to={`/edit-movie/${id}/`} className="edit-button movie-details-button">
                                 <FontAwesomeIcon icon={faPencil} style={{marginRight: "8px"}}/>
                                 Edit Movie
                             </Link>
-                            <button
-                                onClick={deleteMovie}
-                                className="delete-button movie-details-button"
-                            >
+                            <button onClick={deleteMovie} className="delete-button movie-details-button">
                                 <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "8px"}}/>
                                 Delete Movie
                             </button>
@@ -301,17 +361,16 @@ function MovieDetails() {
                 </div>
 
                 <div className="details-split-container">
-                    {/* Comments Section */}
                     <div className="comments-section">
                         <h3>Comments</h3>
                         {user && (
                             <div className="comment-form">
-                                <textarea
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                    placeholder="Write a comment..."
-                                    className="comment-input"
-                                />
+                <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Write a comment..."
+                    className="comment-input"
+                />
                                 <button className="submit-comment-button" onClick={postComment}>
                                     Post Comment
                                 </button>
@@ -333,7 +392,6 @@ function MovieDetails() {
                         </div>
                     </div>
 
-                    {/* Reviews Section */}
                     <div className="reviews-section">
                         <h3>Reviews</h3>
                         <p className="average-rating-text">
