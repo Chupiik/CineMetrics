@@ -7,8 +7,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .pagination import MoviePagination
-from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer
-from .models import Movie, MovieList, Comment, Review
+from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer, \
+    GenreSerializer
+from .models import Movie, MovieList, Comment, Review, Genre
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 
@@ -447,3 +448,9 @@ class GetReviewComments(APIView):
         review = get_object_or_404(Review, id=review_id)
         comments = Comment.objects.filter(review=review, parent=None).order_by("-created_at")
         return Response(CommentSerializer(comments, many=True).data)
+
+
+class GenreList(generics.ListAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    permission_classes = [AllowAny]

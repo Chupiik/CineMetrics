@@ -31,4 +31,5 @@ urlpatterns = [
     path("reviews/<int:review_id>/edit/", ReviewUpdate.as_view(), name="review-update"),
     path("reviews/<int:review_id>/delete/", ReviewDelete.as_view(), name="review-delete"),
     path("reviews/<int:review_id>/comments/", GetReviewComments.as_view(), name="review-comment-list"),
+    path('genres/', views.GenreList.as_view(), name='genre-list'),
 ]

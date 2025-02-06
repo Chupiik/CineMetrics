@@ -86,14 +86,6 @@ body {
     color: var(--info-color);
 }
 
-.filter-select {
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid var(--infoText-color);
-    background-color: var(--infoText-color);
-    color: var(--info-color);
-    border-radius: 5px;
-}
 
 .filter-select {
     padding: 8px;
@@ -102,6 +94,7 @@ body {
     background-color: var(--infoText-color);
     color: var(--info-color);
     border-radius: 5px;
+    max-width: 300px
 }
 
 .filter-select option {

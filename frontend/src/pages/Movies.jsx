@@ -16,19 +16,21 @@ function Movies() {
 
   const [searchText, setSearchText] = useState("");
   const [genre, setGenre] = useState("");
-  const [filterChanged, setFilterChanged] = useState(false);
+  const [genres, setGenres] = useState([]);
 
   const { user } = useContext(AuthContext);
   const isAdmin = user && user.groups && user.groups.includes("Admin");
 
   useEffect(() => {
-
     setMovies([]);
     setPage(1);
     setHasMore(true);
     getMovies(1);
-    setFilterChanged(false);
   }, [searchText, genre]);
+
+  useEffect(() => {
+    getGenres();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,6 +74,16 @@ function Movies() {
       });
   };
 
+  const getGenres = () => {
+    api.get("/api/genres/")
+      .then((res) => {
+        setGenres(res.data);
+      })
+      .catch((err) => {
+        console.error("Failed to load genres", err);
+      });
+  };
+
   const deleteMovie = (id) => {
     api
       .delete(`/api/movies/delete/${id}/`)
@@ -104,10 +116,11 @@ function Movies() {
             className="filter-select"
           >
             <option value="">All Genres</option>
-            <option value="Action">Action</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Drama">Drama</option>
-            <option value="Horror">Horror</option>
+            {genres.map((g) => (
+              <option key={g.id} value={g.name}>
+                {g.name}
+              </option>
+            ))}
           </select>
         </div>
 
