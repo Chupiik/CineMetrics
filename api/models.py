@@ -23,6 +23,9 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre, related_name='movies')
     imdb_rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
 
+    class Meta:
+        ordering = ["id"]
+
 
     def __str__(self):
         return self.title

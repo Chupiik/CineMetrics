@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import api from "../api";
 import MovieComponent from "../components/MovieComponent.jsx";
-import '../styles/Movies.css';
+import "../styles/Movies.css";
 import Navbar from "../components/Navbar.jsx";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../context/AuthContext.jsx";
+import { throttle } from "lodash";
 
 function Movies() {
   const [movies, setMovies] = useState([]);
@@ -21,6 +22,7 @@ function Movies() {
   const { user } = useContext(AuthContext);
   const isAdmin = user && user.groups && user.groups.includes("Admin");
 
+
   useEffect(() => {
     setMovies([]);
     setPage(1);
@@ -33,22 +35,29 @@ function Movies() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-        hasMore &&
-        !loadingMore
-      ) {
+    const handleScroll = throttle(() => {
+      if (!hasMore) return;
+
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500;
+
+      if (nearBottom) {
+
         getMovies(page + 1);
       }
-    };
+    }, 200);
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [page, hasMore, loadingMore]);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      handleScroll.cancel();
+    };
+  }, [page, hasMore]);
 
   const getMovies = (pageToLoad) => {
     setLoadingMore(true);
+
     let query = `/api/movies/?page=${pageToLoad}&limit=20`;
     if (searchText) {
       query += `&search=${encodeURIComponent(searchText)}`;
@@ -56,6 +65,7 @@ function Movies() {
     if (genre) {
       query += `&genre=${encodeURIComponent(genre)}`;
     }
+
     api
       .get(query)
       .then((res) => {
@@ -63,7 +73,7 @@ function Movies() {
         if (newMovies.length < 20) {
           setHasMore(false);
         }
-        setMovies((prevMovies) => [...prevMovies, ...newMovies]);
+        setMovies((prev) => [...prev, ...newMovies]);
         setPage(pageToLoad);
         setLoadingMore(false);
       })
@@ -75,13 +85,10 @@ function Movies() {
   };
 
   const getGenres = () => {
-    api.get("/api/genres/")
-      .then((res) => {
-        setGenres(res.data);
-      })
-      .catch((err) => {
-        console.error("Failed to load genres", err);
-      });
+    api
+      .get("/api/genres/")
+      .then((res) => setGenres(res.data))
+      .catch((err) => console.error("Failed to load genres", err));
   };
 
   const deleteMovie = (id) => {
@@ -90,7 +97,7 @@ function Movies() {
       .then((res) => {
         if (res.status === 204) {
           alert("Movie deleted!");
-          setMovies((prevMovies) => prevMovies.filter(movie => movie.id !== id));
+          setMovies((prev) => prev.filter((movie) => movie.id !== id));
         } else {
           alert("Failed to delete movie.");
         }
@@ -133,11 +140,7 @@ function Movies() {
         )}
         <div className="movies-list">
           {movies.map((movie) => (
-            <MovieComponent
-              key={movie.id}
-              movie={movie}
-              onDelete={deleteMovie}
-            />
+            <MovieComponent key={movie.id} movie={movie} onDelete={deleteMovie} />
           ))}
         </div>
         {loadingMore && <p>Loading more movies...</p>}

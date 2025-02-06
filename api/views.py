@@ -20,7 +20,7 @@ class MoviesGet(generics.ListAPIView):
     pagination_class = MoviePagination
 
     def get_queryset(self):
-        queryset = Movie.objects.all()
+        queryset = Movie.objects.all().order_by("id")
         search = self.request.query_params.get('search', None)
         genre = self.request.query_params.get('genre', None)
 
