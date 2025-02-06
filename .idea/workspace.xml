@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Bug fixes, Backend validation">
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Added an option to edit review score">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/ReviewComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ReviewComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/ReviewComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/ReviewComponent.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -503,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738880128732</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Added an option to edit review score">
+      <option name="closed" value="true" />
+      <created>1738880576463</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1738880576463</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,7 +532,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed bug in add to list functionality, Fixed some styling issues" />
     <MESSAGE value="Added remove from list button to movieComponent" />
     <MESSAGE value="Added information to lists page - created by, number of movies in list" />
     <MESSAGE value="Added list edits" />
@@ -546,7 +556,8 @@
     <MESSAGE value="Styling changes, Responsive design, Authorization changes" />
     <MESSAGE value="Styling changes, Responsive design, Bug fixes, Frontend validation" />
     <MESSAGE value="Bug fixes, Backend validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes, Backend validation" />
+    <MESSAGE value="Added an option to edit review score" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added an option to edit review score" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CineMetrics$manage.coverage" NAME="manage Coverage Results" MODIFIED="1732579361003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

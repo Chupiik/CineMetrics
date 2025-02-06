@@ -4,9 +4,21 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import CommentComponent from "./CommentComponent";
 import "../styles/ReviewComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus, faEdit, faTrash, faReply, faSave, faBan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinus,
+  faPlus,
+  faEdit,
+  faTrash,
+  faReply,
+  faSave,
+  faBan
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import '../styles/colors.css'
 
-function ReviewComponent({ review, handleDelete }) {
+
+function ReviewComponent({ review, handleDelete, handleEdit }) {
   const [comments, setComments] = useState([]);
   const { user } = useContext(AuthContext);
   const [showComments, setShowComments] = useState(false);
@@ -60,6 +72,7 @@ function ReviewComponent({ review, handleDelete }) {
         setIsEditing(false);
         review.text = editedReviewText;
         review.rating = editedReviewRating;
+        handleEdit();
       })
       .catch(() => alert("Failed to update review"));
   };
@@ -103,22 +116,35 @@ function ReviewComponent({ review, handleDelete }) {
     <div className="review-container">
       <div className="review-header">
         <span className="review-user">{review.user}</span>
-        {/* Display rating; if editing, show input instead */}
-        {isEditing ? null : <span className="review-rating">{review.rating} / 5</span>}
+        {/* When not editing, display the rating as stars */}
+        {!isEditing && (
+          <span className="review-rating">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <FontAwesomeIcon
+                key={star}
+                icon={review.rating >= star ? solidStar : regularStar}
+                style={{ color: "#FFD700", marginRight: "4px" }}
+              />
+            ))}
+          </span>
+        )}
       </div>
 
       <div className="review-content">
         {isEditing ? (
           <>
             <div className="review-edit-rating">
-              <label>Rating (1–5): </label>
-              <input
-                type="number"
-                min="1"
-                max="5"
-                value={editedReviewRating}
-                onChange={(e) => setEditedReviewRating(parseInt(e.target.value))}
-              />
+              <label>Rating: </label>
+              <span className="star-rating">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FontAwesomeIcon
+                    key={star}
+                    icon={editedReviewRating >= star ? solidStar : regularStar}
+                    onClick={() => setEditedReviewRating(star)}
+                    style={{ cursor: "pointer", color: "#FF7D00", marginRight: "4px" }}
+                  />
+                ))}
+              </span>
             </div>
             <textarea
               className="review-edit-textarea"
@@ -130,17 +156,16 @@ function ReviewComponent({ review, handleDelete }) {
             )}
           </>
         ) : (
-          <p className="review-text">{review.text}</p>
+          <>
+            <p className="review-text">{review.text}</p>
+          </>
         )}
       </div>
 
       <div className="review-actions">
         <div className="review-buttons">
           {comments.length > 0 && (
-            <button
-              className="toggle-review-comment-button"
-              onClick={toggleComments}
-            >
+            <button className="toggle-review-comment-button" onClick={toggleComments}>
               <FontAwesomeIcon icon={showComments ? faMinus : faPlus} />
             </button>
           )}
@@ -148,32 +173,20 @@ function ReviewComponent({ review, handleDelete }) {
             <>
               {user.username === review.user && !isEditing ? (
                 <>
-                  <button
-                    className="edit-review-button"
-                    onClick={handleEditReview}
-                  >
+                  <button className="edit-review-button" onClick={handleEditReview}>
                     <FontAwesomeIcon icon={faEdit} /> Edit
                   </button>
-                  <button
-                    className="delete-review-button"
-                    onClick={deleteReview}
-                  >
+                  <button className="delete-review-button" onClick={deleteReview}>
                     <FontAwesomeIcon icon={faTrash} /> Delete
                   </button>
                 </>
               ) : null}
               {isEditing && (
                 <>
-                  <button
-                    className="save-review-edit-button"
-                    onClick={saveEditedReview}
-                  >
+                  <button className="save-review-edit-button" onClick={saveEditedReview}>
                     <FontAwesomeIcon icon={faSave} /> Save
                   </button>
-                  <button
-                    className="cancel-review-edit-button"
-                    onClick={cancelEditReview}
-                  >
+                  <button className="cancel-review-edit-button" onClick={cancelEditReview}>
                     <FontAwesomeIcon icon={faBan} /> Cancel
                   </button>
                 </>
@@ -203,10 +216,7 @@ function ReviewComponent({ review, handleDelete }) {
           {errorMessages.reply && (
             <p className="error-message">{errorMessages.reply}</p>
           )}
-          <button
-            className="submit-review-reply-button"
-            onClick={postReviewReply}
-          >
+          <button className="submit-review-reply-button" onClick={postReviewReply}>
             Post Reply
           </button>
         </div>

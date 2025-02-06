@@ -32,12 +32,12 @@
 }
 
 .review-rating {
-  background-color: var(--success-color);
+  background-color: var(--info-color);
   color: var(--secondary-color);
   padding: 4px 8px;
   border-radius: 5px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .review-text {
