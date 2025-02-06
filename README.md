@@ -1,4 +1,11 @@
----
+# 🎬 CineMetrics
+
+**Web Application:**
+
+- **Discover, discuss, and review movies. 🍿**
+- **Create, keep, and share your lists of movies. 🎞️**
+- **Built with Django (API Backend) and React (Frontend). 🔥**
+
 
 # 🚀 Project Installation Guide
 
@@ -108,7 +115,7 @@ Before you begin, make sure you have the following installed:
 
 ### Frontend (React) Setup
 
-1. ### Navigate to the Frontend Directory
+1. ### 📂Navigate to the Frontend Directory
 
    The React frontend is located in a directory named `frontend`:
 
@@ -116,7 +123,7 @@ Before you begin, make sure you have the following installed:
    cd frontend
    ```
 
-2. ### Install React Dependencies
+2. ### 📦Install React Dependencies
 
    Install the required packages for the React app:
 
@@ -124,7 +131,7 @@ Before you begin, make sure you have the following installed:
    npm install
    ```
 
-3. ### Start the React Development Server
+3. ### 🚀Start the React Development Server
 
    Launch the React app:
 
