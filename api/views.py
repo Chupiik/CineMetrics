@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from rest_framework import generics, status, serializers
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
@@ -15,11 +16,22 @@ from django.shortcuts import get_object_or_404
 class MoviesGet(generics.ListAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Movie.objects.all()
     pagination_class = MoviePagination
 
     def get_queryset(self):
-        return Movie.objects.filter()
+        queryset = Movie.objects.all()
+        search = self.request.query_params.get('search', None)
+        genre = self.request.query_params.get('genre', None)
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | Q(director__icontains=search)
+            )
+
+        if genre:
+            queryset = queryset.filter(genres__name__iexact=genre)
+
+        return queryset.distinct()
 
 
 class MovieCreate(generics.ListCreateAPIView):
@@ -435,4 +447,3 @@ class GetReviewComments(APIView):
         review = get_object_or_404(Review, id=review_id)
         comments = Comment.objects.filter(review=review, parent=None).order_by("-created_at")
         return Response(CommentSerializer(comments, many=True).data)
-

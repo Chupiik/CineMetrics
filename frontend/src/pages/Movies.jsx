@@ -13,12 +13,22 @@ function Movies() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+
+  const [searchText, setSearchText] = useState("");
+  const [genre, setGenre] = useState("");
+  const [filterChanged, setFilterChanged] = useState(false);
+
   const { user } = useContext(AuthContext);
   const isAdmin = user && user.groups && user.groups.includes("Admin");
 
   useEffect(() => {
-    getMovies(page);
-  }, []);
+
+    setMovies([]);
+    setPage(1);
+    setHasMore(true);
+    getMovies(1);
+    setFilterChanged(false);
+  }, [searchText, genre]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,8 +47,15 @@ function Movies() {
 
   const getMovies = (pageToLoad) => {
     setLoadingMore(true);
+    let query = `/api/movies/?page=${pageToLoad}&limit=20`;
+    if (searchText) {
+      query += `&search=${encodeURIComponent(searchText)}`;
+    }
+    if (genre) {
+      query += `&genre=${encodeURIComponent(genre)}`;
+    }
     api
-      .get(`/api/movies/?page=${pageToLoad}&limit=20`)
+      .get(query)
       .then((res) => {
         const newMovies = res.data.movies || res.data;
         if (newMovies.length < 20) {
@@ -73,6 +90,27 @@ function Movies() {
     <div>
       <Navbar />
       <div className="container">
+        <div className="filters">
+          <input
+            type="text"
+            placeholder="Search by title, director..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="filter-input"
+          />
+          <select
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Genres</option>
+            <option value="Action">Action</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            <option value="Horror">Horror</option>
+          </select>
+        </div>
+
         {isAdmin && (
           <Link to="/add-movie">
             <button className="add-movie-button">
