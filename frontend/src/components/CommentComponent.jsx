@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
 import api from "../api.js";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -15,6 +15,10 @@ function CommentComponent({comment, onDelete, movie_id}) {
     const [replies, setReplies] = useState([]);
 
     const [commentHeight, setCommentHeight] = useState(0);
+
+    useEffect(() => {
+        getReplies();
+    }, );
 
     const handleEdit = () => {
         const commentElement = document.getElementById(`comment-${comment.id}`);
@@ -136,9 +140,11 @@ function CommentComponent({comment, onDelete, movie_id}) {
                         )}
                     </>
                 )}
+                {user && (
                 <button className="reply-comment-button" onClick={() => setShowReplyForm(!showReplyForm)}>
                     <FontAwesomeIcon icon={faReply}/> Reply
                 </button>
+                    )}
             </div>
 
             {showReplyForm && (

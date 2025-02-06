@@ -28,11 +28,12 @@ body {
     text-align: center;
 }
 
-.movie-poster {
+.movie-details-poster {
     width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 5px;
+    margin-top: 20px;
 }
 
 

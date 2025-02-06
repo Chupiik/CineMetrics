@@ -53,7 +53,6 @@ function MovieDetails() {
         fetchMovieDetails();
         fetchComments();
         fetchReviews();
-        // eslint-disable-next-line
     }, [id]);
 
     const fetchMovieDetails = () => {
@@ -200,9 +199,9 @@ function MovieDetails() {
             <div className="movie-details-container">
                 <div className="movie-details-content">
                     <div className="poster-container">
-                        <img className="movie-poster" src={movie.poster} alt={movie.title}/>
+                        <img className="movie-details-poster" src={movie.poster} alt={movie.title}/>
 
-                         {user && (
+                        {user && (
                             <div>
                                 <div
                                     className="dropdown-details-wrapper"
@@ -365,12 +364,12 @@ function MovieDetails() {
                         <h3>Comments</h3>
                         {user && (
                             <div className="comment-form">
-                <textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Write a comment..."
-                    className="comment-input"
-                />
+                            <textarea
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder="Write a comment..."
+                                className="comment-input"
+                            />
                                 <button className="submit-comment-button" onClick={postComment}>
                                     Post Comment
                                 </button>

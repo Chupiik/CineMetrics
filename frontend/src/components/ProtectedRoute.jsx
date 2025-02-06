@@ -1,16 +1,18 @@
-import { Navigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {Navigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 import api from "../api";
-import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
+import {REFRESH_TOKEN, ACCESS_TOKEN} from "../constants";
 import {useState, useEffect, useContext} from "react";
-import { AuthContext } from "../context/AuthContext";
+import {AuthContext} from "../context/AuthContext";
 
-function ProtectedRoute({ children, adminOnly=false }) {
+function ProtectedRoute({children, adminOnly = false}) {
     const [isAuthorized, setIsAuthorized] = useState(null);
-    const { user } = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
 
     useEffect(() => {
-        auth().catch(() => setIsAuthorized(false))
+        auth().catch(() =>
+            setIsAuthorized(false)
+        )
     }, [])
 
     const refreshToken = async () => {
@@ -54,11 +56,11 @@ function ProtectedRoute({ children, adminOnly=false }) {
         }
     };
 
-    if (adminOnly) {
-        if (!user || !user.groups || !user.groups.includes("Admin")) {
-          return <Navigate to="/unauthorized" />;
-        }
+
+    if (!user || (!user.groups || (adminOnly && !user.groups.includes("Admin")))) {
+        return <Navigate to="/unauthorized"/>;
     }
+
 
     if (isAuthorized === null) {
         return <div>Loading...</div>;

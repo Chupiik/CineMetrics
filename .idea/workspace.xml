@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Styling changes, Bug fixes">
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Styling changes, Bug fixes, Responsive design">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CommentComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CommentComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ReviewComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ReviewComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieDetails.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Movies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Movies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Movies.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Movies.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieListPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieListPage.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +72,7 @@
     "Python.manage.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/Patri/PycharmProjects/CineMetrics/media/movie_posters",
     "node.js.detected.package.eslint": "true",
@@ -78,6 +81,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -477,7 +481,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738850379257</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Styling changes, Bug fixes, Responsive design">
+      <option name="closed" value="true" />
+      <created>1738857308162</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1738857308162</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,7 +507,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added user roles/groups, Only users in Admin group can Add/Delete/Edit Movies" />
     <MESSAGE value="Styles changed - Movies page structure" />
     <MESSAGE value="Added MovieDetails page, Fixed some styling issues, Added link to home page to logo on navbar, Blocked some pages to non Admin users and added Unauthorized page" />
     <MESSAGE value="Added movie lists functionality" />
@@ -520,7 +531,8 @@
     <MESSAGE value="Added a option to upload movie poster from a file" />
     <MESSAGE value="Fixed some bugs, Added a way to mass import movies with OMDB API" />
     <MESSAGE value="Styling changes, Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Styling changes, Bug fixes" />
+    <MESSAGE value="Styling changes, Bug fixes, Responsive design" />
+    <option name="LAST_COMMIT_MESSAGE" value="Styling changes, Bug fixes, Responsive design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

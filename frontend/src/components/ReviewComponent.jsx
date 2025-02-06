@@ -108,74 +108,83 @@ function ReviewComponent({review, handleDelete}) {
             </div>
 
             <div className="review-actions">
-                {user && (
-                    <div className="review-buttons">
-
-                        {comments.length > 0 && (
-                            <button className="toggle-review-comment-button" onClick={toggleComments}>
-                                <FontAwesomeIcon icon={showComments ? faMinus : faPlus}/>
-                            </button>
-                        )}
-
-                        {user.username === review.user && !isEditing && (
-                            <>
-                                <button className="edit-review-button" onClick={handleEditReview}>
-                                    <FontAwesomeIcon icon={faEdit}/> Edit
-                                </button>
-                                <button className="delete-review-button" onClick={deleteReview}>
-                                    <FontAwesomeIcon icon={faTrash}/> Delete
-                                </button>
-                            </>
-                        )}
-
-                        {isEditing && (
-                            <>
-                                <button className="save-review-edit-button" onClick={saveEditedReview}>
-                                    <FontAwesomeIcon icon={faSave}/> Save
-                                </button>
-                                <button className="cancel-review-edit-button" onClick={cancelEditReview}>
-                                    <FontAwesomeIcon icon={faBan}/> Cancel
-                                </button>
-                            </>
-                        )}
 
 
-                        <button className="reply-to-review-button" onClick={() => setShowReplyForm(!showReplyForm)}>
-                            <FontAwesomeIcon icon={faReply}/> Reply
+                <div className="review-buttons">
+                    {comments.length > 0 && (
+                        <button className="toggle-review-comment-button" onClick={toggleComments}>
+                            <FontAwesomeIcon icon={showComments ? faMinus : faPlus}/>
                         </button>
-                    </div>
-                )}
+                    )}
+                    {user && (
+                        <>
+                            <>
+                                {user.username === review.user && !isEditing && (
+                                    <>
+                                        <button className="edit-review-button" onClick={handleEditReview}>
+                                            <FontAwesomeIcon icon={faEdit}/> Edit
+                                        </button>
+                                        <button className="delete-review-button" onClick={deleteReview}>
+                                            <FontAwesomeIcon icon={faTrash}/> Delete
+                                        </button>
+                                    </>
+                                )}
+                            </>
+                            {isEditing && (
+                                <>
+                                    <button className="save-review-edit-button" onClick={saveEditedReview}>
+                                        <FontAwesomeIcon icon={faSave}/> Save
+                                    </button>
+                                    <button className="cancel-review-edit-button" onClick={cancelEditReview}>
+                                        <FontAwesomeIcon icon={faBan}/> Cancel
+                                    </button>
+                                </>
+                            )}
+                        </>
+                    )}
+
+
+                    <button className="reply-to-review-button" onClick={() => setShowReplyForm(!showReplyForm)}>
+                        <FontAwesomeIcon icon={faReply}/> Reply
+                    </button>
+
+                </div>
             </div>
 
-            {showReplyForm && (
-                <div className="reply-form">
+            {
+                showReplyForm && (
+                    <div className="reply-form">
           <textarea
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               placeholder="Write your reply..."
               className="comment-edit-textarea"
           />
-                    <button className="submit-review-reply-button" onClick={postReviewReply}>
-                        Post Reply
-                    </button>
-                </div>
-            )}
+                        <button className="submit-review-reply-button" onClick={postReviewReply}>
+                            Post Reply
+                        </button>
+                    </div>
+                )
+            }
 
-            {showComments && comments.length > 0 && (
-                <div className="review-comments-list">
-                    {comments.map((comment) => (
-                        <div className="review-single-comment" key={comment.id}>
-                            <CommentComponent
-                                comment={comment}
-                                movie_id={review.movie}
-                                onDelete={handleDeleteComment}
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
+            {
+                showComments && comments.length > 0 && (
+                    <div className="review-comments-list">
+                        {comments.map((comment) => (
+                            <div className="review-single-comment" key={comment.id}>
+                                <CommentComponent
+                                    comment={comment}
+                                    movie_id={review.movie}
+                                    onDelete={handleDeleteComment}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )
+            }
         </div>
-    );
+    )
+        ;
 }
 
 export default ReviewComponent;

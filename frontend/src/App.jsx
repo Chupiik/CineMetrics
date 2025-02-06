@@ -45,7 +45,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<RegisterAndLogout />} />
-          <Route path="/movies" element={<AuthProvider><ProtectedRoute><Movies /></ProtectedRoute></AuthProvider>} />
+          <Route path="/movies" element={<AuthProvider><Movies /></AuthProvider>} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/add-movie" element={<AuthProvider><ProtectedRoute adminOnly={true}><AddMovie /></ProtectedRoute></AuthProvider>} />
           <Route path="/edit-movie/:id" element={<AuthProvider><ProtectedRoute adminOnly={true}><EditMovie /></ProtectedRoute></AuthProvider>} />
@@ -54,7 +54,7 @@ function App() {
           <Route path="/lists/:id" element={<AuthProvider><MovieListPage /></AuthProvider>} />
           <Route path="/add-list" element={<AuthProvider><ProtectedRoute><AddList /></ProtectedRoute></AuthProvider>} />
           <Route path="/edit-list/:id" element={<AuthProvider><ProtectedRoute><EditList /></ProtectedRoute></AuthProvider>} />
-          <Route path="/omdb-mass-upload" element={<AuthProvider><ProtectedRoute><OMDBMassUpload /></ProtectedRoute></AuthProvider>} />
+          <Route path="/omdb-mass-upload" element={<AuthProvider><ProtectedRoute adminOnly={true}><OMDBMassUpload /></ProtectedRoute></AuthProvider>} />
           <Route path="/unauthorized/" element={<Unauthorized />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

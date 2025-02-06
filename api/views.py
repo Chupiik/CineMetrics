@@ -24,7 +24,7 @@ from .models import Movie, Genre
 
 class MoviesGet(generics.ListAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
     pagination_class = MoviePagination
 
     def get_queryset(self):
@@ -363,6 +363,7 @@ class DeleteComment(APIView):
 
 
 class GetMovieComments(APIView):
+    permission_classes = []
     def get(self, request, movie_id):
         movie = get_object_or_404(Movie, id=movie_id)
         comments = Comment.objects.filter(movie=movie, parent=None).order_by("-created_at")
@@ -370,7 +371,7 @@ class GetMovieComments(APIView):
 
 
 class CommentRepliesView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     def get(self, request, comment_id):
         comment = get_object_or_404(Comment, id=comment_id)
@@ -456,6 +457,7 @@ class ReviewDelete(APIView):
 
 
 class GetReviewComments(APIView):
+    permission_classes = []
     def get(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
         comments = Comment.objects.filter(review=review, parent=None).order_by("-created_at")
@@ -471,6 +473,7 @@ class GenreList(generics.ListAPIView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 @method_decorator(require_http_methods(["GET", "POST"]), name='dispatch')
 class OMDBMassUploadView(APIView):
+    permission_classes = []
     def get(self, request, format=None):
         return Response({"detail": "GET endpoint to set CSRF cookie."})
 
