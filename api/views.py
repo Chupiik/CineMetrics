@@ -1,7 +1,6 @@
 import json
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
@@ -20,9 +19,6 @@ from django.shortcuts import get_object_or_404
 
 import requests
 import datetime
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import OMDbUploadForm
 from .models import Movie, Genre
 
 
@@ -32,20 +28,27 @@ class MoviesGet(generics.ListAPIView):
     pagination_class = MoviePagination
 
     def get_queryset(self):
-        queryset = Movie.objects.all().order_by("id")
+        queryset = Movie.objects.all()
         search = self.request.query_params.get('search', None)
         genre = self.request.query_params.get('genre', None)
+        ordering = self.request.query_params.get('ordering', None)
 
         if search:
             queryset = queryset.filter(
-                Q(title__icontains=search) | Q(director__icontains=search)
+                Q(title__icontains=search) |
+                Q(director__icontains=search) |
+                Q(actors__icontains=search) |
+                Q(writer__icontains=search) |
+                Q(country__icontains=search)
             )
-
         if genre:
             queryset = queryset.filter(genres__name__iexact=genre)
+        if ordering:
+            queryset = queryset.order_by(ordering)
+        else:
+            queryset = queryset.order_by("id")
 
         return queryset.distinct()
-
 
 class MovieCreate(generics.ListCreateAPIView):
     serializer_class = MovieSerializer

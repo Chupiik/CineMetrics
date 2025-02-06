@@ -1,13 +1,20 @@
 import '../styles/MovieComponent.css';
-import { Link } from "react-router-dom";
-import React, { useContext, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrashAlt, faSquarePlus, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from "../context/AuthContext.jsx";
+import {Link} from "react-router-dom";
+import React, {useContext, useState} from "react";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+    faPencil,
+    faTrashAlt,
+    faSquarePlus,
+    faSquareMinus,
+    faCalendarAlt,
+    faUserTie, faTags, faStar
+} from '@fortawesome/free-solid-svg-icons';
+import {AuthContext} from "../context/AuthContext.jsx";
 import api from "../api.js";
 
-function MovieComponent({ movie, onDelete, onRemoveFromList }) {
-    const { user } = useContext(AuthContext);
+function MovieComponent({movie, onDelete, onRemoveFromList}) {
+    const {user} = useContext(AuthContext);
     const isAdmin = user && user.groups && user.groups.includes("Admin");
 
     const [showDetails, setShowDetails] = useState(false);
@@ -17,7 +24,6 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
     const [movieInLists, setMovieInLists] = useState([]);
     const [loadingLists, setLoadingLists] = useState(false);
     const [loadingRemoveLists, setLoadingRemoveLists] = useState(false);
-
 
 
     const fetchMovieLists = async () => {
@@ -50,7 +56,7 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
 
     const addToMovieList = async (listId) => {
         try {
-            const res = await api.post(`/api/movie-lists/${listId}/add/`, { movie: movie.id });
+            const res = await api.post(`/api/movie-lists/${listId}/add/`, {movie: movie.id});
             if (!(res.status === 200 || res.status === 201)) {
                 alert("Failed to add movie to list.");
             }
@@ -63,7 +69,7 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
 
     const removeFromMovieList = async (listId) => {
         try {
-            await api.post(`/api/movie-lists/${listId}/remove/`, { movie: movie.id });
+            await api.post(`/api/movie-lists/${listId}/remove/`, {movie: movie.id});
             setMovieInLists(prevLists => prevLists.filter(list => list.id !== listId));
             if (onRemoveFromList) {
                 onRemoveFromList(movie.id);
@@ -93,7 +99,7 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
                                 onMouseLeave={() => setShowMovieLists(false)}
                             >
                                 <button className="movie-add-button">
-                                    <FontAwesomeIcon icon={faSquarePlus} />
+                                    <FontAwesomeIcon icon={faSquarePlus}/>
                                 </button>
                                 {showMovieLists && (
                                     <div className="movie-lists-dropdown">
@@ -127,7 +133,7 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
                                 onMouseLeave={() => setShowRemoveLists(false)}
                             >
                                 <button className="movie-remove-button">
-                                    <FontAwesomeIcon icon={faSquareMinus} />
+                                    <FontAwesomeIcon icon={faSquareMinus}/>
                                 </button>
                                 {showRemoveLists && (
                                     <div className="movie-lists-dropdown">
@@ -172,30 +178,51 @@ function MovieComponent({ movie, onDelete, onRemoveFromList }) {
                         <p className="movie-title">{movie.title}</p>
                     </Link>
                 </div>
+
+
                 {showDetails && (
                     <div className="movie-details">
-                        <p className="movie-genres">
-                            {movie.genres.map(g => g.name).join(", ")}
+                        <p className="info-details-item">
+                            <FontAwesomeIcon icon={faTags} className="info-details-icon"/>
+                            <span>{movie.genres.map(g => g.name).join(", ")}
+      </span>
                         </p>
-                        <p className="movie-release-date">
-                            {new Date(movie.released).toLocaleDateString("sk-SK")}
+                        <p className="info-details-item">
+                            <FontAwesomeIcon icon={faCalendarAlt} className="info-details-icon"/>
+                            <span>
+        {new Date(movie.released).toLocaleDateString("sk-SK")}
+      </span>
+                        </p>
+                        <p className="info-details-item">
+                            <FontAwesomeIcon icon={faUserTie} className="info-details-icon"/>
+                            <span>
+        {movie.director || "No information"}
+      </span>
+                        </p>
+                        <p className="info-details-item">
+                            <FontAwesomeIcon icon={faStar} className="info-details-icon"/>
+                            <span>
+        {movie.imdb_rating || "No information"}
+      </span>
                         </p>
                     </div>
                 )}
-            </div>
 
+            </div>
             {isAdmin && (
                 <div className="movie-actions">
                     <Link to={`/edit-movie/${movie.id}`}>
                         <button className="movie-edit-button movie-button">
-                            <FontAwesomeIcon icon={faPencil} />
+                            <FontAwesomeIcon icon={faPencil}/>
                         </button>
                     </Link>
                     <button className="movie-delete-button movie-button" onClick={() => onDelete(movie.id)}>
-                        <FontAwesomeIcon icon={faTrashAlt} />
+                        <FontAwesomeIcon icon={faTrashAlt}/>
                     </button>
                 </div>
             )}
+
+
         </div>
     );
 }
