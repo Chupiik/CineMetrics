@@ -1,0 +1,122 @@
+/* src/styles/OMDBMassUpload.css */
+.omdb-mass-upload-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--info-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.omdb-mass-upload-container h1 {
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.omdb-mass-upload-form {
+  background-color: var(--info-color);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.omdb-mass-upload-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.omdb-mass-upload-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+.omdb-mass-upload-form input[type="text"],
+.omdb-mass-upload-form input[type="url"],
+.omdb-mass-upload-form input[type="date"],
+.omdb-mass-upload-form input[type="number"],
+.omdb-mass-upload-form input[type="file"],
+.omdb-mass-upload-form textarea {
+  background-color: var(--infoText-color);
+  width: 95%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--info-color);
+  border-radius: 4px;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+}
+
+.omdb-mass-upload-form input[type="text"]:focus,
+.omdb-mass-upload-form input[type="url"]:focus,
+.omdb-mass-upload-form input[type="date"]:focus,
+.omdb-mass-upload-form input[type="number"]:focus,
+.omdb-mass-upload-form textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: inset 0 2px 4px rgba(255, 125, 0, 0.3);
+}
+
+.omdb-mass-upload-form input::placeholder {
+  color: var(--background-color);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.omdb-mass-upload-form button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.omdb-mass-upload-form button:hover {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.omdb-mass-upload-form button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.4);
+}
+
+.omdb-mass-upload-form button:active {
+  background-color: var(--primary-color);
+  transform: translateY(2px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.success-message {
+  color: var(--success-color);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .omdb-mass-upload-container {
+    padding: 16px;
+  }
+}

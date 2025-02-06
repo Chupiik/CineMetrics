@@ -1,6 +1,10 @@
 import json
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_http_methods
 from rest_framework import generics, status, serializers
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
@@ -9,11 +13,17 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .pagination import MoviePagination
 from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer, \
-    GenreSerializer
+    GenreSerializer, OMDbUploadSerializer
 from .models import Movie, MovieList, Comment, Review, Genre
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
-from rest_framework.parsers import MultiPartParser, FormParser
+
+import requests
+import datetime
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import OMDbUploadForm
+from .models import Movie, Genre
 
 
 class MoviesGet(generics.ListAPIView):
@@ -53,6 +63,7 @@ class MovieCreate(generics.ListCreateAPIView):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MovieDelete(generics.DestroyAPIView):
     serializer_class = MovieSerializer
@@ -452,3 +463,150 @@ class GenreList(generics.ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [AllowAny]
+
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+@method_decorator(require_http_methods(["GET", "POST"]), name='dispatch')
+class OMDBMassUploadView(APIView):
+    def get(self, request, format=None):
+        return Response({"detail": "GET endpoint to set CSRF cookie."})
+
+    def post(self, request, format=None):
+        serializer = OMDbUploadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        data = serializer.validated_data
+        query = data['query']
+        apikey = data['apikey']
+        page = 1
+        created_count = 0
+        updated_count = 0
+        total_movies_processed = 0
+        processing_messages = []
+
+        MAX_PAGES = 10
+
+        while True:
+            try:
+                search_url = f"http://www.omdbapi.com/?apikey={apikey}&s={query}&page={page}"
+                response = requests.get(search_url, timeout=3)
+                data_response = response.json()
+            except Exception as e:
+                message = f"Error fetching search results on page {page}: {str(e)}"
+                processing_messages.append(message)
+                break
+
+            if data_response.get('Response', 'False') == 'False':
+                message = f"OMDb API Error on page {page}: {data_response.get('Error', 'Unknown error')}"
+                processing_messages.append(message)
+                break
+
+            movies_list = data_response.get('Search', [])
+            if not movies_list:
+                break
+
+            for item in movies_list:
+                try:
+                    imdb_id = item.get('imdbID')
+                    details_url = f"http://www.omdbapi.com/?apikey={apikey}&i={imdb_id}&plot=full"
+                    details_response = requests.get(details_url, timeout=10)
+                    details = details_response.json()
+
+                    if details.get('Response', 'False') == 'False':
+                        message = f"Skipping {imdb_id}: Failure - {details.get('Error', 'No error provided')}"
+                        processing_messages.append(message)
+                        continue
+
+                    title = details.get('Title')
+                    released_str = details.get('Released')
+                    director = details.get('Director')
+                    runtime_str = details.get('Runtime')
+                    plot = details.get('Plot')
+                    country = details.get('Country')
+                    writer = details.get('Writer')
+                    actors = details.get('Actors')
+                    imdb_rating = details.get('imdbRating')
+                    poster = details.get('Poster')
+                    genres_str = details.get('Genre')
+
+                    released = None
+                    if released_str and released_str != 'N/A':
+                        try:
+                            released = datetime.datetime.strptime(released_str, "%d %b %Y").date()
+                        except Exception as e:
+                            processing_messages.append(
+                                f"Could not parse release date for {title}: '{released_str}'"
+                            )
+
+                    runtime_min = None
+                    if runtime_str and runtime_str != 'N/A':
+                        try:
+                            runtime_min = int(runtime_str.split()[0])
+                        except Exception as e:
+                            processing_messages.append(
+                                f"Could not parse runtime for {title}: '{runtime_str}'"
+                            )
+
+                    if poster == "N/A":
+                        poster = None
+
+                    movie, created = Movie.objects.get_or_create(
+                        title=title,
+                        released=released,
+                        defaults={
+                            'director': director,
+                            'runtime_min': runtime_min,
+                            'plot': plot,
+                            'country': country,
+                            'poster': poster,
+                            'writer': writer,
+                            'actors': actors,
+                            'imdb_rating': imdb_rating,
+                        }
+                    )
+
+                    if not created:
+                        movie.director = director
+                        movie.runtime_min = runtime_min
+                        movie.plot = plot
+                        movie.country = country
+                        movie.poster = poster
+                        movie.writer = writer
+                        movie.actors = actors
+                        movie.imdb_rating = imdb_rating
+                        movie.save()
+                        updated_count += 1
+                    else:
+                        created_count += 1
+
+                    if genres_str and genres_str != "N/A":
+                        genres_list = [g.strip() for g in genres_str.split(",")]
+                        for genre_name in genres_list:
+                            genre, _ = Genre.objects.get_or_create(name=genre_name)
+                            movie.genres.add(genre)
+
+                    total_movies_processed += 1
+                    msg = f"Processed {total_movies_processed}: {title}"
+                    processing_messages.append(msg)
+                except Exception as e:
+                    message = f"Error processing movie with IMDb ID {item.get('imdbID')}: {str(e)}"
+                    processing_messages.append(message)
+                    continue
+
+            total_results = int(data_response.get("totalResults", "0"))
+
+            if page * 10 >= total_results:
+                break
+
+            page += 1
+            if page > MAX_PAGES:
+                processing_messages.append("Reached maximum page limit.")
+                break
+
+        return Response({
+            "message": "Mass upload complete.",
+            "created_count": created_count,
+            "updated_count": updated_count,
+            "processing_messages": processing_messages,
+        }, status=status.HTTP_200_OK)

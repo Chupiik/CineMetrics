@@ -134,3 +134,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['id', 'user', 'movie', 'rating', 'text', 'created_at']
         read_only_fields = ['id', 'user', 'created_at']
+
+
+class OMDbUploadSerializer(serializers.Serializer):
+    query = serializers.CharField(max_length=100)
+    apikey = serializers.CharField(max_length=100)

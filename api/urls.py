@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import UserProfileView, MovieListDetail, MovieListUpdate, SaveMovieList, UnsaveMovieList, \
     AddComment, EditComment, DeleteComment, GetMovieComments, CommentRepliesView, MovieReviewList, MovieReviewCreate, \
-    ReviewRetrieve, ReviewUpdate, ReviewDelete, GetReviewComments
+    ReviewRetrieve, ReviewUpdate, ReviewDelete, GetReviewComments, OMDBMassUploadView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -36,6 +36,7 @@ urlpatterns = [
     path("reviews/<int:review_id>/delete/", ReviewDelete.as_view(), name="review-delete"),
     path("reviews/<int:review_id>/comments/", GetReviewComments.as_view(), name="review-comment-list"),
     path('genres/', views.GenreList.as_view(), name='genre-list'),
+    path('omdb-mass-upload/', OMDBMassUploadView.as_view(), name='omdb_mass_upload'),
 ]
 
 if settings.DEBUG:

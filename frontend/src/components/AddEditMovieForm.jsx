@@ -121,6 +121,7 @@ function AddEditMovie({method}) {
         setWriter("");
         setActors("");
         setImdbRating("");
+        setPosterFile(null);
     };
 
     return (

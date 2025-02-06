@@ -23,6 +23,8 @@ function Movies() {
   const isAdmin = user && user.groups && user.groups.includes("Admin");
 
 
+
+
   useEffect(() => {
     setMovies([]);
     setPage(1);
@@ -45,7 +47,7 @@ function Movies() {
 
         getMovies(page + 1);
       }
-    }, 200);
+    }, 500);
 
     window.addEventListener("scroll", handleScroll);
 

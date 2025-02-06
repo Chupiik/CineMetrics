@@ -1,23 +1,24 @@
 import '../styles/MovieComponent.css';
-import {Link} from "react-router-dom";
-import React, {useContext, useState} from "react";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPencil, faTrashAlt, faSquarePlus, faSquareMinus} from '@fortawesome/free-solid-svg-icons';
-import {AuthContext} from "../context/AuthContext.jsx";
+import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faTrashAlt, faSquarePlus, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from "../context/AuthContext.jsx";
 import api from "../api.js";
 
-function MovieComponent({movie, onDelete, onRemoveFromList}) {
-    const {user} = useContext(AuthContext);
+function MovieComponent({ movie, onDelete, onRemoveFromList }) {
+    const { user } = useContext(AuthContext);
     const isAdmin = user && user.groups && user.groups.includes("Admin");
 
     const [showDetails, setShowDetails] = useState(false);
-
     const [showMovieLists, setShowMovieLists] = useState(false);
     const [showRemoveLists, setShowRemoveLists] = useState(false);
     const [movieLists, setMovieLists] = useState([]);
     const [movieInLists, setMovieInLists] = useState([]);
     const [loadingLists, setLoadingLists] = useState(false);
     const [loadingRemoveLists, setLoadingRemoveLists] = useState(false);
+
+
 
     const fetchMovieLists = async () => {
         setLoadingLists(true);
@@ -49,7 +50,7 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
 
     const addToMovieList = async (listId) => {
         try {
-            const res = await api.post(`/api/movie-lists/${listId}/add/`, {movie: movie.id});
+            const res = await api.post(`/api/movie-lists/${listId}/add/`, { movie: movie.id });
             if (!(res.status === 200 || res.status === 201)) {
                 alert("Failed to add movie to list.");
             }
@@ -62,7 +63,7 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
 
     const removeFromMovieList = async (listId) => {
         try {
-            await api.post(`/api/movie-lists/${listId}/remove/`, {movie: movie.id});
+            await api.post(`/api/movie-lists/${listId}/remove/`, { movie: movie.id });
             setMovieInLists(prevLists => prevLists.filter(list => list.id !== listId));
             if (onRemoveFromList) {
                 onRemoveFromList(movie.id);
@@ -92,7 +93,7 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
                                 onMouseLeave={() => setShowMovieLists(false)}
                             >
                                 <button className="movie-add-button">
-                                    <FontAwesomeIcon icon={faSquarePlus}/>
+                                    <FontAwesomeIcon icon={faSquarePlus} />
                                 </button>
                                 {showMovieLists && (
                                     <div className="movie-lists-dropdown">
@@ -126,7 +127,7 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
                                 onMouseLeave={() => setShowRemoveLists(false)}
                             >
                                 <button className="movie-remove-button">
-                                    <FontAwesomeIcon icon={faSquareMinus}/>
+                                    <FontAwesomeIcon icon={faSquareMinus} />
                                 </button>
                                 {showRemoveLists && (
                                     <div className="movie-lists-dropdown">
@@ -160,6 +161,11 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
                                     className="movie-poster"
                                     src={movie.poster_uploaded ? movie.poster_uploaded : movie.poster}
                                     alt={`Poster of ${movie.title}`}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = "http://localhost:8000/media/movie_posters/placeholder.png";
+                                    }}
+
                                 />
                             )}
                         </div>
@@ -182,11 +188,11 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
                 <div className="movie-actions">
                     <Link to={`/edit-movie/${movie.id}`}>
                         <button className="movie-edit-button movie-button">
-                            <FontAwesomeIcon icon={faPencil}/>
+                            <FontAwesomeIcon icon={faPencil} />
                         </button>
                     </Link>
                     <button className="movie-delete-button movie-button" onClick={() => onDelete(movie.id)}>
-                        <FontAwesomeIcon icon={faTrashAlt}/>
+                        <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                 </div>
             )}
