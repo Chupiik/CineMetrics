@@ -488,7 +488,7 @@ class OMDBMassUploadView(APIView):
         total_movies_processed = 0
         processing_messages = []
 
-        MAX_PAGES = 10
+        MAX_PAGES = 5
 
         while True:
             try:

@@ -25,6 +25,18 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
     const [loadingLists, setLoadingLists] = useState(false);
     const [loadingRemoveLists, setLoadingRemoveLists] = useState(false);
 
+    const deleteMovie = (id) => {
+        api
+            .delete(`/api/movies/delete/${id}/`)
+            .then((res) => {
+                if (res.status === 204) {
+                    onDelete(movie.id);
+                } else {
+                    alert("Failed to delete movie.");
+                }
+            })
+            .catch((err) => alert(err));
+    };
 
     const fetchMovieLists = async () => {
         setLoadingLists(true);
@@ -216,7 +228,7 @@ function MovieComponent({movie, onDelete, onRemoveFromList}) {
                             <FontAwesomeIcon icon={faPencil}/>
                         </button>
                     </Link>
-                    <button className="movie-delete-button movie-button" onClick={() => onDelete(movie.id)}>
+                    <button className="movie-delete-button movie-button" onClick={() => deleteMovie(movie.id)}>
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </button>
                 </div>

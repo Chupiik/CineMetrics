@@ -107,16 +107,7 @@ function Movies() {
     };
 
     const deleteMovie = (id) => {
-        api
-            .delete(`/api/movies/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) {
-                    setMovies((prev) => prev.filter((movie) => movie.id !== id));
-                } else {
-                    alert("Failed to delete movie.");
-                }
-            })
-            .catch((err) => alert(err));
+        setMovies((prev) => prev.filter((movie) => movie.id !== id));
     };
 
     return (

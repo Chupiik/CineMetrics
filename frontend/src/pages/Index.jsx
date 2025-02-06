@@ -2,12 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import "../styles/Index.css"
+import {faClapperboard} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 function HomePage() {
     return (
         <div className="body">
             <Navbar/>
             <section className="mainText">
                 <div>
+                    <FontAwesomeIcon icon={faClapperboard} className="Cinemetrics-Logo" />
                     <h2>Welcome to CineMetrics</h2>
                     <p>Your ultimate destination for all things movies. Discover a multitude of films, check ratings, and explore movie statistics.</p>
                     <Link to="/movies" className="btn">Explore Movies</Link>
@@ -25,7 +28,7 @@ function HomePage() {
                 </div>
                 <div className="feature-box">
                     <h3>Explore</h3>
-                    <p>Explore a wealth of movie statistics, including personal statistics shown in graphs.</p>
+                    <p>Explore a wealth of movie statistics, including personal statistics.</p>
                 </div>
             </section>
         </div>

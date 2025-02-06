@@ -11,6 +11,12 @@ html{
     color: var(--secondary-color);
 }
 
+.Cinemetrics-Logo {
+    color: var(--primary-color);
+    font-size: 110px;
+    margin-bottom: 0;
+}
+
 .mainText {
     padding: 100px 20px;
     text-align: center;
@@ -50,7 +56,6 @@ html{
 .features {
     display: flex;
     justify-content: space-around;
-    margin: 50px 20px;
     padding: 20px 0;
 }
 

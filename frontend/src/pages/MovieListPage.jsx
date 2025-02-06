@@ -99,7 +99,7 @@ function MovieListPage() {
                 <p>No movies in this list.</p>
               ) : (
                 list.movies.map((movie) => (
-                  <MovieComponent key={movie.id} movie={movie} onRemoveFromList={handleRemoveMovie} />
+                  <MovieComponent key={movie.id} movie={movie} onRemoveFromList={handleRemoveMovie} onDelete={handleRemoveMovie}/>
                 ))
               )}
             </div>

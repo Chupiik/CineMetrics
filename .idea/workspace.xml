@@ -4,15 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Fixed some bugs, Added a way to mass import movies with OMDB API">
+    <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Styling changes, Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/pagination.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/pagination.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MovieListPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Movies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Movies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/MovieComponent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/styles/Movies.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Movies.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Navbar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -466,7 +469,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738840873398</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Styling changes, Bug fixes">
+      <option name="closed" value="true" />
+      <created>1738850379257</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1738850379257</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -484,7 +495,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix the latest push" />
     <MESSAGE value="Added user roles/groups, Only users in Admin group can Add/Delete/Edit Movies" />
     <MESSAGE value="Styles changed - Movies page structure" />
     <MESSAGE value="Added MovieDetails page, Fixed some styling issues, Added link to home page to logo on navbar, Blocked some pages to non Admin users and added Unauthorized page" />
@@ -509,7 +519,8 @@
     <MESSAGE value="Movies loading fixed" />
     <MESSAGE value="Added a option to upload movie poster from a file" />
     <MESSAGE value="Fixed some bugs, Added a way to mass import movies with OMDB API" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some bugs, Added a way to mass import movies with OMDB API" />
+    <MESSAGE value="Styling changes, Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Styling changes, Bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

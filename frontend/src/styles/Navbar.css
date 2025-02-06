@@ -69,7 +69,7 @@
 }
 
 .lists-button {
-    background-color: var(--infoText-color);
+    background-color: var(--success-color);
 }
 
 .lists-button:hover {
