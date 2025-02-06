@@ -4,7 +4,6 @@ from .models import Movie, Genre, MovieList, Comment, Review
 import re
 
 
-
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
@@ -22,13 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate_username(self, value):
-        """Ensure the username is unique"""
         if User.objects.filter(username=value).exists():
             raise serializers.ValidationError("Username already exists.")
         return value
 
     def validate_password(self, value):
-        """Ensure password is strong enough"""
         if len(value) < 8:
             raise serializers.ValidationError("Password must be at least 8 characters long.")
         if not re.search(r"[A-Z]", value):
@@ -79,6 +76,16 @@ class MovieSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Title is required.")
         return value
 
+    def validate_runtime_min(self, value):
+        if value is not None and value <= 0:
+            raise serializers.ValidationError("Runtime must be a positive integer.")
+        return value
+
+    def validate_imdb_rating(self, value):
+        if value is not None and (value < 0 or value > 10):
+            raise serializers.ValidationError("IMDB rating must be between 0 and 10.")
+        return value
+
     def create(self, validated_data):
         genres_data = validated_data.pop("genres", [])
         movie = Movie.objects.create(**validated_data)
@@ -112,6 +119,11 @@ class MovieListSerializer(serializers.ModelSerializer):
             'users': {'required': False}
         }
 
+    def validate_name(self, value):
+        if not value or not value.strip():
+            raise serializers.ValidationError("List name is required.")
+        return value
+
 
 class CommentSerializer(serializers.ModelSerializer):
     replies = serializers.SerializerMethodField()
@@ -121,6 +133,11 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'user', 'movie', 'review', 'parent', 'content', 'created_at', 'replies']
         read_only_fields = ["id", "user", "created_at", "replies"]
+
+    def validate_content(self, value):
+        if not value or not value.strip():
+            raise serializers.ValidationError("Comment content cannot be empty.")
+        return value
 
     def get_replies(self, obj):
         replies = obj.replies.all()
@@ -134,6 +151,12 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['id', 'user', 'movie', 'rating', 'text', 'created_at']
         read_only_fields = ['id', 'user', 'created_at']
+
+
+    def validate_rating(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError("Rating must be between 1 and 5.")
+        return value
 
 
 class OMDbUploadSerializer(serializers.Serializer):

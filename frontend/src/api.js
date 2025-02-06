@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { ACCESS_TOKEN, REFRESH_TOKEN} from "./constants";
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
-  withCredentials: true
+    baseURL: import.meta.env.VITE_API_URL
 });
 
+
 api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('access');
+  const accessToken = localStorage.getItem(ACCESS_TOKEN);
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -18,7 +19,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response && error.response.status === 401) {
       try {
-        const refreshToken = localStorage.getItem('refresh');
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
         if (refreshToken) {
           const response = await axios.post(
             'http://127.0.0.1:8000/api/token/refresh/',
@@ -26,7 +27,7 @@ api.interceptors.response.use(
           );
 
           const newAccess = response.data.access;
-          localStorage.setItem('access', newAccess);
+          localStorage.setItem(ACCESS_TOKEN, newAccess);
 
           error.config.headers.Authorization = `Bearer ${newAccess}`;
           return api.request(error.config);

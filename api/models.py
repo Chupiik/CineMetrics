@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from rest_framework.exceptions import ValidationError
 
 
 class Genre(models.Model):
@@ -27,9 +28,22 @@ class Movie(models.Model):
     class Meta:
         ordering = ["id"]
 
-
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if not self.title or not self.title.strip():
+            raise ValidationError({'title': 'Title is required and cannot be blank.'})
+
+        if self.runtime_min is not None and self.runtime_min <= 0:
+            raise ValidationError({'runtime_min': 'Runtime must be a positive number.'})
+
+        if self.imdb_rating is not None and (self.imdb_rating < 0 or self.imdb_rating > 10):
+            raise ValidationError({'imdb_rating': 'IMDB rating must be between 0 and 10.'})
+
+        def save(self, *args, **kwargs):
+            self.full_clean()
+            super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
@@ -46,6 +60,15 @@ class Comment(models.Model):
             return f'Reply by {self.user.username} on comment {self.parent.id}'
         return f'Comment by {self.user.username} on {self.movie.title if self.movie else "discussion"}'
 
+    def clean(self):
+        if not self.content or not self.content.strip():
+            raise ValidationError({'content': 'Content cannot be empty.'})
+        if self.parent is None and not (self.movie or self.review):
+            raise ValidationError("A comment must be linked with either a movie or a review.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class MovieList(models.Model):
@@ -59,6 +82,14 @@ class MovieList(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if not self.name or not self.name.strip():
+            raise ValidationError({'name': 'List name is required.'})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Review(models.Model):

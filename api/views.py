@@ -1,4 +1,3 @@
-import json
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -13,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .pagination import MoviePagination
 from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, CommentSerializer, ReviewSerializer, \
     GenreSerializer, OMDbUploadSerializer
-from .models import Movie, MovieList, Comment, Review, Genre
+from .models import MovieList, Comment, Review
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 
@@ -49,6 +48,7 @@ class MoviesGet(generics.ListAPIView):
             queryset = queryset.order_by("id")
 
         return queryset.distinct()
+
 
 class MovieCreate(generics.ListCreateAPIView):
     serializer_class = MovieSerializer
@@ -306,7 +306,7 @@ class AddComment(APIView):
         review_id = request.data.get("review")
         parent_id = request.data.get("parent")
 
-        if not content or (not movie_id and not review_id):
+        if not content or not content.strip() or (not movie_id and not review_id):
             return Response({"detail": "Content and either movie ID or review ID are required."},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -340,7 +340,7 @@ class EditComment(APIView):
                             status=status.HTTP_403_FORBIDDEN)
 
         content = request.data.get("content")
-        if not content:
+        if not content or not content.strip():
             return Response({"detail": "Content cannot be empty."}, status=status.HTTP_400_BAD_REQUEST)
 
         comment.content = content
@@ -364,6 +364,7 @@ class DeleteComment(APIView):
 
 class GetMovieComments(APIView):
     permission_classes = []
+
     def get(self, request, movie_id):
         movie = get_object_or_404(Movie, id=movie_id)
         comments = Comment.objects.filter(movie=movie, parent=None).order_by("-created_at")
@@ -458,6 +459,7 @@ class ReviewDelete(APIView):
 
 class GetReviewComments(APIView):
     permission_classes = []
+
     def get(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
         comments = Comment.objects.filter(review=review, parent=None).order_by("-created_at")
@@ -474,6 +476,7 @@ class GenreList(generics.ListAPIView):
 @method_decorator(require_http_methods(["GET", "POST"]), name='dispatch')
 class OMDBMassUploadView(APIView):
     permission_classes = []
+
     def get(self, request, format=None):
         return Response({"detail": "GET endpoint to set CSRF cookie."})
 

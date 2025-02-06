@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useContext} from "react";
-import {useParams, useNavigate, Link} from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import api from "../api.js";
 import Navbar from "../components/Navbar.jsx";
 import "../styles/MovieDetails.css";
-import {AuthContext} from "../context/AuthContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import {
     faPencil,
     faTrashAlt,
@@ -21,13 +21,15 @@ import {
     faStar,
     faMinusSquare,
     faPlusSquare,
+    faArrowLeft,      // Imported for Back button
+    faPaperPlane     // Imported for Post/Submit buttons
 } from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CommentComponent from "../components/CommentComponent.jsx";
 import ReviewComponent from "../components/ReviewComponent.jsx";
 
 function MovieDetails() {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -50,9 +52,8 @@ function MovieDetails() {
     const [loadingLists, setLoadingLists] = useState(false);
     const [loadingRemoveLists, setLoadingRemoveLists] = useState(false);
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const isAdmin = user && user.groups && user.groups.includes("Admin");
-
 
     const userHasReviewed = user && reviews.some((rev) => rev.user === user.username);
 
@@ -60,7 +61,6 @@ function MovieDetails() {
         fetchMovieDetails();
         fetchComments();
         fetchReviews();
-
     }, [id]);
 
     const fetchMovieDetails = () => {
@@ -168,7 +168,7 @@ function MovieDetails() {
             setCommentError("");
         }
         api
-            .post(`/api/comments/add/`, {movie: id, content: newComment})
+            .post(`/api/comments/add/`, { movie: id, content: newComment })
             .then(() => {
                 setNewComment("");
                 fetchComments();
@@ -181,7 +181,6 @@ function MovieDetails() {
     };
 
     const postReview = () => {
-
         if (userHasReviewed) {
             setReviewError("You have already reviewed this movie.");
             return;
@@ -192,10 +191,6 @@ function MovieDetails() {
             return;
         }
 
-        if (!newReviewText || !newReviewText.trim()) {
-            setReviewError("Review text cannot be empty.");
-            return;
-        }
         setReviewError("");
         api
             .post(`/api/movies/${id}/reviews/create/`, {
@@ -216,7 +211,7 @@ function MovieDetails() {
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <div className="movie-details-container">
                 <div className="movie-details-content">
                     <div className="poster-container">
@@ -237,7 +232,7 @@ function MovieDetails() {
                                     onMouseLeave={() => setShowMovieLists(false)}
                                 >
                                     <button className="movie-details-add-button">
-                                        <FontAwesomeIcon icon={faSquarePlus}/>
+                                        <FontAwesomeIcon icon={faSquarePlus} />
                                     </button>
                                     {showMovieLists && (
                                         <div className="movie-details-lists-dropdown">
@@ -269,7 +264,7 @@ function MovieDetails() {
                                     onMouseLeave={() => setShowRemoveLists(false)}
                                 >
                                     <button className="movie-details-remove-button">
-                                        <FontAwesomeIcon icon={faSquareMinus}/>
+                                        <FontAwesomeIcon icon={faSquareMinus} />
                                     </button>
                                     {showRemoveLists && (
                                         <div className="movie-details-lists-dropdown">
@@ -297,94 +292,84 @@ function MovieDetails() {
 
                     <div className="info-container">
                         <h2>
-                            <FontAwesomeIcon
-                                icon={faFilm}
-                                className="movie-title-icon"
-                            />
+                            <FontAwesomeIcon icon={faFilm} className="movie-title-icon" />
                             {movie.title}
                         </h2>
 
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faTags} className="info-icon"/>
+                            <FontAwesomeIcon icon={faTags} className="info-icon" />
                             <span>
-                <strong>Genres:</strong>{" "}
-                                {movie.genres.map((g) => g.name).join(", ")}
-              </span>
+                                <strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faCalendarAlt} className="info-icon"/>
+                            <FontAwesomeIcon icon={faCalendarAlt} className="info-icon" />
                             <span>
-                <strong>Released:</strong>{" "}
+                                <strong>Released:</strong>{" "}
                                 {movie.released
                                     ? new Date(movie.released).toLocaleDateString("sk-SK")
                                     : "No information"}
-              </span>
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faUserTie} className="info-icon"/>
+                            <FontAwesomeIcon icon={faUserTie} className="info-icon" />
                             <span>
-                <strong>Director:</strong>{" "}
-                                {movie.director || "No information"}
-              </span>
+                                <strong>Director:</strong> {movie.director || "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faClock} className="info-icon"/>
+                            <FontAwesomeIcon icon={faClock} className="info-icon" />
                             <span>
-                <strong>Runtime:</strong>{" "}
-                                {movie.runtime_min
-                                    ? `${movie.runtime_min} minutes`
-                                    : "No information"}
-              </span>
+                                <strong>Runtime:</strong>{" "}
+                                {movie.runtime_min ? `${movie.runtime_min} minutes` : "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faGlobe} className="info-icon"/>
+                            <FontAwesomeIcon icon={faGlobe} className="info-icon" />
                             <span>
-                <strong>Country:</strong>{" "}
-                                {movie.country || "No information"}
-              </span>
+                                <strong>Country:</strong> {movie.country || "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faPenNib} className="info-icon"/>
+                            <FontAwesomeIcon icon={faPenNib} className="info-icon" />
                             <span>
-                <strong>Writer:</strong>{" "}
-                                {movie.writer || "No information"}
-              </span>
+                                <strong>Writer:</strong> {movie.writer || "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faUsers} className="info-icon"/>
+                            <FontAwesomeIcon icon={faUsers} className="info-icon" />
                             <span>
-                <strong>Actors:</strong>{" "}
-                                {movie.actors || "No information"}
-              </span>
+                                <strong>Actors:</strong> {movie.actors || "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faAlignLeft} className="info-icon"/>
+                            <FontAwesomeIcon icon={faAlignLeft} className="info-icon" />
                             <span>
-                <strong>Plot:</strong> {movie.plot || "No information"}
-              </span>
+                                <strong>Plot:</strong> {movie.plot || "No information"}
+                            </span>
                         </p>
                         <p className="info-item">
-                            <FontAwesomeIcon icon={faStar} className="info-icon"/>
+                            <FontAwesomeIcon icon={faStar} className="info-icon" />
                             <span>
-                <strong>IMDB Rating:</strong>{" "}
-                                {movie.imdb_rating || "No information"}
-              </span>
+                                <strong>IMDB Rating:</strong> {movie.imdb_rating || "No information"}
+                            </span>
                         </p>
                     </div>
                 </div>
 
                 <div className="buttons">
                     <button onClick={() => navigate(-1)} className="movie-details-button">
+                        <FontAwesomeIcon icon={faArrowLeft} style={{ marginRight: "8px" }} />
                         Back
                     </button>
                     {isAdmin && (
                         <>
                             <Link to={`/edit-movie/${id}/`} className="edit-button movie-details-button">
-                                <FontAwesomeIcon icon={faPencil} style={{marginRight: "8px"}}/>
+                                <FontAwesomeIcon icon={faPencil} style={{ marginRight: "8px" }} />
                                 Edit Movie
                             </Link>
                             <button onClick={deleteMovie} className="delete-button movie-details-button">
-                                <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "8px"}}/>
+                                <FontAwesomeIcon icon={faTrashAlt} style={{ marginRight: "8px" }} />
                                 Delete Movie
                             </button>
                         </>
@@ -396,17 +381,18 @@ function MovieDetails() {
                         <h3>Comments</h3>
                         {user && (
                             <div className="comment-form">
-                <textarea
-                    value={newComment}
-                    onChange={(e) => {
-                        setNewComment(e.target.value);
-                        setCommentError("");
-                    }}
-                    placeholder="Write a comment..."
-                    className="comment-input"
-                />
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => {
+                                        setNewComment(e.target.value);
+                                        setCommentError("");
+                                    }}
+                                    placeholder="Write a comment..."
+                                    className="comment-input"
+                                />
                                 {commentError && <p className="error-message">{commentError}</p>}
                                 <button className="submit-comment-button" onClick={postComment}>
+                                    <FontAwesomeIcon icon={faPaperPlane} style={{ marginRight: "8px" }} />
                                     Post Comment
                                 </button>
                             </div>
@@ -455,6 +441,7 @@ function MovieDetails() {
                                 />
                                 {reviewError && <p className="error-message">{reviewError}</p>}
                                 <button className="review-submit-button" onClick={postReview}>
+                                    <FontAwesomeIcon icon={faPaperPlane} style={{ marginRight: "8px" }} />
                                     Submit Review
                                 </button>
                             </div>
@@ -464,7 +451,7 @@ function MovieDetails() {
                             <p>No reviews yet. Be the first to review!</p>
                         ) : (
                             reviews.map((review) => (
-                                <ReviewComponent key={review.id} review={review} handleDelete={fetchReviews}/>
+                                <ReviewComponent key={review.id} review={review} handleDelete={fetchReviews} />
                             ))
                         )}
                     </div>
