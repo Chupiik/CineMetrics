@@ -47,67 +47,125 @@ function AddEditMovie({method}) {
         }
     }, [method, id]);
 
+    const isValidUrl = (urlString) => {
+        try {
+            new URL(urlString);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    };
+
+    const validateInputs = () => {
+        const errors = {};
+
+        if (!title.trim()) {
+            errors.title = ["Title is required."];
+        }
+
+        if (!released) {
+            errors.released = ["Release date is required."];
+        }
+
+        if (runtimeMin) {
+            const runtimeNumber = Number(runtimeMin);
+            if (isNaN(runtimeNumber) || runtimeNumber <= 0) {
+                errors.runtimeMin = ["Runtime must be a positive number."];
+            }
+        }
+
+        if (imdbRating) {
+            const ratingNumber = Number(imdbRating);
+            if (
+                isNaN(ratingNumber) ||
+                ratingNumber < 0 ||
+                ratingNumber > 10
+            ) {
+                errors.imdbRating = ["IMDB Rating must be a number between 0 and 10."];
+            }
+        }
+
+        if (posterUrl && !isValidUrl(posterUrl)) {
+            errors.poster = ["Poster URL is invalid."];
+        }
+
+        if (posterFile) {
+            const acceptedImageTypes = ["image/jpeg", "image/png", "image/gif"];
+            if (!acceptedImageTypes.includes(posterFile.type)) {
+                errors.posterFile = ["Poster file must be an image (jpeg, png, gif)."];
+            }
+        }
+
+
+        return errors;
+    };
+
     const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrorMessages({});
+        e.preventDefault();
+        setErrorMessages({});
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("released", released);
-    formData.append("director", director);
-    formData.append("runtime_min", runtimeMin);
-    formData.append("plot", plot);
-    formData.append("country", country);
-    formData.append("writer", writer);
-    formData.append("actors", actors);
-    formData.append("imdb_rating", imdbRating);
+        const errors = validateInputs();
+        if (Object.keys(errors).length > 0) {
+            setErrorMessages(errors);
+            return;
+        }
 
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("released", released);
+        formData.append("director", director);
+        formData.append("runtime_min", runtimeMin);
+        formData.append("plot", plot);
+        formData.append("country", country);
+        formData.append("writer", writer);
+        formData.append("actors", actors);
+        formData.append("imdb_rating", imdbRating);
 
-    const genreObjects = genres
-        .split(",")
-        .map((genre) => genre.trim())
-        .filter((genre) => genre)
-        .map((name) => ({ name }));
-    formData.append("genres", JSON.stringify(genreObjects));
-    console.log("Sending genres:", JSON.stringify(genreObjects));
+        const genreObjects = genres
+            .split(",")
+            .map((genre) => genre.trim())
+            .filter((genre) => genre)
+            .map((name) => ({name}));
+        formData.append("genres", JSON.stringify(genreObjects));
+        console.log("Sending genres:", JSON.stringify(genreObjects));
 
-    if (posterFile) {
-        formData.append("poster_uploaded", posterFile);
-    }
+        if (posterFile) {
+            formData.append("poster_uploaded", posterFile);
+        }
 
-    const apiCall =
-        method === "add"
-            ? api.post("/api/movies/add/", formData, {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
-                  },
-              })
-            : api.put(`/api/movies/edit/${id}/`, formData, {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
-                  },
-              });
-    apiCall
-        .then((res) => {
-            if (res.status === 201 || res.status === 200) {
-                alert(method === "add" ? "Movie added!" : "Movie updated!");
-                if (method !== "add") {
-                    navigate("/movies/");
+        const apiCall =
+            method === "add"
+                ? api.post("/api/movies/add/", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                : api.put(`/api/movies/edit/${id}/`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+        apiCall
+            .then((res) => {
+                if (res.status === 201 || res.status === 200) {
+                    if (method !== "add") {
+                        navigate("/movies/");
+                    }
+                    resetForm();
+                } else {
+                    alert("Failed to process movie.");
                 }
-                resetForm();
-            } else {
-                alert("Failed to process movie.");
-            }
-        })
-        .catch((err) => {
-            if (err.response && err.response.data) {
-                console.error("Server Response:", err.response.data)
-                setErrorMessages(err.response.data);
-            } else {
-                alert("Error: " + err.message);
-            }
-        });
-};
+            })
+            .catch((err) => {
+                if (err.response && err.response.data) {
+                    console.error("Server Response:", err.response.data);
+                    setErrorMessages(err.response.data);
+                } else {
+                    alert("Error: " + err.message);
+                }
+            });
+    };
 
     const resetForm = () => {
         setTitle("");
@@ -122,6 +180,7 @@ function AddEditMovie({method}) {
         setActors("");
         setImdbRating("");
         setPosterFile(null);
+        setErrorMessages({});
     };
 
     return (
@@ -179,6 +238,9 @@ function AddEditMovie({method}) {
                         onChange={(e) => setRuntimeMin(e.target.value)}
                         value={runtimeMin}
                     />
+                    {errorMessages.runtimeMin && (
+                        <p className="error-message">{errorMessages.runtimeMin[0]}</p>
+                    )}
                     <br/>
                     <label htmlFor="plot">Plot:</label>
                     <br/>
@@ -246,6 +308,9 @@ function AddEditMovie({method}) {
                         onChange={(e) => setImdbRating(e.target.value)}
                         value={imdbRating}
                     />
+                    {errorMessages.imdbRating && (
+                        <p className="error-message">{errorMessages.imdbRating[0]}</p>
+                    )}
                     <br/>
                     <label htmlFor="poster">Poster URL:</label>
                     <br/>
@@ -262,7 +327,11 @@ function AddEditMovie({method}) {
                     )}
                     <br/>
                     {posterUrl && (
-                        <img className="movie-poster-create" src={posterUrl} alt="Poster preview"/>
+                        <img
+                            className="movie-poster-create"
+                            src={posterUrl}
+                            alt="Poster preview"
+                        />
                     )}
                     <br/>
                     <label htmlFor="posterFile">Poster upload (priority):</label>
@@ -274,6 +343,9 @@ function AddEditMovie({method}) {
                         accept="image/*"
                         onChange={(e) => setPosterFile(e.target.files[0])}
                     />
+                    {errorMessages.posterFile && (
+                        <p className="error-message">{errorMessages.posterFile[0]}</p>
+                    )}
                     {posterFile && (
                         <img
                             className="movie-poster-create"
@@ -282,7 +354,9 @@ function AddEditMovie({method}) {
                         />
                     )}
                     <br/>
-                    <button type="submit">{method === "add" ? "Add Movie" : "Update Movie"}</button>
+                    <button type="submit">
+                        {method === "add" ? "Add Movie" : "Update Movie"}
+                    </button>
                 </form>
             </div>
         </div>

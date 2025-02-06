@@ -13,7 +13,6 @@ function AddMovie() {
         </Link>
       </div>
 
-      {/* Internal CSS styling */}
       <style>
         {`
           .upload-button {

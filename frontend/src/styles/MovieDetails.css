@@ -63,6 +63,10 @@ body {
   color: var(--primary-color, #555);
 }
 
+.error-message {
+    margin-top: 5px;
+}
+
 .dropdown-details-wrapper {
   position: relative;
   display: inline-block;

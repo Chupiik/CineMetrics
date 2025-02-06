@@ -115,7 +115,6 @@
 }
 
 
-/* Optional responsive design */
 @media (max-width: 600px) {
     .login-form-container {
         padding: 1.5rem;

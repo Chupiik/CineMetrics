@@ -18,7 +18,9 @@ import {
     faPenNib,
     faUsers,
     faAlignLeft,
-    faStar, faMinusSquare, faPlusSquare,
+    faStar,
+    faMinusSquare,
+    faPlusSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CommentComponent from "../components/CommentComponent.jsx";
@@ -33,11 +35,13 @@ function MovieDetails() {
 
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const [commentError, setCommentError] = useState("");
 
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [newReviewRating, setNewReviewRating] = useState(1);
     const [newReviewText, setNewReviewText] = useState("");
+    const [reviewError, setReviewError] = useState("");
 
     const [showMovieLists, setShowMovieLists] = useState(false);
     const [showRemoveLists, setShowRemoveLists] = useState(false);
@@ -49,10 +53,14 @@ function MovieDetails() {
     const {user} = useContext(AuthContext);
     const isAdmin = user && user.groups && user.groups.includes("Admin");
 
+
+    const userHasReviewed = user && reviews.some((rev) => rev.user === user.username);
+
     useEffect(() => {
         fetchMovieDetails();
         fetchComments();
         fetchReviews();
+
     }, [id]);
 
     const fetchMovieDetails = () => {
@@ -119,11 +127,10 @@ function MovieDetails() {
                 movie: movie.id,
             });
             if (!(res.status === 200 || res.status === 201)) {
-                alert("Failed to add movie to list.");
+                console.log("Failed to add movie to list.");
             }
         } catch (error) {
             console.error("Error adding movie to list:", error);
-            alert("Error adding movie to list.");
         }
         setShowMovieLists(false);
     };
@@ -136,7 +143,6 @@ function MovieDetails() {
             setMovieInLists((prevLists) => prevLists.filter((list) => list.id !== listId));
         } catch (error) {
             console.error("Error removing movie from list:", error);
-            alert("Error removing movie from list.");
         }
         setShowRemoveLists(false);
     };
@@ -148,34 +154,49 @@ function MovieDetails() {
                 if (res.status === 204) {
                     navigate("/movies");
                 } else {
-                    alert("Failed to delete movie.");
+                    console.log("Failed to delete movie.");
                 }
             })
-            .catch((err) => alert(err));
+            .catch((err) => console.error(err));
     };
 
     const postComment = () => {
-        if (!newComment.trim()) return;
+        if (!newComment || !newComment.trim()) {
+            setCommentError("Comment cannot be empty.");
+            return;
+        } else {
+            setCommentError("");
+        }
         api
             .post(`/api/comments/add/`, {movie: id, content: newComment})
             .then(() => {
                 setNewComment("");
                 fetchComments();
             })
-            .catch(() => alert("Failed to post comment"));
+            .catch(() => console.error("Failed to post comment"));
     };
 
     const handleDeleteComment = (commentId) => {
         setComments((prev) => prev.filter((c) => c.id !== commentId));
     };
 
-    const userHasReviewed = user && reviews.some((rev) => rev.user === user.username);
-
     const postReview = () => {
+
         if (userHasReviewed) {
-            alert("You have already reviewed this movie.");
+            setReviewError("You have already reviewed this movie.");
             return;
         }
+
+        if (isNaN(newReviewRating) || newReviewRating < 1 || newReviewRating > 5) {
+            setReviewError("Rating must be a number between 1 and 5.");
+            return;
+        }
+
+        if (!newReviewText || !newReviewText.trim()) {
+            setReviewError("Review text cannot be empty.");
+            return;
+        }
+        setReviewError("");
         api
             .post(`/api/movies/${id}/reviews/create/`, {
                 rating: newReviewRating,
@@ -187,7 +208,7 @@ function MovieDetails() {
                 setNewReviewText("");
                 fetchReviews();
             })
-            .catch(() => alert("Failed to post review"));
+            .catch(() => console.error("Failed to post review"));
     };
 
     if (loading) return <p>Loading...</p>;
@@ -199,7 +220,11 @@ function MovieDetails() {
             <div className="movie-details-container">
                 <div className="movie-details-content">
                     <div className="poster-container">
-                        <img className="movie-details-poster" src={movie.poster} alt={movie.title}/>
+                        <img
+                            className="movie-details-poster"
+                            src={movie.poster}
+                            alt={movie.title}
+                        />
 
                         {user && (
                             <div>
@@ -218,20 +243,18 @@ function MovieDetails() {
                                         <div className="movie-details-lists-dropdown">
                                             {loadingLists ? (
                                                 <p>Loading...</p>
+                                            ) : movieLists.length > 0 ? (
+                                                movieLists.map((list) => (
+                                                    <div
+                                                        key={list.id}
+                                                        className="movie-details-list-option"
+                                                        onClick={() => addToMovieList(list.id)}
+                                                    >
+                                                        {list.name}
+                                                    </div>
+                                                ))
                                             ) : (
-                                                movieLists.length > 0 ? (
-                                                    movieLists.map((list) => (
-                                                        <div
-                                                            key={list.id}
-                                                            className="movie-details-list-option"
-                                                            onClick={() => addToMovieList(list.id)}
-                                                        >
-                                                            {list.name}
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>No movie lists found.</p>
-                                                )
+                                                <p>No movie lists found.</p>
                                             )}
                                         </div>
                                     )}
@@ -252,20 +275,18 @@ function MovieDetails() {
                                         <div className="movie-details-lists-dropdown">
                                             {loadingRemoveLists ? (
                                                 <p>Loading...</p>
+                                            ) : movieInLists.length > 0 ? (
+                                                movieInLists.map((list) => (
+                                                    <div
+                                                        key={list.id}
+                                                        className="movie-details-list-option"
+                                                        onClick={() => removeFromMovieList(list.id)}
+                                                    >
+                                                        {list.name}
+                                                    </div>
+                                                ))
                                             ) : (
-                                                movieInLists.length > 0 ? (
-                                                    movieInLists.map((list) => (
-                                                        <div
-                                                            key={list.id}
-                                                            className="movie-details-list-option"
-                                                            onClick={() => removeFromMovieList(list.id)}
-                                                        >
-                                                            {list.name}
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>Not in any list.</p>
-                                                )
+                                                <p>Not in any list.</p>
                                             )}
                                         </div>
                                     )}
@@ -276,14 +297,18 @@ function MovieDetails() {
 
                     <div className="info-container">
                         <h2>
-                            <FontAwesomeIcon icon={faFilm} className="movie-title-icon"/>
+                            <FontAwesomeIcon
+                                icon={faFilm}
+                                className="movie-title-icon"
+                            />
                             {movie.title}
                         </h2>
 
                         <p className="info-item">
                             <FontAwesomeIcon icon={faTags} className="info-icon"/>
                             <span>
-                <strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}
+                <strong>Genres:</strong>{" "}
+                                {movie.genres.map((g) => g.name).join(", ")}
               </span>
                         </p>
                         <p className="info-item">
@@ -298,32 +323,38 @@ function MovieDetails() {
                         <p className="info-item">
                             <FontAwesomeIcon icon={faUserTie} className="info-icon"/>
                             <span>
-                <strong>Director:</strong> {movie.director || "No information"}
+                <strong>Director:</strong>{" "}
+                                {movie.director || "No information"}
               </span>
                         </p>
                         <p className="info-item">
                             <FontAwesomeIcon icon={faClock} className="info-icon"/>
                             <span>
                 <strong>Runtime:</strong>{" "}
-                                {movie.runtime_min ? `${movie.runtime_min} minutes` : "No information"}
+                                {movie.runtime_min
+                                    ? `${movie.runtime_min} minutes`
+                                    : "No information"}
               </span>
                         </p>
                         <p className="info-item">
                             <FontAwesomeIcon icon={faGlobe} className="info-icon"/>
                             <span>
-                <strong>Country:</strong> {movie.country || "No information"}
+                <strong>Country:</strong>{" "}
+                                {movie.country || "No information"}
               </span>
                         </p>
                         <p className="info-item">
                             <FontAwesomeIcon icon={faPenNib} className="info-icon"/>
                             <span>
-                <strong>Writer:</strong> {movie.writer || "No information"}
+                <strong>Writer:</strong>{" "}
+                                {movie.writer || "No information"}
               </span>
                         </p>
                         <p className="info-item">
                             <FontAwesomeIcon icon={faUsers} className="info-icon"/>
                             <span>
-                <strong>Actors:</strong> {movie.actors || "No information"}
+                <strong>Actors:</strong>{" "}
+                                {movie.actors || "No information"}
               </span>
                         </p>
                         <p className="info-item">
@@ -335,7 +366,8 @@ function MovieDetails() {
                         <p className="info-item">
                             <FontAwesomeIcon icon={faStar} className="info-icon"/>
                             <span>
-                <strong>IMDB Rating:</strong> {movie.imdb_rating || "No information"}
+                <strong>IMDB Rating:</strong>{" "}
+                                {movie.imdb_rating || "No information"}
               </span>
                         </p>
                     </div>
@@ -364,12 +396,16 @@ function MovieDetails() {
                         <h3>Comments</h3>
                         {user && (
                             <div className="comment-form">
-                            <textarea
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                                placeholder="Write a comment..."
-                                className="comment-input"
-                            />
+                <textarea
+                    value={newComment}
+                    onChange={(e) => {
+                        setNewComment(e.target.value);
+                        setCommentError("");
+                    }}
+                    placeholder="Write a comment..."
+                    className="comment-input"
+                />
+                                {commentError && <p className="error-message">{commentError}</p>}
                                 <button className="submit-comment-button" onClick={postComment}>
                                     Post Comment
                                 </button>
@@ -411,9 +447,13 @@ function MovieDetails() {
                                 <textarea
                                     className="review-textarea"
                                     value={newReviewText}
-                                    onChange={(e) => setNewReviewText(e.target.value)}
+                                    onChange={(e) => {
+                                        setNewReviewText(e.target.value);
+                                        setReviewError("");
+                                    }}
                                     placeholder="Write your review..."
                                 />
+                                {reviewError && <p className="error-message">{reviewError}</p>}
                                 <button className="review-submit-button" onClick={postReview}>
                                     Submit Review
                                 </button>
@@ -424,11 +464,7 @@ function MovieDetails() {
                             <p>No reviews yet. Be the first to review!</p>
                         ) : (
                             reviews.map((review) => (
-                                <ReviewComponent
-                                    key={review.id}
-                                    review={review}
-                                    handleDelete={fetchReviews}
-                                />
+                                <ReviewComponent key={review.id} review={review} handleDelete={fetchReviews}/>
                             ))
                         )}
                     </div>

@@ -14,7 +14,7 @@ function AddEditMovieListForm({ method }) {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, authLoading } = useContext(AuthContext); // Updated to use authLoading
+  const { user, authLoading } = useContext(AuthContext);
 
   const formTitle = method === "add" ? "Create a Movie List" : "Edit Movie List";
 
@@ -44,9 +44,25 @@ function AddEditMovieListForm({ method }) {
     }
   }, [method, id, user, authLoading, navigate]);
 
+  const validateInputs = () => {
+    const errors = {};
+
+    if (!name.trim()) {
+      errors.name = ["List name is required."];
+    }
+
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorMessages({});
+
+    const errors = validateInputs();
+    if (Object.keys(errors).length > 0) {
+      setErrorMessages(errors);
+      return;
+    }
 
     const listData = {
       name,
@@ -93,7 +109,9 @@ function AddEditMovieListForm({ method }) {
             onChange={(e) => setName(e.target.value)}
             value={name}
           />
-          {errorMessages.name && <p className="error-message">{errorMessages.name[0]}</p>}
+          {errorMessages.name && (
+            <p className="error-message">{errorMessages.name[0]}</p>
+          )}
 
           <label htmlFor="description">Description:</label>
           <textarea
@@ -102,20 +120,24 @@ function AddEditMovieListForm({ method }) {
             onChange={(e) => setDescription(e.target.value)}
             value={description}
           />
-          {errorMessages.description && <p className="error-message">{errorMessages.description[0]}</p>}
+          {errorMessages.description && (
+            <p className="error-message">{errorMessages.description[0]}</p>
+          )}
 
           <label htmlFor="isPublic" className="checkbox-label">
             Public
             <input
-                type="checkbox"
-                id="isPublic"
-                name="isPublic"
-                checked={isPublic}
-                onChange={(e) => setIsPublic(e.target.checked)}
+              type="checkbox"
+              id="isPublic"
+              name="isPublic"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
             />
           </label>
 
-          <button type="submit">{method === "add" ? "Create List" : "Update List"}</button>
+          <button type="submit">
+            {method === "add" ? "Create List" : "Update List"}
+          </button>
         </form>
       </div>
     </div>

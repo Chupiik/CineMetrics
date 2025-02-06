@@ -1,6 +1,7 @@
 
 .movieForm-container form {
     background-color: var(--info-color);
+    text-align: start;
 }
 
 .movieForm-container form label {

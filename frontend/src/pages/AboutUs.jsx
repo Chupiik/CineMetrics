@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar"; // Assuming Navbar is a reusable component
+import Navbar from "../components/Navbar";
 import "../styles/AboutUs.css"
 
 function AboutUs() {
