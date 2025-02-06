@@ -1,4 +1,4 @@
-/* Add Movie Form */
+
 .movieForm-container form {
     background-color: var(--info-color);
 }
@@ -13,6 +13,7 @@
 .movieForm-container form input[type="text"],
 .movieForm-container form input[type="url"],
 .movieForm-container form input[type="date"],
+.movieForm-container form input[type="number"],
 .movieForm-container form textarea {
     background-color: var(--infoText-color);
     width: 95%;
@@ -29,7 +30,6 @@
 .movieForm-container form textarea {
     height: 100px;
     resize: vertical;
-
 }
 
 .movieForm-container form textarea {
@@ -39,6 +39,7 @@
 .movieForm-container form input[type="url"]:focus,
 .movieForm-container form input[type="date"]:focus,
 .movieForm-container form input[type="text"]:focus,
+.movieForm-container form input[type="number"]:focus,
 .movieForm-container form textarea:focus {
     border-color: var(--primary-color);
     box-shadow: inset 0 2px 4px rgba(255, 125, 0, 0.3);
@@ -68,7 +69,6 @@
     color: var(--primary-color);
 }
 
-/* Container for the Movies Page */
 .movieForm-container {
     max-width: 800px;
     margin: 20px auto;
@@ -119,6 +119,13 @@
     color: var(--danger-color);
     font-size: 0.9rem;
 }
+
+.movieForm-container form input[type="number"]::-webkit-inner-spin-button,
+.movieForm-container form input[type="number"]::-webkit-outer-spin-button {
+    filter: invert(40%) sepia(90%) saturate(500%) hue-rotate(10deg);
+    cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
     .movieForm-container {

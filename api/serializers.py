@@ -72,7 +72,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ["id", "title", "plot", "released", "director", "poster", "genres"]
+        fields = ["id", "title", "plot", "released", "director", "poster", "genres", "runtime_min", "country", "writer", "actors", "imdb_rating"]
 
     def validate_title(self, value):
         if not value:

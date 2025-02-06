@@ -19,7 +19,6 @@ function MovieDetails() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [newReviewRating, setNewReviewRating] = useState(1);
@@ -188,96 +187,94 @@ function MovieDetails() {
                             alt={movie.title}
                         />
                         {user && (
-                            <div>
-                                <div
-                                    className="dropdown-details-wrapper"
+                            <div className="dropdown-details-wrapper">
+                                <button
+                                    className="movie-details-button"
                                     onMouseEnter={() => {
                                         fetchMovieLists();
                                         setShowMovieLists(true);
                                     }}
                                     onMouseLeave={() => setShowMovieLists(false)}
                                 >
-                                    <button className="movie-details-add-button">
-                                        <FontAwesomeIcon icon={faSquarePlus}/>
-                                    </button>
-                                    {showMovieLists && (
-                                        <div className="movie-details-lists-dropdown">
-                                            {loadingLists ? (
-                                                <p>Loading...</p>
+                                    <FontAwesomeIcon icon={faPlusSquare} className="icon"/>
+                                    Add to List
+                                </button>
+                                {showMovieLists && (
+                                    <div className="movie-details-lists-dropdown">
+                                        {loadingLists ? (
+                                            <p>Loading...</p>
+                                        ) : (
+                                            movieLists.length > 0 ? (
+                                                movieLists.map((list) => (
+                                                    <div
+                                                        key={list.id}
+                                                        className="movie-details-list-option"
+                                                        onClick={() => addToMovieList(list.id)}
+                                                    >
+                                                        {list.name}
+                                                    </div>
+                                                ))
                                             ) : (
-                                                movieLists.length > 0 ? (
-                                                    movieLists.map((list) => (
-                                                        <div
-                                                            key={list.id}
-                                                            className="movie-details-list-option"
-                                                            onClick={() => addToMovieList(list.id)}
-                                                        >
-                                                            {list.name}
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>No movie lists found.</p>
-                                                )
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+                                                <p>No movie lists found.</p>
+                                            )
+                                        )}
+                                    </div>
+                                )}
 
-                                <div
-                                    className="dropdown-details-wrapper"
+                                <button
+                                    className="movie-details-button"
                                     onMouseEnter={() => {
                                         fetchMovieInLists();
                                         setShowRemoveLists(true);
                                     }}
                                     onMouseLeave={() => setShowRemoveLists(false)}
                                 >
-                                    <button className="movie-details-remove-button">
-                                        <FontAwesomeIcon icon={faSquareMinus}/>
-                                    </button>
-                                    {showRemoveLists && (
-                                        <div className="movie-details-lists-dropdown">
-                                            {loadingRemoveLists ? (
-                                                <p>Loading...</p>
+                                    <FontAwesomeIcon icon={faMinusSquare} className="icon"/>
+                                    Remove from List
+                                </button>
+                                {showRemoveLists && (
+                                    <div className="movie-details-lists-dropdown">
+                                        {loadingRemoveLists ? (
+                                            <p>Loading...</p>
+                                        ) : (
+                                            movieInLists.length > 0 ? (
+                                                movieInLists.map((list) => (
+                                                    <div
+                                                        key={list.id}
+                                                        className="movie-details-list-option"
+                                                        onClick={() => removeFromMovieList(list.id)}
+                                                    >
+                                                        {list.name}
+                                                    </div>
+                                                ))
                                             ) : (
-                                                movieInLists.length > 0 ? (
-                                                    movieInLists.map((list) => (
-                                                        <div
-                                                            key={list.id}
-                                                            className="movie-details-list-option"
-                                                            onClick={() => removeFromMovieList(list.id)}
-                                                        >
-                                                            {list.name}
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>Not in any list.</p>
-                                                )
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+                                                <p>Not in any list.</p>
+                                            )
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
 
                     <div className="info-container">
                         <h2>{movie.title}</h2>
+                        <p><strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}</p>
                         <p>
-                            <strong>Genres:</strong>{" "}
-                            {movie.genres.map((g) => g.name).join(", ")}
+                            <strong>Released:</strong> {movie.released ? new Date(movie.released).toLocaleDateString("sk-SK") : "No information"}
                         </p>
+                        <p><strong>Director:</strong> {movie.director || "No information"}</p>
                         <p>
-                            <strong>Released:</strong>{" "}
-                            {new Date(movie.released).toLocaleDateString("sk-SK")}
+                            <strong>Runtime:</strong> {movie.runtime_min ? `${movie.runtime_min} minutes` : "No information"}
                         </p>
-                        <p>
-                            <strong>Director:</strong> {movie.director}
-                        </p>
-                        <p>
-                            <strong>Plot:</strong> {movie.plot}
-                        </p>
+                        <p><strong>Country:</strong> {movie.country || "No information"}</p>
+                        <p><strong>Writer:</strong> {movie.writer || "No information"}</p>
+                        <p><strong>Actors:</strong> {movie.actors || "No information"}</p>
+                        <p><strong>Plot:</strong> {movie.plot || "No information"}</p>
+                        <p><strong>IMDB Rating:</strong> {movie.imdb_rating || "No information"}</p>
                     </div>
                 </div>
+
 
                 <div className="buttons">
                     <button onClick={() => navigate(-1)} className="movie-details-button">
@@ -309,12 +306,12 @@ function MovieDetails() {
                         <h3>Comments</h3>
                         {user && (
                             <div className="comment-form">
-                <textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Write a comment..."
-                    className="comment-input"
-                />
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    placeholder="Write a comment..."
+                                    className="comment-input"
+                                />
                                 <button className="submit-comment-button" onClick={postComment}>
                                     Post Comment
                                 </button>
@@ -352,7 +349,7 @@ function MovieDetails() {
                                     min="1"
                                     max="5"
                                     value={newReviewRating}
-                                    onChange={(e) => setNewReviewRating(e.target.value)}
+                                    onChange={(e) => setNewReviewRating(parseInt(e.target.value))}
                                 />
                                 <textarea
                                     className="review-textarea"
