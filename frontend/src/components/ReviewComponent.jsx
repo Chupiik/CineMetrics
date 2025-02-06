@@ -12,6 +12,7 @@ function ReviewComponent({ review, handleDelete }) {
   const [showComments, setShowComments] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedReviewText, setEditedReviewText] = useState(review.text);
+  const [editedReviewRating, setEditedReviewRating] = useState(review.rating);
   const [replyContent, setReplyContent] = useState("");
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [errorMessages, setErrorMessages] = useState({ edit: "", reply: "" });
@@ -48,22 +49,17 @@ function ReviewComponent({ review, handleDelete }) {
   const cancelEditReview = () => {
     setIsEditing(false);
     setEditedReviewText(review.text);
+    setEditedReviewRating(review.rating);
     setErrorMessages((prev) => ({ ...prev, edit: "" }));
   };
 
   const saveEditedReview = () => {
-    if (!editedReviewText || !editedReviewText.trim()) {
-      setErrorMessages((prev) => ({ ...prev, edit: "Review text cannot be empty." }));
-      return;
-    } else {
-      setErrorMessages((prev) => ({ ...prev, edit: "" }));
-    }
-
     api
-      .put(`/api/reviews/${review.id}/edit/`, { text: editedReviewText })
+      .put(`/api/reviews/${review.id}/edit/`, { text: editedReviewText, rating: editedReviewRating })
       .then(() => {
         setIsEditing(false);
         review.text = editedReviewText;
+        review.rating = editedReviewRating;
       })
       .catch(() => alert("Failed to update review"));
   };
@@ -107,12 +103,23 @@ function ReviewComponent({ review, handleDelete }) {
     <div className="review-container">
       <div className="review-header">
         <span className="review-user">{review.user}</span>
-        <span className="review-rating">{review.rating} / 5</span>
+        {/* Display rating; if editing, show input instead */}
+        {isEditing ? null : <span className="review-rating">{review.rating} / 5</span>}
       </div>
 
       <div className="review-content">
         {isEditing ? (
           <>
+            <div className="review-edit-rating">
+              <label>Rating (1–5): </label>
+              <input
+                type="number"
+                min="1"
+                max="5"
+                value={editedReviewRating}
+                onChange={(e) => setEditedReviewRating(parseInt(e.target.value))}
+              />
+            </div>
             <textarea
               className="review-edit-textarea"
               value={editedReviewText}
@@ -139,7 +146,7 @@ function ReviewComponent({ review, handleDelete }) {
           )}
           {user && (
             <>
-              {user.username === review.user && !isEditing && (
+              {user.username === review.user && !isEditing ? (
                 <>
                   <button
                     className="edit-review-button"
@@ -154,7 +161,7 @@ function ReviewComponent({ review, handleDelete }) {
                     <FontAwesomeIcon icon={faTrash} /> Delete
                   </button>
                 </>
-              )}
+              ) : null}
               {isEditing && (
                 <>
                   <button
@@ -173,7 +180,6 @@ function ReviewComponent({ review, handleDelete }) {
               )}
             </>
           )}
-
           <button
             className="reply-to-review-button"
             onClick={() => {
