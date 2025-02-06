@@ -18,6 +18,7 @@ class Movie(models.Model):
     plot = models.TextField(null=True, blank=True)
     country = models.TextField(null=True, blank=True)
     poster = models.URLField(max_length=500, null=True, blank=True)
+    poster_uploaded = models.ImageField(upload_to='movie_posters/', null=True, blank=True)
     writer = models.TextField(null=True, blank=True)
     actors = models.TextField(null=True, blank=True)
     genres = models.ManyToManyField(Genre, related_name='movies')

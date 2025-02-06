@@ -4,6 +4,10 @@ from .views import UserProfileView, MovieListDetail, MovieListUpdate, SaveMovieL
     AddComment, EditComment, DeleteComment, GetMovieComments, CommentRepliesView, MovieReviewList, MovieReviewCreate, \
     ReviewRetrieve, ReviewUpdate, ReviewDelete, GetReviewComments
 
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
+
 urlpatterns = [
     path('movies/add/', views.MovieCreate.as_view(), name='movie-add'),
     path('movies/', views.MoviesGet.as_view(), name='movie-list'),
@@ -33,3 +37,6 @@ urlpatterns = [
     path("reviews/<int:review_id>/comments/", GetReviewComments.as_view(), name="review-comment-list"),
     path('genres/', views.GenreList.as_view(), name='genre-list'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

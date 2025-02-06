@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="dae361bd-0ae8-47f1-a7a3-cb79df70965c" name="Changes" comment="Movies loading fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddEditMovieForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MovieComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/AddEditMovieForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/AddEditMovieForm.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,33 +60,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.AddEditMovieForm.jsx.executor": "Debug",
-    "Node.js.EditMovie.jsx.executor": "Debug",
-    "Node.js.MovieComponent.jsx.executor": "Run",
-    "Node.js.Navbar.jsx.executor": "Run",
-    "Node.js.ProtectedRoute.jsx.executor": "Debug",
-    "Python.manage.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Patri/PycharmProjects/CineMetrics/backend/api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.AddEditMovieForm.jsx.executor&quot;: &quot;Debug&quot;,
+    &quot;Node.js.EditMovie.jsx.executor&quot;: &quot;Debug&quot;,
+    &quot;Node.js.MovieComponent.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.Navbar.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.ProtectedRoute.jsx.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.manage.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Patri/PycharmProjects/CineMetrics/backend/api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
-      "directory"
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Patri\PycharmProjects\CineMetrics\backend\api" />

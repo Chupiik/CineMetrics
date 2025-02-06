@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import generics, status, serializers
@@ -12,6 +13,7 @@ from .serializers import UserSerializer, MovieSerializer, MovieListSerializer, C
 from .models import Movie, MovieList, Comment, Review, Genre
 from .permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class MoviesGet(generics.ListAPIView):
@@ -40,13 +42,10 @@ class MovieCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):
-        return Movie.objects.filter()
+        return Movie.objects.all()
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save()
-        else:
-            raise serializers.ValidationError(serializer.errors)
+        serializer.save()
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -54,7 +53,6 @@ class MovieCreate(generics.ListCreateAPIView):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class MovieDelete(generics.DestroyAPIView):
     serializer_class = MovieSerializer

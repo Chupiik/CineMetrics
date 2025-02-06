@@ -68,11 +68,11 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    genres = GenreSerializer(many=True)
+    genres = GenreSerializer(many=True, required=False, allow_empty=True)
 
     class Meta:
         model = Movie
-        fields = ["id", "title", "plot", "released", "director", "poster", "genres", "runtime_min", "country", "writer", "actors", "imdb_rating"]
+        fields = '__all__'
 
     def validate_title(self, value):
         if not value:
@@ -84,7 +84,7 @@ class MovieSerializer(serializers.ModelSerializer):
         movie = Movie.objects.create(**validated_data)
 
         for genre in genres_data:
-            genre, _ = Genre.objects.get_or_create(name=genre.name)
+            genre, created = Genre.objects.get_or_create(name=genre.name)
             movie.genres.add(genre)
 
         return movie

@@ -10,10 +10,16 @@
     margin-bottom: 5px;
 }
 
+.movie-poster-create {
+    display: block;
+    margin: 0 auto;
+}
+
 .movieForm-container form input[type="text"],
 .movieForm-container form input[type="url"],
 .movieForm-container form input[type="date"],
 .movieForm-container form input[type="number"],
+.movieForm-container form input[type="file"],
 .movieForm-container form textarea {
     background-color: var(--infoText-color);
     width: 95%;
@@ -26,6 +32,21 @@
     margin-bottom: 15px;
     margin-right: 10px;
 }
+
+
+.movieForm-container form input[type="file"] {
+    background-color: var(--info-color);
+    width: 95%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--info-color);
+    border-radius: 4px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
 
 .movieForm-container form textarea {
     height: 100px;
